@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="7">
+ <tileset firstgid="1" source="mapa-tileset.tsx"/>
+ <layer id="1" name="Background Graphics" width="80" height="45">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKEr9/0rrcdQcNVUVVVVVVVVVVVVVVVV1VcPFrjKfg==
+  </data>
+ </layer>
+ <layer id="2" name="Ground Graphics" width="80" height="45">
+  <data encoding="base64" compression="zlib">
+   eJzt0MEJgDAUBcG0GFNBtILE/sHXgfA9CTOwDWxrAAAAAAAAAAAAAADAm54OlRppplOlLv/88++3+ff930pbpe70AHU21mE=
+  </data>
+ </layer>
+ <objectgroup id="3" name="Ground Collision">
+  <object id="1" x="0" y="1216" width="2560" height="224"/>
+ </objectgroup>
+ <objectgroup id="4" name="Bookshelf">
+  <object id="3" x="1438.26" y="801.242" width="131.487" height="414.758"/>
+ </objectgroup>
+</map>
