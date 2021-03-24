@@ -67,7 +67,6 @@ public class MinigameBook {
 		stage.addActor(bookActor2);
 		stage.addActor(bookActor3);*/
 		
-		
 	}
 	
 	public void startMinigame() {

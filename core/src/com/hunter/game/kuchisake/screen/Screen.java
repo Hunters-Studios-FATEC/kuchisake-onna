@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
+import com.hunter.game.kuchisake.teste.WireMinigame;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
 public class Screen implements com.badlogic.gdx.Screen {
@@ -59,7 +60,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 	
 	final float MAX_VELOCITY = 3.5f;
 	
-	MinigameBook minigameScreen;
+	//MinigameBook minigameScreen;
 	
 	float clearStageTimer = 0;
 	
@@ -70,6 +71,8 @@ public class Screen implements com.badlogic.gdx.Screen {
 	final int SHELF_BIT = 4;
 	
 	static boolean canStartMinigame = false;
+	
+	WireMinigame wireMinigame;
 	
 	public Screen(TerrorGame game) {
 		this.game = game;
@@ -156,7 +159,9 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		debugRenderer = new Box2DDebugRenderer();
 		
-		minigameScreen = new MinigameBook(game.batch);
+		//minigameScreen = new MinigameBook(game.batch);
+		
+		wireMinigame = new WireMinigame(game.batch);
 	}
 	
 	void stepWorld(float dt) {
@@ -182,18 +187,18 @@ public class Screen implements com.badlogic.gdx.Screen {
 			player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
 		}
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canStartMinigame) {
+		/*if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canStartMinigame) {
 			if(minigameScreen.stage.getActors().size == 0) {
 				minigameScreen.startMinigame();
 			}
 			else {
 				minigameScreen.closeMinigame();
 			}
-		}		
+		}*/	
 	}
 	
 	void minigameUpdate(float dt) {
-		game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
+		/*game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
 		
 		minigameScreen.verifyActorPos();
 		
@@ -207,7 +212,12 @@ public class Screen implements com.badlogic.gdx.Screen {
 				minigameScreen.stage.clear();
 				canStartMinigame = false;
 			}
-		}
+		}*/
+		
+		game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
+		
+		wireMinigame.stage.act(dt);
+		wireMinigame.stage.draw();
 	}
 	
 	public static void setCanStartMinigame(boolean state) {
@@ -239,19 +249,23 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		debugRenderer.render(world, camera.combined);
 		
-		if(minigameScreen.stage.getActors().size > 0) {
+		/*if(minigameScreen.stage.getActors().size > 0) {
 			minigameUpdate(delta);
-		}
+		}*/
+		
+		minigameUpdate(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		viewport.update(width, height);
-		minigameScreen.stage.getViewport().update(width, height);
+		//minigameScreen.stage.getViewport().update(width, height);
+		wireMinigame.stage.getViewport().update(width, height);
 		
 		game.batch.setProjectionMatrix(camera.combined);
-		game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
+		//game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
+		game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
 	}
 	
 	@Override
@@ -279,7 +293,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 		world.dispose();
 		polygonShape.dispose();
 		debugRenderer.dispose();
-		minigameScreen.stage.dispose();
+		//minigameScreen.stage.dispose();
 	}
 	
 }

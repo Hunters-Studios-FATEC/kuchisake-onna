@@ -63,6 +63,7 @@ public class BookActor extends Actor{
 				isDragging = true;
 				
 				moveBy(x - getWidth() / 2, y - getHeight() / 2);
+				//setPosition(x - getWidth() / 2, y - getHeight() / 2);
 			}
 		});
 		
