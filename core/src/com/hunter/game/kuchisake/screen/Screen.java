@@ -22,8 +22,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
-import com.hunter.game.kuchisake.minigame.MinigameBook;
-import com.hunter.game.kuchisake.teste.WireMinigame;
+import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
 public class Screen implements com.badlogic.gdx.Screen {
