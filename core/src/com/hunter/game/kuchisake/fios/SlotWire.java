@@ -1,4 +1,4 @@
-package com.hunter.game.kuchisake.teste;
+package com.hunter.game.kuchisake.WireMinigame;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -6,24 +6,25 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.hunter.game.kuchisake.TerrorGame;
 
-public class Background extends Actor{
+public class SlotWire extends Actor{
+
 	Texture texture;
-	
+
 	Sprite sprite;
-	
-	public Background(float x, float y) {
-		texture = new Texture("black_rectangle.png");
-		
+
+
+	public SlotWire(float x, float y, String img) {
+		texture = new Texture(img);
+
 		sprite = new Sprite(texture);
-		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);
-		sprite.setAlpha(0.5f);
-		
-		setBounds(x, y, sprite.getWidth(), sprite.getHeight());
-		
+		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 5), sprite.getHeight() / (TerrorGame.SCALE * 5));
+
+		setBounds(sprite.getX() - sprite.getWidth() / 2, sprite.getY() - sprite.getHeight() / 2,
+				sprite.getWidth(), sprite.getHeight());
+
 		//texture.dispose();
 	}
-	
-	
+
 	@Override
     public void draw(Batch batch, float alpha){
 		sprite.setPosition(getX(), getY());
