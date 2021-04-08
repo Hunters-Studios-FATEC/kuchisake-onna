@@ -1,4 +1,4 @@
-package com.hunter.game.kuchisake.minigame;
+package com.hunter.game.kuchisake.lockpick;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,7 +20,6 @@ public class Correct extends Actor{
 		
 		setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
 		
-		//texture.dispose();
 	}
 
 	

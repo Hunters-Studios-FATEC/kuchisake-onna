@@ -22,16 +22,19 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
+import com.hunter.game.kuchisake.hide.Hide;
+import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
-import com.hunter.game.kuchisake.teste.WireMinigame;
+//import com.hunter.game.kuchisake.teste.WireMinigame;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
 public class Screen implements com.badlogic.gdx.Screen {
 	
 	TerrorGame game;
 	
-	float w = Gdx.graphics.getWidth();
-	float h = Gdx.graphics.getHeight();
+	//float w = Gdx.graphics.getWidth();
+	//float h = Gdx.graphics.getHeight();
 	
 	OrthographicCamera camera;
 	FitViewport viewport;
@@ -72,6 +75,9 @@ public class Screen implements com.badlogic.gdx.Screen {
 	
 	static boolean canStartMinigame = false;
 	
+	//WireMinigame wireMinigame;
+	//LockPickMinigame lockPickMinigame;
+	//Hide hideMinigame;
 	WireMinigame wireMinigame;
 	
 	public Screen(TerrorGame game) {
@@ -79,7 +85,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		camera = new OrthographicCamera();
 		
-		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT * (h / w) / TerrorGame.SCALE, camera);
+		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, camera);
 		viewport.apply();
 		
 		camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -161,6 +167,12 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		//minigameScreen = new MinigameBook(game.batch);
 		
+		//wireMinigame = new WireMinigame(game.batch);
+		
+		//lockPickMinigame = new LockPickMinigame(game.batch);
+		
+		//hideMinigame = new Hide(game.batch);
+		
 		wireMinigame = new WireMinigame(game.batch);
 	}
 	
@@ -168,7 +180,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 		accumulator += (dt < 0.25f)? dt : 0.25f;
 		
 		while(accumulator >= TIME_STEP) {
-			handleInput();
+			//handleInput();
 			
 			camera.position.x = player.getPosition().x;
 			camera.update();
@@ -213,6 +225,21 @@ public class Screen implements com.badlogic.gdx.Screen {
 				canStartMinigame = false;
 			}
 		}*/
+		
+		/*game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
+		
+		wireMinigame.stage.act(dt);
+		wireMinigame.stage.draw();*/
+		
+		/*game.batch.setProjectionMatrix(lockPickMinigame.stage.getCamera().combined);
+		
+		lockPickMinigame.stage.act(dt);
+		lockPickMinigame.stage.draw();*/
+		
+		/*game.batch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
+		
+		hideMinigame.stage.act(dt);
+		hideMinigame.stage.draw();*/
 		
 		game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
 		
@@ -261,10 +288,16 @@ public class Screen implements com.badlogic.gdx.Screen {
 		// TODO Auto-generated method stub
 		viewport.update(width, height);
 		//minigameScreen.stage.getViewport().update(width, height);
+		//wireMinigame.stage.getViewport().update(width, height);
+		//lockPickMinigame.stage.getViewport().update(width, height);
+		//hideMinigame.stage.getViewport().update(width, height);
 		wireMinigame.stage.getViewport().update(width, height);
 		
 		game.batch.setProjectionMatrix(camera.combined);
 		//game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
+		//game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
+		//game.batch.setProjectionMatrix(lockPickMinigame.stage.getCamera().combined);
+		//game.batch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
 		game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
 	}
 	
