@@ -73,9 +73,9 @@ public class WireActor extends Actor{
 					//rotateBy(getAngle(getX(), getY(), x, y));
 					//sizeBy(getLineDistance(getX(), getY(), x, y), 0);
 
-					if (event.getStageX() > getX()) {
-						setSize(getLineDistance(getX(), getY(), event.getStageX(), event.getStageY()) + getOriginX() / 2, getHeight());
-						setRotation(getAngle(getX(), getY(), event.getStageX(), event.getStageY() - getOriginY() / 2));
+					if (event.getStageX() > getX() + getOriginX()) {
+						setSize(getLineDistance(getX(), getY(), event.getStageX() + getOriginX(), event.getStageY() + getOriginY()), getHeight());
+						setRotation(getAngle(getX() + getOriginX(), getY() + getOriginY(), event.getStageX(), event.getStageY()));
 					}
 
 					//System.out.println(event.getStageX());
