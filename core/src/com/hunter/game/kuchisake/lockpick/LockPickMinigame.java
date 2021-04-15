@@ -22,6 +22,8 @@ public class LockPickMinigame {
 	FinishChecker finishChecker;
 	KeyActor keyActor;
 	Correct correctActor;
+
+	boolean isfinished = false;
 	
 	public LockPickMinigame(SpriteBatch spriteBatch) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
@@ -50,5 +52,9 @@ public class LockPickMinigame {
 		//keyActor.addInitialNearWalls();
 		
 		keyActor.addWalls();
+	}
+
+	public boolean getIsFinished() {
+		return isfinished;
 	}
 }

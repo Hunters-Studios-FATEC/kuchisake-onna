@@ -23,6 +23,8 @@ public class Hide {
 	Array<CircleOverlay> circleOverlayArray;
 	
 	Background background;
+
+	boolean isfinished = false;
 	
 	public Hide(SpriteBatch batch) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
@@ -143,5 +145,9 @@ public class Hide {
 			
 			circleOverlayArray.add(circleOverlay);
 		}
+	}
+
+	public boolean getIsFinished() {
+		return isfinished;
 	}
 }

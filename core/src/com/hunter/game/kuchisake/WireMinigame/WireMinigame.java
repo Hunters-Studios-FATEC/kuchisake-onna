@@ -24,7 +24,8 @@ public class WireMinigame {
 	SlotWire wireSlot2;
 	SlotWire wireSlot3;
 
-	
+	boolean isFinished = false;
+
 	public WireMinigame(SpriteBatch spriteBatch) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
 								   new OrthographicCamera());
@@ -51,4 +52,10 @@ public class WireMinigame {
 		stage.addActor(wireSlot3);
 
 	}
+
+	public boolean getIsFinished() {
+		return isFinished;
+	}
+
+
 }

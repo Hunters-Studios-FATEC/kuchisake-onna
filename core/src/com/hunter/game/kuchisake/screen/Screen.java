@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -27,6 +28,9 @@ import com.hunter.game.kuchisake.hide.Hide;
 import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
 //import com.hunter.game.kuchisake.teste.WireMinigame;
+import com.hunter.game.kuchisake.objects.Collisions;
+import com.hunter.game.kuchisake.objects.Player;
+import com.hunter.game.kuchisake.tools.MinigameManager;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
 public class Screen implements com.badlogic.gdx.Screen {
@@ -46,43 +50,18 @@ public class Screen implements com.badlogic.gdx.Screen {
 	final int POSITION_ITERATIONS = 2;
 	float accumulator = 0;
 	
-	Body player;
-	Body ground;
-	
-	BodyDef bodyDef;
-	
-	FixtureDef fixtureDef;
-	Fixture fixture;
-	PolygonShape polygonShape;
-	
-	TmxMapLoader mapLoader;
-	TiledMap map;
-	OrthogonalTiledMapRenderer mapRenderer;
-	
 	Box2DDebugRenderer debugRenderer;
-	
-	final float MAX_VELOCITY = 3.5f;
-	
-	//MinigameBook minigameScreen;
-	
-	float clearStageTimer = 0;
-	
-	EdgeShape collisionSensor;
-	
-	final int PLAYER_BIT = 1;
-	final int GROUND_BIT = 2;
-	final int SHELF_BIT = 4;
-	
-	static boolean canStartMinigame = false;
-	
-	//WireMinigame wireMinigame;
-	//LockPickMinigame lockPickMinigame;
-	//Hide hideMinigame;
-	WireMinigame wireMinigame;
+
+	Player player;
+	Collisions collisions;
+	OrthogonalTiledMapRenderer mapRenderer;
+
+	MinigameManager minigameManager;
+
 	
 	public Screen(TerrorGame game) {
 		this.game = game;
-		
+
 		camera = new OrthographicCamera();
 		
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, camera);
@@ -94,163 +73,32 @@ public class Screen implements com.badlogic.gdx.Screen {
 		world = new World(new Vector2(0, -10), true);
 		
 		world.setContactListener(new WorldContactListener());
-		
-		bodyDef = new BodyDef();
-		fixtureDef = new FixtureDef();
-		polygonShape = new PolygonShape();
-		
-		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(1000 / TerrorGame.SCALE, 352 / TerrorGame.SCALE);
-		player = world.createBody(bodyDef);
-		
-		polygonShape.setAsBox(128 / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
-		fixtureDef.shape = polygonShape;
-		
-		fixtureDef.filter.categoryBits = PLAYER_BIT;
-		fixtureDef.filter.maskBits = GROUND_BIT;
-		
-		fixture = player.createFixture(fixtureDef);
-		
-		fixtureDef = new FixtureDef();
-		
-		collisionSensor = new EdgeShape();
-		collisionSensor.set(new Vector2(-64 / TerrorGame.SCALE, 0), new Vector2(64 / TerrorGame.SCALE, 0));
-		
-		fixtureDef.shape = collisionSensor;
-		fixtureDef.isSensor = true;
-		
-		fixture = player.createFixture(fixtureDef);
-		fixture.setUserData("player sensor");
-		
-		mapLoader = new TmxMapLoader();
-		map = mapLoader.load("mapa_teste.tmx");
-		mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / TerrorGame.SCALE);
-		
-		fixtureDef = new FixtureDef();
-		
-		bodyDef.type = BodyType.StaticBody;
-		
-		fixtureDef.filter.categoryBits = GROUND_BIT;
-		fixtureDef.filter.maskBits = PLAYER_BIT;
-		
-		for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE, 
-								 (rect.getY() + rect.getHeight() / 2) / TerrorGame.SCALE);
-			ground = world.createBody(bodyDef);
-			
-			polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
-			fixtureDef.shape = polygonShape;
-			
-			ground.createFixture(fixtureDef);
-		}
-		
-		fixtureDef.filter.categoryBits = SHELF_BIT;
-		fixtureDef.filter.maskBits = PLAYER_BIT;
-		
-		for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE, 
-								 (rect.getY() + rect.getHeight() / 2) / TerrorGame.SCALE);
-			ground = world.createBody(bodyDef);
-			
-			polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
-			fixtureDef.shape = polygonShape;
-			
-			fixture = ground.createFixture(fixtureDef);
-			fixture.setUserData("bookshelf");
-		}
-		
+
 		debugRenderer = new Box2DDebugRenderer();
-		
-		//minigameScreen = new MinigameBook(game.batch);
-		
-		//wireMinigame = new WireMinigame(game.batch);
-		
-		//lockPickMinigame = new LockPickMinigame(game.batch);
-		
-		//hideMinigame = new Hide(game.batch);
-		
-		wireMinigame = new WireMinigame(game.batch);
+
+		collisions = new Collisions(world);
+		player = new Player(world);
+
+		mapRenderer = collisions.getMapRenderer();
+
+		minigameManager = new MinigameManager(game.batch);
 	}
+
+
 	
 	void stepWorld(float dt) {
 		accumulator += (dt < 0.25f)? dt : 0.25f;
 		
 		while(accumulator >= TIME_STEP) {
-			//handleInput();
+			player.handleInput();
 			
-			camera.position.x = player.getPosition().x;
+			camera.position.x = player.getBody().getPosition().x;
 			camera.update();
-			
 			world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 			accumulator -= TIME_STEP;
 		}
 	}
-	
-	void handleInput() {
-		if(Gdx.input.isKeyPressed(Input.Keys.D) && player.getLinearVelocity().x < MAX_VELOCITY) {
-			player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.A) && player.getLinearVelocity().x > -MAX_VELOCITY) {
-			player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
-		}
-		
-		/*if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canStartMinigame) {
-			if(minigameScreen.stage.getActors().size == 0) {
-				minigameScreen.startMinigame();
-			}
-			else {
-				minigameScreen.closeMinigame();
-			}
-		}*/	
-	}
-	
-	void minigameUpdate(float dt) {
-		/*game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
-		
-		minigameScreen.verifyActorPos();
-		
-		minigameScreen.stage.act(dt);
-		minigameScreen.stage.draw();
-		
-		if(minigameScreen.getIsFinished()) {
-			clearStageTimer += dt;
-			
-			if(clearStageTimer > 1.5) {
-				minigameScreen.stage.clear();
-				canStartMinigame = false;
-			}
-		}*/
-		
-		/*game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
-		
-		wireMinigame.stage.act(dt);
-		wireMinigame.stage.draw();*/
-		
-		/*game.batch.setProjectionMatrix(lockPickMinigame.stage.getCamera().combined);
-		
-		lockPickMinigame.stage.act(dt);
-		lockPickMinigame.stage.draw();*/
-		
-		/*game.batch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
-		
-		hideMinigame.stage.act(dt);
-		hideMinigame.stage.draw();*/
-		
-		game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
-		
-		wireMinigame.stage.act(dt);
-		wireMinigame.stage.draw();
-	}
-	
-	public static void setCanStartMinigame(boolean state) {
-		canStartMinigame = state;
-		//System.out.println(canStartMinigame);
-	}
+
 
 	@Override
 	public void show() {
@@ -262,43 +110,28 @@ public class Screen implements com.badlogic.gdx.Screen {
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		stepWorld(delta);
-		mapRenderer.setView(camera);
+		collisions.getMapRenderer().setView(camera);
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		mapRenderer.render();
+		collisions.getMapRenderer().render();
 		
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-		//game.batch.draw(img, 0, 0);
 		game.batch.end();
 		
 		debugRenderer.render(world, camera.combined);
 		
-		/*if(minigameScreen.stage.getActors().size > 0) {
-			minigameUpdate(delta);
-		}*/
-		
-		minigameUpdate(delta);
+		minigameManager.minigameUpdate(delta, 2);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		viewport.update(width, height);
-		//minigameScreen.stage.getViewport().update(width, height);
-		//wireMinigame.stage.getViewport().update(width, height);
-		//lockPickMinigame.stage.getViewport().update(width, height);
-		//hideMinigame.stage.getViewport().update(width, height);
-		wireMinigame.stage.getViewport().update(width, height);
-		
 		game.batch.setProjectionMatrix(camera.combined);
-		//game.batch.setProjectionMatrix(minigameScreen.stage.getCamera().combined);
-		//game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
-		//game.batch.setProjectionMatrix(lockPickMinigame.stage.getCamera().combined);
-		//game.batch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
-		game.batch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
+		minigameManager.minigameResize(width, height, 2);
 	}
 	
 	@Override
@@ -324,9 +157,11 @@ public class Screen implements com.badlogic.gdx.Screen {
 		// TODO Auto-generated method stub
 		game.batch.dispose();
 		world.dispose();
-		polygonShape.dispose();
+		player.getPolygonShape().dispose();
+		collisions.getMap().dispose();
+		collisions.getPolygonShape().dispose();
 		debugRenderer.dispose();
-		//minigameScreen.stage.dispose();
+		minigameManager.minigameDispose();
 	}
 	
 }
