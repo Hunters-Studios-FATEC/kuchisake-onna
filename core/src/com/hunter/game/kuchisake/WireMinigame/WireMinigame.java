@@ -43,6 +43,9 @@ public class WireMinigame {
 		wireSlot2 = new SlotWire(18,3,"blue_wire_slot.png");
 		wireSlot3 = new SlotWire(18,1,"red_wire_slot.png");
 
+	}
+
+	public void startMinigame(){
 		stage.addActor(background);
 		stage.addActor(wireActor1);
 		stage.addActor(wireActor2);
@@ -50,11 +53,18 @@ public class WireMinigame {
 		stage.addActor(wireSlot1);
 		stage.addActor(wireSlot2);
 		stage.addActor(wireSlot3);
+	}
 
+	public void closeMinigame() {
+		stage.clear();
 	}
 
 	public boolean getIsFinished() {
 		return isFinished;
+	}
+
+	public Stage getStage(){
+		return stage;
 	}
 
 

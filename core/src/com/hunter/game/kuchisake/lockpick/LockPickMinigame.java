@@ -42,19 +42,29 @@ public class LockPickMinigame {
 		correctActor.setVisible(false);
 		
 		stage.setKeyboardFocus(keyActor);
-		
+	}
+
+	public void startMinigame(){
 		stage.addActor(background);
 		stage.addActor(wallActor);
 		stage.addActor(finishChecker);
 		stage.addActor(keyActor);
 		stage.addActor(correctActor);
-		
+
 		//keyActor.addInitialNearWalls();
-		
+
 		keyActor.addWalls();
+	}
+
+	public void closeMinigame() {
+		stage.clear();
 	}
 
 	public boolean getIsFinished() {
 		return isfinished;
+	}
+
+	public Stage getStage(){
+		return stage;
 	}
 }

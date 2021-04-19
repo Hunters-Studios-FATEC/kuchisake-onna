@@ -1,6 +1,9 @@
 package com.hunter.game.kuchisake.tools;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
 import com.hunter.game.kuchisake.hide.Hide;
 import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
@@ -8,6 +11,7 @@ import com.hunter.game.kuchisake.minigame.MinigameBook;
 
 public class MinigameManager {
 
+    Screen screen;
     Hide hideMinigame;
     LockPickMinigame lockPickMinigame;
     MinigameBook minigameBook;
@@ -24,15 +28,33 @@ public class MinigameManager {
         minigameBook = new MinigameBook(batch);
         wireMinigame = new WireMinigame(batch);
 
-        int hideMinigame_ID = 0;
-        int lockPickMinigame_ID = 1;
-        int minigameBook_ID = 2;
-        int wireMinigame_ID = 3;
+//        int hideMinigame_ID = 0;
+//        int lockPickMinigame_ID = 1;
+//        int minigameBook_ID = 2;
+//        int wireMinigame_ID = 3;
+    }
+
+    public void startMinigame (int id){
+        switch (id){
+            case 0:
+                hideMinigame.startMinigame();
+                break;
+
+            case 1:
+                lockPickMinigame.startMinigame();
+                break;
+
+            case 2:
+                minigameBook.startMinigame();
+                break;
+
+            case 3:
+                wireMinigame.startMinigame();
+                break;
+        }
     }
 
     public void minigameUpdate(float dt, int id) {
-
-
         switch (id){
             case 0: {
                 if(hideMinigame.stage.getActors().size > 0) {
@@ -105,8 +127,6 @@ public class MinigameManager {
                 }
                 break;
             }
-
-
         }
     }
 
@@ -126,7 +146,6 @@ public class MinigameManager {
             }
 
             case (2):{
-
                 minigameBook.stage.getViewport().update(width, height);
                 spriteBatch.setProjectionMatrix(minigameBook.stage.getCamera().combined);
                 break;
@@ -140,11 +159,24 @@ public class MinigameManager {
         }
     }
 
-    public void minigameDispose(){
-        hideMinigame.stage.dispose();
-        lockPickMinigame.stage.dispose();
-        minigameBook.stage.dispose();
-        wireMinigame.stage.dispose();
+    public void closeMinigame(int id){
+        switch (id){
+            case 0:
+                hideMinigame.closeMinigame();
+                break;
+
+            case 1:
+                lockPickMinigame.closeMinigame();
+                break;
+
+            case 2:
+                minigameBook.closeMinigame();
+                break;
+
+            case 3:
+                wireMinigame.closeMinigame();
+                break;
+        }
     }
 
     public void setCanStartMinigame(boolean state) {
@@ -152,4 +184,36 @@ public class MinigameManager {
         //System.out.println(canStartMinigame);
     }
 
+    public boolean getCanStartMinigame() {
+        return canStartMinigame;
+    }
+
+    public Array<Actor> getActors(int id){
+        Array<Actor> actors = new Array<Actor>();
+        switch (id){
+            case 0:
+                actors = hideMinigame.getStage().getActors();
+                break;
+
+            case 1:
+                actors = lockPickMinigame.getStage().getActors();
+                break;
+
+            case 2:
+                actors = minigameBook.getStage().getActors();
+                break;
+
+            case 3:
+                actors = wireMinigame.getStage().getActors();
+                break;
+        }
+        return actors;
+    }
+
+    public void minigameDispose(){
+        hideMinigame.stage.dispose();
+        lockPickMinigame.stage.dispose();
+        minigameBook.stage.dispose();
+        wireMinigame.stage.dispose();
+    }
 }

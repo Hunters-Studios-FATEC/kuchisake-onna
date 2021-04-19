@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.screen.Screen;
+import com.hunter.game.kuchisake.tools.MinigameManager;
 
 public class Player {
     Body player;
@@ -22,8 +24,11 @@ public class Player {
     PolygonShape polygonShape;
 
     final float MAX_VELOCITY = 3.5f;
+    int minigameID = -1;
 
     EdgeShape collisionSensor;
+
+    MinigameManager minigameManager;
 
     public Player(World world) {
         bodyDef = new BodyDef();
@@ -63,16 +68,18 @@ public class Player {
             player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
         }
 
-//		if(Gdx.input.isKeyJustPressed(Input.Keys.W) && canStartMinigame) {
-//			if(minigameScreen.stage.getActors().size == 0) {
-//				minigameScreen.startMinigame();
-//			}
-//			else {
-//				minigameScreen.closeMinigame();
-//			}
-//		}
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && minigameManager.getCanStartMinigame()) {
+            if (minigameManager.getActors(minigameID).size == 0) {
+                minigameManager.startMinigame(minigameID);
+            } else {
+                minigameManager.closeMinigame(minigameID);
+            }
+        }
     }
 
+    public void setminigameID(int minigameID) {
+        this.minigameID = minigameID;
+    }
 
     public Body getBody() {
         return player;
@@ -81,4 +88,5 @@ public class Player {
     public PolygonShape getPolygonShape() {
         return polygonShape;
     }
+
 }

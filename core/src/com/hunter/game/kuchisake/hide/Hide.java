@@ -42,20 +42,6 @@ public class Hide {
 		circleArray = new Array<Circle>();
 		circleOverlayArray = new Array<CircleOverlay>();
 		
-		stage.addActor(background);
-		
-		createHitCircles();
-		
-		//System.out.println(circleArray.get(0).startTime);
-		
-		for(Circle circle : circleArray) {
-			stage.addActor(circle);
-		}
-		
-		for(CircleOverlay circleOverlay : circleOverlayArray) {
-			stage.addActor(circleOverlay);
-		}
-		
 		//System.out.println(stage.getActors().size);
 		
 		stage.addListener(new InputListener() {
@@ -147,7 +133,31 @@ public class Hide {
 		}
 	}
 
+	public void startMinigame(){
+		stage.addActor(background);
+
+		createHitCircles();
+
+		//System.out.println(circleArray.get(0).startTime);
+
+		for(Circle circle : circleArray) {
+			stage.addActor(circle);
+		}
+
+		for(CircleOverlay circleOverlay : circleOverlayArray) {
+			stage.addActor(circleOverlay);
+		}
+	}
+
+	public void closeMinigame() {
+		stage.clear();
+	}
+
 	public boolean getIsFinished() {
 		return isfinished;
+	}
+
+	public Stage getStage(){
+		return stage;
 	}
 }

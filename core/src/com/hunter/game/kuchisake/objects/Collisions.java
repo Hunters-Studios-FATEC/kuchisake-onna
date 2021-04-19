@@ -26,6 +26,10 @@ public class Collisions {
     Body ground;
     Body shelf;
 
+    Body body1;
+    Body body2;
+    Body body3;
+
     public Collisions(World world) {
         FixtureDef fixtureDef = new FixtureDef();
 
@@ -69,7 +73,32 @@ public class Collisions {
             Fixture fixture = shelf.createFixture(fixtureDef);
             fixture.setUserData("bookshelf");
         }
+
+        bodyDef.position.set(600 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
+        body1 = world.createBody(bodyDef);
+        PolygonShape porygonShape1 = new PolygonShape();
+        porygonShape1.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
+        fixtureDef.shape = porygonShape1;
+        Fixture fixture1 = body1.createFixture(fixtureDef);
+        fixture1.setUserData("esconde");
+
+        bodyDef.position.set(900 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
+        body2 = world.createBody(bodyDef);
+        PolygonShape porygonShape2 = new PolygonShape();
+        porygonShape2.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
+        fixtureDef.shape = porygonShape2;
+        Fixture fixture2 = body2.createFixture(fixtureDef);
+        fixture2.setUserData("lockpick");
+
+        bodyDef.position.set(1200 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
+        body3 = world.createBody(bodyDef);
+        PolygonShape porygonShape3 = new PolygonShape();
+        porygonShape3.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
+        fixtureDef.shape = porygonShape3;
+        Fixture fixture3 = body3.createFixture(fixtureDef);
+        fixture3.setUserData("fios");
     }
+
 
     public PolygonShape getPolygonShape() {
         return polygonShape;
@@ -81,5 +110,21 @@ public class Collisions {
 
     public OrthogonalTiledMapRenderer getMapRenderer() {
         return mapRenderer;
+    }
+
+    public Body getShelf() {
+        return shelf;
+    }
+
+    public Body getBody1() {
+        return body1;
+    }
+
+    public Body getBody2() {
+        return body2;
+    }
+
+    public Body getBody3() {
+        return body3;
     }
 }

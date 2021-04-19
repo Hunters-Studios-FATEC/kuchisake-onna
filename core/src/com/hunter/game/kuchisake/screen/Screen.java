@@ -4,34 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
-import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
-import com.hunter.game.kuchisake.hide.Hide;
-import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
-import com.hunter.game.kuchisake.minigame.MinigameBook;
-//import com.hunter.game.kuchisake.teste.WireMinigame;
 import com.hunter.game.kuchisake.objects.Collisions;
 import com.hunter.game.kuchisake.objects.Player;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+//import com.hunter.game.kuchisake.teste.WireMinigame;
 
 public class Screen implements com.badlogic.gdx.Screen {
 	
@@ -57,6 +43,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 	OrthogonalTiledMapRenderer mapRenderer;
 
 	MinigameManager minigameManager;
+	int maxMinigameID = 4;
 
 	
 	public Screen(TerrorGame game) {
@@ -72,7 +59,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		world = new World(new Vector2(0, -10), true);
 		
-		world.setContactListener(new WorldContactListener());
+		world.setContactListener(new WorldContactListener(minigameManager));
 
 		debugRenderer = new Box2DDebugRenderer();
 
@@ -122,8 +109,11 @@ public class Screen implements com.badlogic.gdx.Screen {
 		game.batch.end();
 		
 		debugRenderer.render(world, camera.combined);
-		
-		minigameManager.minigameUpdate(delta, 2);
+
+//		for (int i = 0; i < maxMinigameID; i++) {
+//			minigameManager.minigameUpdate(delta, i);
+//		}
+
 	}
 
 	@Override
@@ -131,7 +121,10 @@ public class Screen implements com.badlogic.gdx.Screen {
 		// TODO Auto-generated method stub
 		viewport.update(width, height);
 		game.batch.setProjectionMatrix(camera.combined);
-		minigameManager.minigameResize(width, height, 2);
+
+//		for (int i = 0; i < maxMinigameID; i++) {
+//			minigameManager.minigameResize(width, height, i);
+//		}
 	}
 	
 	@Override
@@ -163,5 +156,4 @@ public class Screen implements com.badlogic.gdx.Screen {
 		debugRenderer.dispose();
 		minigameManager.minigameDispose();
 	}
-	
 }

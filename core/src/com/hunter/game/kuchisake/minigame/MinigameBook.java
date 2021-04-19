@@ -178,4 +178,8 @@ public class MinigameBook {
 			}
 		}
 	}
+
+	public Stage getStage(){
+		return stage;
+	}
 }

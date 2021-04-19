@@ -5,9 +5,18 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.hunter.game.kuchisake.objects.Player;
 import com.hunter.game.kuchisake.screen.Screen;
 
 public class WorldContactListener implements ContactListener{
+
+	Screen screen;
+	MinigameManager minigameManager;
+	Player player;
+
+	public WorldContactListener(MinigameManager minigameManager){
+		this.minigameManager = minigameManager;
+	}
 
 	@Override
 	public void beginContact(Contact contact) {
@@ -19,7 +28,17 @@ public class WorldContactListener implements ContactListener{
 			Fixture sensor = ("player sensor".equals(fixA.getUserData()))? fixA : fixB;
 			Fixture object = (sensor.equals(fixA))? fixB: fixA;
 			
-			Screen.setCanStartMinigame(true);
+			minigameManager.setCanStartMinigame(true);
+
+			if (object.getUserData().equals("esconde")) {
+				player.setminigameID(0);
+			} else if (object.getUserData().equals("lockpick")){
+					player.setminigameID(1);
+			} else if(object.getUserData().equals("bookshelf")){
+				player.setminigameID(2);
+			} else if (object.getUserData().equals("fios")){
+				player.setminigameID(3);
+			}
 		}
 	}
 
@@ -33,7 +52,7 @@ public class WorldContactListener implements ContactListener{
 			Fixture sensor = ("player sensor".equals(fixA.getUserData()))? fixA : fixB;
 			Fixture object = (sensor.equals(fixA))? fixB: fixA;
 			
-			Screen.setCanStartMinigame(false);
+			minigameManager.setCanStartMinigame(false);
 		}
 	}
 
