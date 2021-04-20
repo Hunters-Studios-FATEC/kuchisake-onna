@@ -30,7 +30,7 @@ public class Player {
 
     MinigameManager minigameManager;
 
-    public Player(World world) {
+    public Player(World world, MinigameManager minigameManager) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
@@ -54,9 +54,17 @@ public class Player {
 
         fixtureDef.shape = collisionSensor;
         fixtureDef.isSensor = true;
+        
+        //definido o categoryBits (identificador da fixture do sensor)
+        fixtureDef.filter.categoryBits = Collisions.PLAYER_BIT;
+        //definido o maskBits (identificador das colisões que esse sensor detecta)
+        fixtureDef.filter.maskBits = Collisions.HIDE_BIT + Collisions.LOCKPICK_BIT + Collisions.SHELF_BIT + Collisions.WIRE_BIT;
 
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
+        
+        //parâmetro minigameManager criado e atribuído a variável global minigameManager.
+        this.minigameManager = minigameManager;
     }
 
     public void handleInput() {
@@ -88,5 +96,4 @@ public class Player {
     public PolygonShape getPolygonShape() {
         return polygonShape;
     }
-
 }

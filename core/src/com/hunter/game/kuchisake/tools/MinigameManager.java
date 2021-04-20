@@ -11,7 +11,7 @@ import com.hunter.game.kuchisake.minigame.MinigameBook;
 
 public class MinigameManager {
 
-    Screen screen;
+    //Screen screen;
     Hide hideMinigame;
     LockPickMinigame lockPickMinigame;
     MinigameBook minigameBook;
@@ -22,7 +22,8 @@ public class MinigameManager {
     float clearStageTimer = 0;
 
     public MinigameManager(SpriteBatch batch){
-        SpriteBatch spriteBatch = batch;
+    	//SpriteBatch spriteBatch = batch; -> A variável global spriteBatch não estava recebendo o parâmetro batch. 
+        spriteBatch = batch;
         hideMinigame = new Hide(batch);
         lockPickMinigame = new LockPickMinigame(batch);
         minigameBook = new MinigameBook(batch);

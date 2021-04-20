@@ -59,16 +59,16 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		world = new World(new Vector2(0, -10), true);
 		
-		world.setContactListener(new WorldContactListener(minigameManager));
+		minigameManager = new MinigameManager(game.batch);
+		
+		collisions = new Collisions(world);
+		player = new Player(world, minigameManager);
+		
+		world.setContactListener(new WorldContactListener(minigameManager, player));
 
 		debugRenderer = new Box2DDebugRenderer();
 
-		collisions = new Collisions(world);
-		player = new Player(world);
-
 		mapRenderer = collisions.getMapRenderer();
-
-		minigameManager = new MinigameManager(game.batch);
 	}
 
 
@@ -110,10 +110,9 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		debugRenderer.render(world, camera.combined);
 
-//		for (int i = 0; i < maxMinigameID; i++) {
-//			minigameManager.minigameUpdate(delta, i);
-//		}
-
+		for (int i = 0; i < maxMinigameID; i++) {
+				minigameManager.minigameUpdate(delta, i);
+		}
 	}
 
 	@Override
@@ -122,9 +121,9 @@ public class Screen implements com.badlogic.gdx.Screen {
 		viewport.update(width, height);
 		game.batch.setProjectionMatrix(camera.combined);
 
-//		for (int i = 0; i < maxMinigameID; i++) {
-//			minigameManager.minigameResize(width, height, i);
-//		}
+		for (int i = 0; i < maxMinigameID; i++) {
+			minigameManager.minigameResize(width, height, i);
+		}
 	}
 	
 	@Override

@@ -39,6 +39,8 @@ public class LockPickMinigame {
 		keyActor = new KeyActor(3.35f, 4.9f);
 		correctActor = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
 		
+		keyActor.addWalls(wallActor);
+		
 		correctActor.setVisible(false);
 		
 		stage.setKeyboardFocus(keyActor);
@@ -52,8 +54,6 @@ public class LockPickMinigame {
 		stage.addActor(correctActor);
 
 		//keyActor.addInitialNearWalls();
-
-		keyActor.addWalls();
 	}
 
 	public void closeMinigame() {

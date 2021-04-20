@@ -47,7 +47,7 @@ public class Hide {
 		stage.addListener(new InputListener() {
 			@Override
 			public boolean keyDown(InputEvent event, int keycode) {
-				if(keycode == Input.Keys.W) {
+				if(keycode == Input.Keys.UP) {
 					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
 						if(((Circle) stage.getActors().get(i)).getNValue() == 0 && 
 						  (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
@@ -60,7 +60,7 @@ public class Hide {
 						}
 					}
 				}
-				if(keycode == Input.Keys.A) {
+				if(keycode == Input.Keys.LEFT) {
 					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
 						if(((Circle) stage.getActors().get(i)).getNValue() == 1 &&
 						   (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
@@ -73,7 +73,7 @@ public class Hide {
 						}
 					}
 				}
-				if(keycode == Input.Keys.S) {
+				if(keycode == Input.Keys.DOWN) {
 					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
 						if(((Circle) stage.getActors().get(i)).getNValue() == 2 &&
 						   (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
@@ -86,7 +86,7 @@ public class Hide {
 						}
 					}
 				}
-				if(keycode == Input.Keys.D) {
+				if(keycode == Input.Keys.RIGHT) {
 					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
 						if(((Circle) stage.getActors().get(i)).getNValue() == 3 &&
 						   (!((Circle) stage.getActors().get(i)).getKeyPressed() &&

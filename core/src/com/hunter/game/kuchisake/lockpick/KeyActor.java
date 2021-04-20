@@ -228,8 +228,8 @@ public class KeyActor extends Actor{
 		nearWallsArray.add(((WallActor) getStage().getActors().get(1)).getSprite(2));
 	}*/
 	
-	public void addWalls() {
-		nearWallsArray.addAll(((WallActor) getStage().getActors().get(1)).getSpriteArray());
+	public void addWalls(WallActor wallActor) {
+		nearWallsArray.addAll(wallActor.getSpriteArray());
 	}
 	
 	@Override

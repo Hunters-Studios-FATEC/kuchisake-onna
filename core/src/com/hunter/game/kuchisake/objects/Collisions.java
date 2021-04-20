@@ -19,6 +19,9 @@ public class Collisions {
     static final int GROUND_BIT = 1;
     static final int PLAYER_BIT = 2;
     static final int SHELF_BIT = 4;
+    static final int HIDE_BIT = 8;
+    static final int WIRE_BIT = 16;
+    static final int LOCKPICK_BIT = 32;
 
     PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
@@ -57,8 +60,8 @@ public class Collisions {
             ground.createFixture(fixtureDef);
         }
 
-        fixtureDef.filter.categoryBits = SHELF_BIT;
-        fixtureDef.filter.maskBits = PLAYER_BIT;
+        //fixtureDef.filter.categoryBits = SHELF_BIT;
+        //fixtureDef.filter.maskBits = PLAYER_BIT;
 
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -69,6 +72,9 @@ public class Collisions {
 
             polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
             fixtureDef.shape = polygonShape;
+            
+            fixtureDef.filter.categoryBits = SHELF_BIT;
+            fixtureDef.filter.maskBits = PLAYER_BIT;
 
             Fixture fixture = shelf.createFixture(fixtureDef);
             fixture.setUserData("bookshelf");
@@ -79,6 +85,8 @@ public class Collisions {
         PolygonShape porygonShape1 = new PolygonShape();
         porygonShape1.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
         fixtureDef.shape = porygonShape1;
+        fixtureDef.filter.categoryBits = HIDE_BIT;
+        fixtureDef.filter.maskBits = PLAYER_BIT;
         Fixture fixture1 = body1.createFixture(fixtureDef);
         fixture1.setUserData("esconde");
 
@@ -87,6 +95,8 @@ public class Collisions {
         PolygonShape porygonShape2 = new PolygonShape();
         porygonShape2.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
         fixtureDef.shape = porygonShape2;
+        fixtureDef.filter.categoryBits = LOCKPICK_BIT;
+        fixtureDef.filter.maskBits = PLAYER_BIT;
         Fixture fixture2 = body2.createFixture(fixtureDef);
         fixture2.setUserData("lockpick");
 
@@ -95,6 +105,8 @@ public class Collisions {
         PolygonShape porygonShape3 = new PolygonShape();
         porygonShape3.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
         fixtureDef.shape = porygonShape3;
+        fixtureDef.filter.categoryBits = WIRE_BIT;
+        fixtureDef.filter.maskBits = PLAYER_BIT;
         Fixture fixture3 = body3.createFixture(fixtureDef);
         fixture3.setUserData("fios");
     }
