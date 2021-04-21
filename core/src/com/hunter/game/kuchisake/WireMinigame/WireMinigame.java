@@ -23,6 +23,7 @@ public class WireMinigame {
 	SlotWire wireSlot1;
 	SlotWire wireSlot2;
 	SlotWire wireSlot3;
+	Correct correct;
 
 	boolean isFinished = false;
 
@@ -42,6 +43,9 @@ public class WireMinigame {
 		wireSlot2 = new SlotWire(18,3,"blue_wire_slot.png");
 		wireSlot3 = new SlotWire(18,1,"red_wire_slot.png");
 
+		correct = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+
+		correct.setVisible(false);
 	}
 
 	public void startMinigame(){
@@ -58,7 +62,24 @@ public class WireMinigame {
 		stage.addActor(wireSlot1);
 		stage.addActor(wireSlot2);
 		stage.addActor(wireSlot3);
+		stage.addActor(correct);
 	}
+
+	public void verifyWires(){
+		int accept_count = 0;
+
+		for(int i = 1; i < 4; i++){
+			if(!((WireActor) stage.getActors().get(i)).getAccept_input()){
+				accept_count++;
+			}
+		}
+
+		if (accept_count == 3){
+			correct.setVisible(true);
+			isFinished = true;
+		}
+	}
+
 
 	public void closeMinigame() {
 		stage.clear();

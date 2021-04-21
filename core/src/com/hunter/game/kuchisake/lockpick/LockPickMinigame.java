@@ -49,7 +49,7 @@ public class LockPickMinigame {
 		Gdx.input.setInputProcessor(stage);
 
 		wallActor = new WallActor();
-		keyActor = new KeyActor(3.35f, 4.9f);
+		keyActor = new KeyActor(3.35f, 4.9f, this);
 		keyActor.addWalls(wallActor);
 
 		stage.addActor(background);
@@ -65,6 +65,10 @@ public class LockPickMinigame {
 
 	public void closeMinigame() {
 		stage.clear();
+	}
+
+	public void setIsfinished(boolean isfinished) {
+		this.isfinished = isfinished;
 	}
 
 	public boolean getIsFinished() {

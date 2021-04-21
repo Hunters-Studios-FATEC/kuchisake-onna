@@ -58,7 +58,7 @@ public class Player {
         //definido o categoryBits (identificador da fixture do sensor)
         fixtureDef.filter.categoryBits = Collisions.PLAYER_BIT;
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
-        fixtureDef.filter.maskBits = Collisions.HIDE_BIT + Collisions.LOCKPICK_BIT + Collisions.SHELF_BIT + Collisions.WIRE_BIT;
+        fixtureDef.filter.maskBits = Collisions.HIDE_BIT + Collisions.LOCKPICK_BIT + Collisions.SHELF_BIT + Collisions.WIRE_BIT + Collisions.GERADOR_BIT;
 
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
@@ -80,8 +80,8 @@ public class Player {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && minigameManager.getCanStartMinigame()) {
             if (minigameManager.getActors(minigameID).size == 0) {
-                minigameManager.startMinigame(minigameID);
                 minigameManager.setMinigameActive(true);
+                minigameManager.startMinigame(minigameID);
             } else {
                 minigameManager.closeMinigame(minigameID);
             }

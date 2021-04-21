@@ -14,15 +14,21 @@ public class KeyActor extends Actor{
 	
 	Texture texture;
 	Sprite sprite;
-	
+
+	LockPickMinigame minigame;
+
 	float moveX = 0;
 	float moveY = 0;
 	
 	float previousYPos = 0;
 	
 	Array<Sprite> nearWallsArray;
-	
-	public KeyActor(float x, float y) {
+
+
+
+	public KeyActor(float x, float y, LockPickMinigame minigame) {
+
+		this.minigame = minigame;
 		texture = new Texture("orange_square.png");
 		
 		sprite = new Sprite(texture);
@@ -131,57 +137,6 @@ public class KeyActor extends Actor{
 						 (getX() + getWidth() > wall.getX() && getX() < wall.getX() + wall.getWidth())) {
 					setPosition(getX(), wall.getY() + wall.getHeight());
 				}
-				
-				/*int index = ((WallActor) getStage().getActors().get(1)).getSpriteArray().indexOf(wall, true);
-				
-				Array<Sprite> wallsArray = ((WallActor) getStage().getActors().get(1)).getAdjWallsArray().get(index);
-				
-				if(wall.getWidth() > wall.getHeight()) {
-					if(getX() + getWidth() > wall.getX() + wall.getWidth()) {
-						for(Sprite adjWall : wallsArray) {
-							if(adjWall.getX() >= wall.getX() + wall.getWidth()) {
-								addNewWall(adjWall);
-							}
-						}
-					}
-					else if(getX() < wall.getX()) {
-						for(Sprite adjWall : wallsArray) {
-							if(adjWall.getX() <= wall.getX() - 0.5f) {
-								addNewWall(adjWall);
-							}
-						}
-					}
-					
-					if(getX() + getWidth() > (wall.getX() + wall.getWidth()) * 1.5f) {
-						nearWallsArray.removeValue(wall, true);
-					}
-					else if(getX() < wall.getX() * 0.5f) {
-						nearWallsArray.removeValue(wall, true);
-					}
-				}
-				else {
-					if(getY() + getHeight() > wall.getY() + wall.getHeight() - 0.5f) {
-						for(Sprite adjWall : wallsArray) {
-							if(adjWall.getY() >= wall.getY() + wall.getHeight() - 0.5f) {
-								addNewWall(adjWall);
-							}
-						}
-					}
-					else if(getY() < wall.getY() + 0.5f) {
-						for(Sprite adjWall : wallsArray) {
-							if(adjWall.getY() <= wall.getY()) {
-								addNewWall(adjWall);
-							}
-						}
-					}
-					
-					if(getY() + getHeight() > (wall.getY() + wall.getHeight()) * 1.5f) {
-						nearWallsArray.removeValue(wall, true);
-					}
-					else if(getY() < wall.getY() * 0.5f) {
-						nearWallsArray.removeValue(wall, true);
-					}
-				}*/	
 			}
 		}		
 	}
@@ -192,41 +147,9 @@ public class KeyActor extends Actor{
 		   (getY() + getHeight() > getStage().getActors().get(2).getY() && 
 		   getY() < getStage().getActors().get(2).getY() + getStage().getActors().get(2).getHeight())) {
 			getStage().getActors().get(4).setVisible(true);
+			minigame.setIsfinished(true);
 		}
 	}
-	
-	/*void addNewWall(Sprite new_wall) {
-		if(!nearWallsArray.contains(new_wall, true)) {
-			nearWallsArray.add(new_wall);
-		}
-	}*/
-	
-	/*void checkAndRemoveWall() {	
-		for(Sprite wall : nearWallsArray) {
-			if(!(getX() + getWidth() >= wall.getX() - wall.getWidth() && getX() + getWidth() <= wall.getX()) &&
-			   !(getX() <= wall.getX() + wall.getWidth() * 2 && getX() >= wall.getX() + wall.getWidth()) &&
-			   !(getY() + getHeight() >= wall.getY() - wall.getHeight() && getY() + getHeight() <= wall.getY()) &&
-			   !(getY() <= wall.getY() + wall.getHeight() * 2 && getY() >= wall.getY() + wall.getHeight())) {
-				nearWallsArray.removeValue(wall, true);
-			}
-			
-			if(getX() - (0.5f - getWidth()) + 0.5f != wall.getX() && getX() != wall.getX() + wall.getWidth() &&
-			   getY() - (0.5f - getHeight()) + 0.5f != wall.getY() && getY() != wall.getY() + wall.getHeight()) {
-				nearWallsArray.removeValue(wall, true);
-			}
-			
-			if(getX() + getWidth() != wall.getX() && getX() != wall.getX() + wall.getWidth() &&
-			   getY() + getHeight() != wall.getY() && getY() != wall.getY() + wall.getHeight()) {
-				nearWallsArray.removeValue(wall, true);
-			}
-		}	
-	}*/
-	
-	/*public void addInitialNearWalls() {
-		nearWallsArray.add(((WallActor) getStage().getActors().get(1)).getSprite(0));
-		nearWallsArray.add(((WallActor) getStage().getActors().get(1)).getSprite(1));
-		nearWallsArray.add(((WallActor) getStage().getActors().get(1)).getSprite(2));
-	}*/
 	
 	public void addWalls(WallActor wallActor) {
 		nearWallsArray.addAll(wallActor.getSpriteArray());

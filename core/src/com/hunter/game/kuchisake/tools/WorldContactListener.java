@@ -27,23 +27,26 @@ public class WorldContactListener implements ContactListener{
 		Fixture fixB = contact.getFixtureB();
 		
 		if("player sensor".equals(fixA.getUserData()) || "player sensor".equals(fixB.getUserData())) {
-			Fixture sensor = ("player sensor".equals(fixA.getUserData()))? fixA : fixB;
-			Fixture object = (sensor.equals(fixA))? fixB: fixA;
-			
+			Fixture sensor = ("player sensor".equals(fixA.getUserData())) ? fixA : fixB;
+			Fixture object = (sensor.equals(fixA)) ? fixB : fixA;
+
 			minigameManager.setCanStartMinigame(true);
 
 			if (object.getUserData().equals("esconde")) {
 				System.out.println("ESCONDE");
 				player.setminigameID(0);
-			} else if (object.getUserData().equals("lockpick")){
-				//System.out.println("LOCKPICK");
-					player.setminigameID(1);
-			} else if(object.getUserData().equals("bookshelf")){
-				//System.out.println("BOOKSHELF");
+			} else if (object.getUserData().equals("lockpick")) {
+				System.out.println("LOCKPICK");
+				player.setminigameID(1);
+			} else if (object.getUserData().equals("bookshelf")) {
+				System.out.println("BOOKSHELF");
 				player.setminigameID(2);
-			} else if (object.getUserData().equals("fios")){
-				//System.out.println("FIOS");
+			} else if (object.getUserData().equals("fios")) {
+				System.out.println("FIOS");
 				player.setminigameID(3);
+			} else if (object.getUserData().equals("gerador")) {
+				System.out.println("GERADOR");
+				player.setminigameID(4);
 			}
 		}
 	}

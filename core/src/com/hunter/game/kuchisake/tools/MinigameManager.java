@@ -1,6 +1,5 @@
 package com.hunter.game.kuchisake.tools;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
@@ -8,6 +7,7 @@ import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
 import com.hunter.game.kuchisake.hide.Hide;
 import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
+import com.hunter.game.kuchisake.minigameGerador.MinigameGerador;
 import com.hunter.game.kuchisake.objects.Player;
 
 public class MinigameManager {
@@ -17,13 +17,19 @@ public class MinigameManager {
     LockPickMinigame lockPickMinigame;
     MinigameBook minigameBook;
     WireMinigame wireMinigame;
+    MinigameGerador geradorMinigame;
     SpriteBatch spriteBatch;
     Player minigamePlayer;
+
+    boolean hideCompleted; // Hide completed é só para testes
+    boolean lockCompleted;
+    boolean wireCompleted;
+    boolean bookCompleted;
 
     boolean canStartMinigame = false;
     boolean isMinigameActive = false;
 
-    float clearStageTimer = 0;
+    float clearStageTimer = 0f;
 
 
 
@@ -34,6 +40,7 @@ public class MinigameManager {
         lockPickMinigame = new LockPickMinigame(batch);
         minigameBook = new MinigameBook(batch);
         wireMinigame = new WireMinigame(batch);
+        geradorMinigame = new MinigameGerador(batch);
         minigamePlayer = player;
 
 //        int hideMinigame_ID = 0;
@@ -45,35 +52,57 @@ public class MinigameManager {
     public void startMinigame (int id){
         switch (id){
             case 0:
-                hideMinigame.startMinigame();
+                if (!hideCompleted) {
+                    hideMinigame.startMinigame();
+                } else {
+                    isMinigameActive = false;
+                }
                 break;
 
             case 1:
-                lockPickMinigame.startMinigame();
+                if (!lockCompleted) {
+                    lockPickMinigame.startMinigame();
+                } else {
+                    isMinigameActive = false;
+                }
                 break;
 
+
             case 2:
-                minigameBook.startMinigame();
+                if(!bookCompleted) {
+                    minigameBook.startMinigame();
+                } else {
+                    isMinigameActive = false;
+                }
                 break;
 
             case 3:
-                wireMinigame.startMinigame();
+                if(!wireCompleted) {
+                    wireMinigame.startMinigame();
+                } else {
+                    isMinigameActive = false;
+                }
+                break;
+            case 4:
+                geradorMinigame.startMinigame();
                 break;
         }
     }
 
     public void minigameUpdate(float dt, int id) {
-        switch (id){
+        switch (id) {
             case 0: {
-                if(hideMinigame.stage.getActors().size > 0) {
+                if (hideMinigame.stage.getActors().size > 0) {
                     spriteBatch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
                     hideMinigame.stage.act(dt);
                     hideMinigame.stage.draw();
 
-                    if(hideMinigame.getIsFinished()) {
+                    if (hideMinigame.getIsFinished()) {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
+                            clearStageTimer = 0;
+                            hideCompleted = true;
                             closeMinigame(0);
                             canStartMinigame = false;
                         }
@@ -82,15 +111,17 @@ public class MinigameManager {
                 break;
             }
 
-            case 1:{
-                if(lockPickMinigame.stage.getActors().size > 0) {
+            case 1: {
+                if (lockPickMinigame.stage.getActors().size > 0) {
                     spriteBatch.setProjectionMatrix(lockPickMinigame.stage.getCamera().combined);
                     lockPickMinigame.stage.act(dt);
                     lockPickMinigame.stage.draw();
-                    if(lockPickMinigame.getIsFinished()) {
+                    if (lockPickMinigame.getIsFinished()) {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
+                            clearStageTimer = 0;
+                            lockCompleted = true;
                             closeMinigame(1);
                             canStartMinigame = false;
                         }
@@ -100,8 +131,8 @@ public class MinigameManager {
                 break;
             }
 
-            case 2:{
-                if(minigameBook.stage.getActors().size > 0) {
+            case 2: {
+                if (minigameBook.stage.getActors().size > 0) {
                     spriteBatch.setProjectionMatrix(minigameBook.stage.getCamera().combined);
                     minigameBook.verifyActorPos();
                     minigameBook.stage.act(dt);
@@ -110,6 +141,8 @@ public class MinigameManager {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
+                            clearStageTimer = 0;
+                            bookCompleted = true;
                             closeMinigame(2);
                             canStartMinigame = false;
                         }
@@ -118,20 +151,33 @@ public class MinigameManager {
                 break;
             }
 
-            case 3:{
-                if(wireMinigame.stage.getActors().size > 0) {
+            case 3: {
+                if (wireMinigame.stage.getActors().size > 0) {
                     spriteBatch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
                     wireMinigame.stage.act(dt);
                     wireMinigame.stage.draw();
+                    wireMinigame.verifyWires();
 
                     if (wireMinigame.getIsFinished()) {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
+                            clearStageTimer = 0;
+                            wireCompleted = true;
                             closeMinigame(3);
                             canStartMinigame = false;
                         }
                     }
+                }
+                break;
+            }
+
+            case 4: {
+                if (geradorMinigame.stage.getActors().size > 0) {
+                    System.out.println("If do draw");
+                    spriteBatch.setProjectionMatrix(geradorMinigame.stage.getCamera().combined);
+                    geradorMinigame.stage.act(dt);
+                    geradorMinigame.stage.draw();
                 }
                 break;
             }
@@ -164,6 +210,11 @@ public class MinigameManager {
                 spriteBatch.setProjectionMatrix(wireMinigame.stage.getCamera().combined);
                 break;
             }
+
+            case 4:
+                geradorMinigame.stage.getViewport().update(width, height);
+                spriteBatch.setProjectionMatrix(geradorMinigame.stage.getCamera().combined);
+                break;
         }
     }
 
@@ -187,6 +238,9 @@ public class MinigameManager {
             case 3:
                 wireMinigame.closeMinigame();
                 isMinigameActive = false;
+                break;
+
+            case 4:
                 break;
         }
     }
@@ -225,6 +279,10 @@ public class MinigameManager {
 
             case 3:
                 actors = wireMinigame.getStage().getActors();
+                break;
+
+            case 4:
+                actors = geradorMinigame.getStage().getActors();
                 break;
         }
         return actors;

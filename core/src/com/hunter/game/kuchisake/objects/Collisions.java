@@ -22,6 +22,7 @@ public class Collisions {
     static final int HIDE_BIT = 8;
     static final int WIRE_BIT = 16;
     static final int LOCKPICK_BIT = 32;
+    static final int GERADOR_BIT = 64;
 
     PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
@@ -32,6 +33,7 @@ public class Collisions {
     Body body1;
     Body body2;
     Body body3;
+    Body body4;
 
     public Collisions(World world) {
         FixtureDef fixtureDef = new FixtureDef();
@@ -109,6 +111,16 @@ public class Collisions {
         fixtureDef.filter.maskBits = PLAYER_BIT;
         Fixture fixture3 = body3.createFixture(fixtureDef);
         fixture3.setUserData("fios");
+
+        bodyDef.position.set(1800 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
+        body4 = world.createBody(bodyDef);
+        PolygonShape porygonShape4 = new PolygonShape();
+        porygonShape4.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
+        fixtureDef.shape = porygonShape4;
+        fixtureDef.filter.categoryBits = GERADOR_BIT;
+        fixtureDef.filter.maskBits = PLAYER_BIT;
+        Fixture fixture4 = body4.createFixture(fixtureDef);
+        fixture4.setUserData("gerador");
     }
 
 

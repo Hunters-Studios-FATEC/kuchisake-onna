@@ -128,4 +128,8 @@ public class WireActor extends Actor{
 	public void act(float delta) {
 		super.act(delta);
 	}
+
+	public boolean getAccept_input() {
+		return accept_input;
+	}
 }
