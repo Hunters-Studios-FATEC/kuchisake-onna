@@ -31,27 +31,34 @@ public class LockPickMinigame {
 		viewport.apply();
 		
 		stage = new Stage(viewport, spriteBatch);
-		Gdx.input.setInputProcessor(stage);
 		
 		background = new Background(0, 0);
-		wallActor = new WallActor();
+//		wallActor = new WallActor();
 		finishChecker = new FinishChecker(15.35f, 5.9f);
-		keyActor = new KeyActor(3.35f, 4.9f);
+//		keyActor = new KeyActor(3.35f, 4.9f);
 		correctActor = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
 		
-		keyActor.addWalls(wallActor);
+//		keyActor.addWalls(wallActor);
 		
 		correctActor.setVisible(false);
 		
-		stage.setKeyboardFocus(keyActor);
+//		stage.setKeyboardFocus(keyActor);
 	}
 
 	public void startMinigame(){
+		Gdx.input.setInputProcessor(stage);
+
+		wallActor = new WallActor();
+		keyActor = new KeyActor(3.35f, 4.9f);
+		keyActor.addWalls(wallActor);
+
 		stage.addActor(background);
 		stage.addActor(wallActor);
 		stage.addActor(finishChecker);
 		stage.addActor(keyActor);
 		stage.addActor(correctActor);
+
+		stage.setKeyboardFocus(keyActor);
 
 		//keyActor.addInitialNearWalls();
 	}

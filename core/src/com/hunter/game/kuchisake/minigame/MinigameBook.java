@@ -32,7 +32,7 @@ public class MinigameBook {
 	Correct correctActor;
 	
 	public MinigameBook(SpriteBatch spriteBatch) {	
-		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT * (h / w) / TerrorGame.SCALE, 
+		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE,
 								   new OrthographicCamera());
 		viewport.apply();
 		
@@ -40,7 +40,6 @@ public class MinigameBook {
 		//camera.update();
 		
 		stage = new Stage(viewport, spriteBatch);
-		Gdx.input.setInputProcessor(stage);
 		
 		background = new Background(0, 0);
 		
@@ -70,6 +69,14 @@ public class MinigameBook {
 	}
 	
 	public void startMinigame() {
+		password = 0;
+
+		Gdx.input.setInputProcessor(stage);
+
+		bookActor1 = new BookActor("livro1.png", 0, 0, 1);
+		bookActor2 = new BookActor("livro2.png", 0, 2, 2);
+		bookActor3 = new BookActor("livro3.png", 0, 4, 3);
+
 		stage.addActor(background);
 		
 		stage.addActor(correctActor);

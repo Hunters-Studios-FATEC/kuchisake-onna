@@ -25,84 +25,16 @@ public class Hide {
 	Background background;
 
 	boolean isfinished = false;
+
+	SpriteBatch hideBatch;
 	
 	public Hide(SpriteBatch batch) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
 								   new OrthographicCamera());
-		
-		stage = new Stage(viewport, batch);
-		
-		Gdx.input.setInputProcessor(stage);
-		
-		background = new Background(0, 0);
-		
-		//circle = new Circle(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0, 5f);
-		//circleOverlay = new CircleOverlay(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 5f);
-		
-		circleArray = new Array<Circle>();
-		circleOverlayArray = new Array<CircleOverlay>();
-		
-		//System.out.println(stage.getActors().size);
-		
-		stage.addListener(new InputListener() {
-			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
-				if(keycode == Input.Keys.UP) {
-					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
-						if(((Circle) stage.getActors().get(i)).getNValue() == 0 && 
-						  (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
-						  !((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
-							
-							((Circle) stage.getActors().get(i)).hitKey();
-							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
-							
-							break;
-						}
-					}
-				}
-				if(keycode == Input.Keys.LEFT) {
-					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
-						if(((Circle) stage.getActors().get(i)).getNValue() == 1 &&
-						   (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
-						   !((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
-							
-							((Circle) stage.getActors().get(i)).hitKey();
-							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
-							
-							break;
-						}
-					}
-				}
-				if(keycode == Input.Keys.DOWN) {
-					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
-						if(((Circle) stage.getActors().get(i)).getNValue() == 2 &&
-						   (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
-						   !((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
-							
-							((Circle) stage.getActors().get(i)).hitKey();
-							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
-							
-							break;
-						}
-					}
-				}
-				if(keycode == Input.Keys.RIGHT) {
-					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
-						if(((Circle) stage.getActors().get(i)).getNValue() == 3 &&
-						   (!((Circle) stage.getActors().get(i)).getKeyPressed() &&
-						   !((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
-							
-							((Circle) stage.getActors().get(i)).hitKey();
-							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
-							
-							break;
-						}
-					}
-				}
-				
-				return true;
-			}
-		});
+
+		hideBatch = batch;
+
+		stage = new Stage(viewport, hideBatch);
 	}
 	
 	void createHitCircles() {
@@ -134,11 +66,19 @@ public class Hide {
 	}
 
 	public void startMinigame(){
+
+		stage = new Stage(viewport, hideBatch);
+
+		background = new Background(0, 0);
+
+		Gdx.input.setInputProcessor(stage);
+
 		stage.addActor(background);
 
-		createHitCircles();
+		circleArray = new Array<Circle>();
+		circleOverlayArray = new Array<CircleOverlay>();
 
-		//System.out.println(circleArray.get(0).startTime);
+		createHitCircles();
 
 		for(Circle circle : circleArray) {
 			stage.addActor(circle);
@@ -147,6 +87,66 @@ public class Hide {
 		for(CircleOverlay circleOverlay : circleOverlayArray) {
 			stage.addActor(circleOverlay);
 		}
+
+		stage.addListener(new InputListener() {
+			@Override
+			public boolean keyDown(InputEvent event, int keycode) {
+				if(keycode == Input.Keys.UP) {
+					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
+						if(((Circle) stage.getActors().get(i)).getNValue() == 0 &&
+								(!((Circle) stage.getActors().get(i)).getKeyPressed() &&
+										!((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
+
+							((Circle) stage.getActors().get(i)).hitKey();
+							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
+
+							break;
+						}
+					}
+				}
+				if(keycode == Input.Keys.LEFT) {
+					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
+						if(((Circle) stage.getActors().get(i)).getNValue() == 1 &&
+								(!((Circle) stage.getActors().get(i)).getKeyPressed() &&
+										!((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
+
+							((Circle) stage.getActors().get(i)).hitKey();
+							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
+
+							break;
+						}
+					}
+				}
+				if(keycode == Input.Keys.DOWN) {
+					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
+						if(((Circle) stage.getActors().get(i)).getNValue() == 2 &&
+								(!((Circle) stage.getActors().get(i)).getKeyPressed() &&
+										!((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
+
+							((Circle) stage.getActors().get(i)).hitKey();
+							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
+
+							break;
+						}
+					}
+				}
+				if(keycode == Input.Keys.RIGHT) {
+					for(int i = 1; i <= (stage.getActors().size - 1) / 2; i++) {
+						if(((Circle) stage.getActors().get(i)).getNValue() == 3 &&
+								(!((Circle) stage.getActors().get(i)).getKeyPressed() &&
+										!((Circle) stage.getActors().get(i)).getTriggeredMissedKeyEvent())) {
+
+							((Circle) stage.getActors().get(i)).hitKey();
+							((CircleOverlay) stage.getActors().get(i + (stage.getActors().size - 1) / 2)).hitKey();
+
+							break;
+						}
+					}
+				}
+
+				return true;
+			}
+		});
 	}
 
 	public void closeMinigame() {

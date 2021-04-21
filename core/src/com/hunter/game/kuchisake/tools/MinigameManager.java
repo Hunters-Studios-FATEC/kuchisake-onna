@@ -8,6 +8,7 @@ import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
 import com.hunter.game.kuchisake.hide.Hide;
 import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
+import com.hunter.game.kuchisake.objects.Player;
 
 public class MinigameManager {
 
@@ -17,17 +18,23 @@ public class MinigameManager {
     MinigameBook minigameBook;
     WireMinigame wireMinigame;
     SpriteBatch spriteBatch;
+    Player minigamePlayer;
 
     boolean canStartMinigame = false;
+    boolean isMinigameActive = false;
+
     float clearStageTimer = 0;
 
-    public MinigameManager(SpriteBatch batch){
-    	//SpriteBatch spriteBatch = batch; -> A variável global spriteBatch não estava recebendo o parâmetro batch. 
+
+
+    public MinigameManager(SpriteBatch batch, Player player){
+    	//SpriteBatch spriteBatch = batch; -> A variavel global spriteBatch nao estava recebendo o parametro batch.
         spriteBatch = batch;
         hideMinigame = new Hide(batch);
         lockPickMinigame = new LockPickMinigame(batch);
         minigameBook = new MinigameBook(batch);
         wireMinigame = new WireMinigame(batch);
+        minigamePlayer = player;
 
 //        int hideMinigame_ID = 0;
 //        int lockPickMinigame_ID = 1;
@@ -63,11 +70,11 @@ public class MinigameManager {
                     hideMinigame.stage.act(dt);
                     hideMinigame.stage.draw();
 
-                    if(minigameBook.getIsFinished()) {
+                    if(hideMinigame.getIsFinished()) {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
-                            minigameBook.stage.clear();
+                            closeMinigame(0);
                             canStartMinigame = false;
                         }
                     }
@@ -84,7 +91,7 @@ public class MinigameManager {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
-                            lockPickMinigame.stage.clear();
+                            closeMinigame(1);
                             canStartMinigame = false;
                         }
                     }
@@ -103,7 +110,7 @@ public class MinigameManager {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
-                            minigameBook.stage.clear();
+                            closeMinigame(2);
                             canStartMinigame = false;
                         }
                     }
@@ -121,7 +128,7 @@ public class MinigameManager {
                         clearStageTimer += dt;
 
                         if (clearStageTimer > 1.5) {
-                            minigameBook.stage.clear();
+                            closeMinigame(3);
                             canStartMinigame = false;
                         }
                     }
@@ -164,18 +171,22 @@ public class MinigameManager {
         switch (id){
             case 0:
                 hideMinigame.closeMinigame();
+                isMinigameActive = false;
                 break;
 
             case 1:
                 lockPickMinigame.closeMinigame();
+                isMinigameActive = false;
                 break;
 
             case 2:
                 minigameBook.closeMinigame();
+                isMinigameActive = false;
                 break;
 
             case 3:
                 wireMinigame.closeMinigame();
+                isMinigameActive = false;
                 break;
         }
     }
@@ -183,6 +194,14 @@ public class MinigameManager {
     public void setCanStartMinigame(boolean state) {
         canStartMinigame = state;
         //System.out.println(canStartMinigame);
+    }
+
+    public boolean getIsMinigameActive() {
+        return isMinigameActive;
+    }
+
+    public void setMinigameActive(boolean minigameActive) {
+        isMinigameActive = minigameActive;
     }
 
     public boolean getCanStartMinigame() {

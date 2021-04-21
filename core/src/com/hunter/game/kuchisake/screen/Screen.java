@@ -59,7 +59,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		world = new World(new Vector2(0, -10), true);
 		
-		minigameManager = new MinigameManager(game.batch);
+		minigameManager = new MinigameManager(game.batch, player);
 		
 		collisions = new Collisions(world);
 		player = new Player(world, minigameManager);

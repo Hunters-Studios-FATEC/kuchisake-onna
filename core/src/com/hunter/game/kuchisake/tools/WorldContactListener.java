@@ -15,7 +15,7 @@ public class WorldContactListener implements ContactListener{
 	Player player;
 
 	public WorldContactListener(MinigameManager minigameManager, Player player){
-		// parâmetro player criado e atribuído a variável global player.
+		// parametro player criado e atribuido a variavel global player.
 		this.minigameManager = minigameManager;
 		this.player = player;
 	}
@@ -33,7 +33,7 @@ public class WorldContactListener implements ContactListener{
 			minigameManager.setCanStartMinigame(true);
 
 			if (object.getUserData().equals("esconde")) {
-				//System.out.println("ESCONDE");
+				System.out.println("ESCONDE");
 				player.setminigameID(0);
 			} else if (object.getUserData().equals("lockpick")){
 				//System.out.println("LOCKPICK");

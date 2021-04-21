@@ -57,28 +57,31 @@ public class Player {
         
         //definido o categoryBits (identificador da fixture do sensor)
         fixtureDef.filter.categoryBits = Collisions.PLAYER_BIT;
-        //definido o maskBits (identificador das colisões que esse sensor detecta)
+        //definido o maskBits (identificador das colisoes que esse sensor detecta)
         fixtureDef.filter.maskBits = Collisions.HIDE_BIT + Collisions.LOCKPICK_BIT + Collisions.SHELF_BIT + Collisions.WIRE_BIT;
 
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
         
-        //parâmetro minigameManager criado e atribuído a variável global minigameManager.
+        //parametro minigameManager criado e atribuido a variavel global minigameManager.
         this.minigameManager = minigameManager;
     }
 
     public void handleInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.D) && player.getLinearVelocity().x < MAX_VELOCITY) {
-            player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
+        if (!minigameManager.getIsMinigameActive()){
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && player.getLinearVelocity().x < MAX_VELOCITY) {
+                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && player.getLinearVelocity().x > -MAX_VELOCITY) {
+                player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
+            }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.A) && player.getLinearVelocity().x > -MAX_VELOCITY) {
-            player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && minigameManager.getCanStartMinigame()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && minigameManager.getCanStartMinigame()) {
             if (minigameManager.getActors(minigameID).size == 0) {
                 minigameManager.startMinigame(minigameID);
+                minigameManager.setMinigameActive(true);
             } else {
                 minigameManager.closeMinigame(minigameID);
             }

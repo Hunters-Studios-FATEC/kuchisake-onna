@@ -32,7 +32,6 @@ public class WireMinigame {
 		viewport.apply();
 		
 		stage = new Stage(viewport, spriteBatch);
-		Gdx.input.setInputProcessor(stage);
 		
 		background = new Background(0, 0);
 		wireActor1 = new WireActor(1, 5, "red_square.png", 6);
@@ -46,6 +45,12 @@ public class WireMinigame {
 	}
 
 	public void startMinigame(){
+		Gdx.input.setInputProcessor(stage);
+
+		wireActor1 = new WireActor(1, 5, "red_square.png", 6);
+		wireActor2 = new WireActor(1, 3, "green_square.png", 4);
+		wireActor3 = new WireActor(1, 1, "blue_square.png", 5);
+
 		stage.addActor(background);
 		stage.addActor(wireActor1);
 		stage.addActor(wireActor2);
