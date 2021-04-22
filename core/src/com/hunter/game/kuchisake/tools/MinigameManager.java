@@ -25,6 +25,7 @@ public class MinigameManager {
     boolean lockCompleted;
     boolean wireCompleted;
     boolean bookCompleted;
+    boolean geradorCompleted;
 
     boolean canStartMinigame = false;
     boolean isMinigameActive = false;
@@ -83,8 +84,13 @@ public class MinigameManager {
                     isMinigameActive = false;
                 }
                 break;
+
             case 4:
-                geradorMinigame.startMinigame();
+                if(!geradorCompleted){
+                    geradorMinigame.startMinigame();
+                } else {
+                    isMinigameActive = false;
+                }
                 break;
         }
     }
@@ -174,10 +180,20 @@ public class MinigameManager {
 
             case 4: {
                 if (geradorMinigame.stage.getActors().size > 0) {
-                    System.out.println("If do draw");
                     spriteBatch.setProjectionMatrix(geradorMinigame.stage.getCamera().combined);
                     geradorMinigame.stage.act(dt);
                     geradorMinigame.stage.draw();
+
+                    if (geradorMinigame.getIsFinished()) {
+                        clearStageTimer += dt;
+
+                        if (clearStageTimer > 1.5) {
+                            clearStageTimer = 0;
+                            geradorCompleted = true;
+                            closeMinigame(4);
+                            canStartMinigame = false;
+                        }
+                    }
                 }
                 break;
             }
@@ -241,6 +257,8 @@ public class MinigameManager {
                 break;
 
             case 4:
+                geradorMinigame.closeMinigame();
+                isMinigameActive = false;
                 break;
         }
     }

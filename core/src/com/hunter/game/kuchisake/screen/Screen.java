@@ -43,7 +43,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 	OrthogonalTiledMapRenderer mapRenderer;
 
 	MinigameManager minigameManager;
-	int maxMinigameID = 4;
+	int maxMinigameID = 5;
 
 	
 	public Screen(TerrorGame game) {
