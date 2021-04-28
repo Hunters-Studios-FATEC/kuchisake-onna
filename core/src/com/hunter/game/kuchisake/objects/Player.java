@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.screen.Screen;
+import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 
 public class Player {
@@ -29,8 +30,9 @@ public class Player {
     EdgeShape collisionSensor;
 
     MinigameManager minigameManager;
+    InventoryManager inventoryManager;
 
-    public Player(World world, MinigameManager minigameManager) {
+    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
@@ -65,16 +67,33 @@ public class Player {
         
         //parametro minigameManager criado e atribuido a variavel global minigameManager.
         this.minigameManager = minigameManager;
+
+        this.inventoryManager = inventoryManager;
     }
 
     public void handleInput() {
-        if (!minigameManager.getIsMinigameActive()){
+        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
             if (Gdx.input.isKeyPressed(Input.Keys.D) && player.getLinearVelocity().x < MAX_VELOCITY) {
                 player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A) && player.getLinearVelocity().x > -MAX_VELOCITY) {
                 player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.I)){
+                if (!inventoryManager.getInventoryOpen()) {
+                    inventoryManager.openInventory();
+                    inventoryManager.setInventoryOpen(true);
+                }
+            }
+        }
+
+        // Somente funcionando com teclas diferentes
+        if (inventoryManager.getInventoryOpen()){
+            if (Gdx.input.isKeyPressed(Input.Keys.C)){
+                inventoryManager.closeInventory();
+                inventoryManager.setInventoryOpen(false);
             }
         }
 

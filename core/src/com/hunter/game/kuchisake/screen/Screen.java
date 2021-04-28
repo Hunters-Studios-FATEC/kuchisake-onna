@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.Collisions;
 import com.hunter.game.kuchisake.objects.Player;
+import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
@@ -45,6 +46,8 @@ public class Screen implements com.badlogic.gdx.Screen {
 	MinigameManager minigameManager;
 	int maxMinigameID = 5;
 
+	InventoryManager inventoryManager;
+
 	
 	public Screen(TerrorGame game) {
 		this.game = game;
@@ -60,9 +63,11 @@ public class Screen implements com.badlogic.gdx.Screen {
 		world = new World(new Vector2(0, -10), true);
 		
 		minigameManager = new MinigameManager(game.batch, player);
+
+		inventoryManager = new InventoryManager(game.batch);
 		
 		collisions = new Collisions(world);
-		player = new Player(world, minigameManager);
+		player = new Player(world, minigameManager, inventoryManager);
 		
 		world.setContactListener(new WorldContactListener(minigameManager, player));
 
@@ -113,6 +118,10 @@ public class Screen implements com.badlogic.gdx.Screen {
 		for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
 		}
+
+		inventoryManager.inventoryUpdate(delta);
+
+
 	}
 
 	@Override
@@ -154,5 +163,6 @@ public class Screen implements com.badlogic.gdx.Screen {
 		collisions.getPolygonShape().dispose();
 		debugRenderer.dispose();
 		minigameManager.minigameDispose();
+		inventoryManager.inventoryDispose();
 	}
 }
