@@ -60,7 +60,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 		camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 		camera.update();
 		
-		world = new World(new Vector2(0, -10), true);
+		world = new World(new Vector2(0, 0), true);
 		
 		minigameManager = new MinigameManager(game.batch, player);
 
@@ -120,8 +120,6 @@ public class Screen implements com.badlogic.gdx.Screen {
 		}
 
 		inventoryManager.inventoryUpdate(delta);
-
-
 	}
 
 	@Override
@@ -133,6 +131,8 @@ public class Screen implements com.badlogic.gdx.Screen {
 		for (int i = 0; i < maxMinigameID; i++) {
 			minigameManager.minigameResize(width, height, i);
 		}
+
+		inventoryManager.inventoryResize(width, height);
 	}
 	
 	@Override

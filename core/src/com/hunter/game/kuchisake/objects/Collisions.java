@@ -48,19 +48,19 @@ public class Collisions {
         map = mapLoader.load("mapa_teste.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / TerrorGame.SCALE);
 
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE,
-                    (rect.getY() + rect.getHeight() / 2) / TerrorGame.SCALE);
-            ground = world.createBody(bodyDef);
-
-            PolygonShape polygonShape = new PolygonShape();
-            polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
-            fixtureDef.shape = polygonShape;
-
-            ground.createFixture(fixtureDef);
-        }
+//        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+//
+//            bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE,
+//                    (rect.getY() + rect.getHeight() / 2) / TerrorGame.SCALE);
+//            ground = world.createBody(bodyDef);
+//
+//            PolygonShape polygonShape = new PolygonShape();
+//            polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
+//            fixtureDef.shape = polygonShape;
+//
+//            ground.createFixture(fixtureDef);
+//        }
 
         //fixtureDef.filter.categoryBits = SHELF_BIT;
         //fixtureDef.filter.maskBits = PLAYER_BIT;

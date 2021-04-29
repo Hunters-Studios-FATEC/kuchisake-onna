@@ -26,6 +26,7 @@ public class Player {
 
     final float MAX_VELOCITY = 3.5f;
     int minigameID = -1;
+    float isWalking = 0;
 
     EdgeShape collisionSensor;
 
@@ -73,13 +74,20 @@ public class Player {
 
     public void handleInput() {
         if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && player.getLinearVelocity().x < MAX_VELOCITY) {
-                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
+            isWalking = 0;
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
+                isWalking = 3.5f;
+
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && player.getLinearVelocity().x > -MAX_VELOCITY) {
-                player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//                player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
+                isWalking = -3.5f;
             }
+
+            player.setLinearVelocity(new Vector2(isWalking, 0));
+
 
             if (Gdx.input.isKeyPressed(Input.Keys.I)){
                 if (!inventoryManager.getInventoryOpen()) {
