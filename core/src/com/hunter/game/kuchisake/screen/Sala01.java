@@ -1,5 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,6 +10,7 @@ import com.hunter.game.kuchisake.TerrorGame;
 public class Sala01 extends StandardRoom implements Screen {
 
     Sprite porta1;
+
 
     public Sala01(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);

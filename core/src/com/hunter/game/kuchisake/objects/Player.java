@@ -31,10 +31,9 @@ public class Player {
 
     PolygonShape polygonShape;
 
-    final float MAX_VELOCITY = 3.5f;
     int minigameID = -1;
     float isWalking = 0;
-    float transitionTime = 0.2f;
+    float transitionTime = 0.15f;
     float frameChangeTimer = 0;
 
     int formerState;
@@ -58,6 +57,9 @@ public class Player {
     Animation<TextureRegion> animationStopped;
     Animation<TextureRegion> animationWalking;
 
+
+    public Array<TextureRegion> testeAnima;
+
     public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
@@ -66,9 +68,8 @@ public class Player {
         playerWalk = new Texture("sprites_protag_right.png");
         playerStop = new Texture("sprite_stoped_right.png");
 
-
-        animationStopped = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerStop, 6, 24));
-        animationWalking = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerWalk, 3, 8));
+        animationStopped = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerStop, 4, 6, 24));
+        animationWalking = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerWalk, 3, 3, 7));
         playerSprite = new Sprite(new TextureRegion(playerStop, 720, 720));
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -93,6 +94,7 @@ public class Player {
         
         //definido o categoryBits (identificador da fixture do sensor)
         fixtureDef.filter.categoryBits = collisions.getPlayerBit();
+
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
         fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit());
         fixture = player.createFixture(fixtureDef);
@@ -106,6 +108,7 @@ public class Player {
         this.inventoryManager = inventoryManager;
     }
 
+
     int checkState(float walkingVelocity){
         if (walkingVelocity != 0){
             //System.out.println("andando");
@@ -116,31 +119,40 @@ public class Player {
         }
     }
 
-    Array<TextureRegion> setFrameAnimation(Texture texture, int framesLinha, int framesTotal){
+
+    Array<TextureRegion> setFrameAnimation(Texture texture, int framesLinha, int framesColuna, int framesTotal){
         Array<TextureRegion> spritesFrames = new Array<TextureRegion>();
         int frameWidth = 720;
         int frameHeight = 720;
-        for (int i = 0; i < framesTotal; i++){
-            TextureRegion textureRegion = new TextureRegion(texture, frameWidth + frameWidth * i % framesLinha, frameHeight + frameHeight * i % framesLinha );
-            spritesFrames.add(textureRegion);
+
+        int frameCounter = 0;
+        for (int i = 0; i < framesLinha; i++){
+            for (int j = 0; j < framesColuna; j++){
+                TextureRegion textureRegion = new TextureRegion(texture, frameWidth * j, frameHeight * i , frameWidth, frameHeight);
+                if (frameCounter <= framesTotal){
+                    spritesFrames.add(textureRegion);
+                }
+                frameCounter += 1;
+            }
         }
-        System.out.println(spritesFrames.size);
         return spritesFrames;
     }
+
 
     public TextureRegion changeFrame(float delta){
         currentState = checkState(isWalking);
         TextureRegion textureRegion;
+
         if (currentState == 0) {
             textureRegion = animationStopped.getKeyFrame(frameChangeTimer, true);
         } else {
             textureRegion = animationWalking.getKeyFrame(frameChangeTimer, true);
         }
 
-        if ((isWalking < 0 || isLookingRight) && !textureRegion.isFlipX()){
+        if ((isWalking < 0 || !isLookingRight) && !textureRegion.isFlipX()){
             textureRegion.flip(true, false);
             isLookingRight = false;
-        } else if ((isWalking > 0 || !isLookingRight) && textureRegion.isFlipX()) {
+        } else if ((isWalking > 0 || isLookingRight)&& textureRegion.isFlipX()){
             textureRegion.flip(true, false);
             isLookingRight = true;
         }
@@ -170,11 +182,17 @@ public class Player {
 
             player.setLinearVelocity(new Vector2(isWalking, 0));
 
+
+            // Vai abrir e fechar
             if (Gdx.input.isKeyPressed(Input.Keys.I)){
-                if (!inventoryManager.getInventoryOpen()) {
+                if (inventoryManager.getInventoryOpen()) {
                     inventoryManager.openInventory();
-                    inventoryManager.setInventoryOpen(true);
+                    inventoryManager.setInventoryOpen(false);
                 }
+//                else {
+//                    inventoryManager.closeInventory();
+//                    inventoryManager.setInventoryOpen(true);
+//                }
             }
         }
 
