@@ -2,6 +2,11 @@ package com.hunter.game.kuchisake.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,10 +15,12 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.hunter.game.kuchisake.TerrorGame;
-import com.hunter.game.kuchisake.screen.Screen;
+import com.hunter.game.kuchisake.screen.StandardRoom;
 import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
+
 
 public class Player {
     Body player;
@@ -27,26 +34,52 @@ public class Player {
     final float MAX_VELOCITY = 3.5f;
     int minigameID = -1;
     float isWalking = 0;
+    float transitionTime = 0.2f;
+    float frameChangeTimer = 0;
+
+    int formerState;
+    int currentState;
 
     EdgeShape collisionSensor;
 
     MinigameManager minigameManager;
     InventoryManager inventoryManager;
+    StandardRoom standardRoom;
 
-    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager) {
+    boolean canChangeRoom = false;
+    boolean isTouchingDoor = false;
+    boolean isLookingRight = true;
+
+    Sprite playerSprite;
+
+    Texture playerWalk;
+    Texture playerStop;
+
+    Animation<TextureRegion> animationStopped;
+    Animation<TextureRegion> animationWalking;
+
+    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
 
+        playerWalk = new Texture("sprites_protag_right.png");
+        playerStop = new Texture("sprite_stoped_right.png");
+
+
+        animationStopped = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerStop, 6, 24));
+        animationWalking = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerWalk, 3, 8));
+        playerSprite = new Sprite(new TextureRegion(playerStop, 720, 720));
+
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(1000 / TerrorGame.SCALE, 352 / TerrorGame.SCALE);
+        bodyDef.position.set(initialX / TerrorGame.SCALE, 160 / TerrorGame.SCALE + 1.28f);
         player = world.createBody(bodyDef);
 
         polygonShape.setAsBox(128 / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
         fixtureDef.shape = polygonShape;
 
-        fixtureDef.filter.categoryBits = Collisions.PLAYER_BIT;
-        fixtureDef.filter.maskBits = Collisions.GROUND_BIT;
+        fixtureDef.filter.categoryBits = collisions.getPlayerBit();
+        fixtureDef.filter.maskBits = collisions.getGroundBit();
 
         fixture = player.createFixture(fixtureDef);
 
@@ -59,26 +92,75 @@ public class Player {
         fixtureDef.isSensor = true;
         
         //definido o categoryBits (identificador da fixture do sensor)
-        fixtureDef.filter.categoryBits = Collisions.PLAYER_BIT;
+        fixtureDef.filter.categoryBits = collisions.getPlayerBit();
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
-        fixtureDef.filter.maskBits = Collisions.HIDE_BIT + Collisions.LOCKPICK_BIT + Collisions.SHELF_BIT + Collisions.WIRE_BIT + Collisions.GERADOR_BIT;
-
+        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit());
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
-        
+
+        playerSprite.setSize(128 * 4/ TerrorGame.SCALE, 128 * 4/ TerrorGame.SCALE);
+        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (232 / TerrorGame.SCALE));
+
         //parametro minigameManager criado e atribuido a variavel global minigameManager.
         this.minigameManager = minigameManager;
-
         this.inventoryManager = inventoryManager;
     }
 
+    int checkState(float walkingVelocity){
+        if (walkingVelocity != 0){
+            //System.out.println("andando");
+            return 1;
+        } else {
+            //System.out.println("parado");
+            return 0;
+        }
+    }
+
+    Array<TextureRegion> setFrameAnimation(Texture texture, int framesLinha, int framesTotal){
+        Array<TextureRegion> spritesFrames = new Array<TextureRegion>();
+        int frameWidth = 720;
+        int frameHeight = 720;
+        for (int i = 0; i < framesTotal; i++){
+            TextureRegion textureRegion = new TextureRegion(texture, frameWidth + frameWidth * i % framesLinha, frameHeight + frameHeight * i % framesLinha );
+            spritesFrames.add(textureRegion);
+        }
+        System.out.println(spritesFrames.size);
+        return spritesFrames;
+    }
+
+    public TextureRegion changeFrame(float delta){
+        currentState = checkState(isWalking);
+        TextureRegion textureRegion;
+        if (currentState == 0) {
+            textureRegion = animationStopped.getKeyFrame(frameChangeTimer, true);
+        } else {
+            textureRegion = animationWalking.getKeyFrame(frameChangeTimer, true);
+        }
+
+        if ((isWalking < 0 || isLookingRight) && !textureRegion.isFlipX()){
+            textureRegion.flip(true, false);
+            isLookingRight = false;
+        } else if ((isWalking > 0 || !isLookingRight) && textureRegion.isFlipX()) {
+            textureRegion.flip(true, false);
+            isLookingRight = true;
+        }
+
+        frameChangeTimer = (currentState == formerState) ? frameChangeTimer + delta:0;
+        formerState = currentState;
+
+//        System.out.println(formerState);
+//        System.out.println(currentState);
+//        System.out.println();
+
+        return textureRegion;
+    }
+
     public void handleInput() {
-        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
+        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !canChangeRoom){
             isWalking = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 //                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
                 isWalking = 3.5f;
-
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -87,7 +169,6 @@ public class Player {
             }
 
             player.setLinearVelocity(new Vector2(isWalking, 0));
-
 
             if (Gdx.input.isKeyPressed(Input.Keys.I)){
                 if (!inventoryManager.getInventoryOpen()) {
@@ -113,6 +194,32 @@ public class Player {
                 minigameManager.closeMinigame(minigameID);
             }
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F) && isTouchingDoor){
+            setCanChangeRoom(true);
+        }
+
+    }
+
+    public void playerUpdate(float delta){
+        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (232 / TerrorGame.SCALE));
+        playerSprite.setRegion(changeFrame(delta));
+    }
+
+    public void draw(SpriteBatch batch){
+        playerSprite.draw(batch);
+    }
+
+    public void setTouchingDoor(boolean touchingDoor) {
+        isTouchingDoor = touchingDoor;
+    }
+
+    public void setCanChangeRoom(boolean canChangeRoom) {
+        this.canChangeRoom = canChangeRoom;
+    }
+
+    public boolean getCanChangeRoom() {
+        return canChangeRoom;
     }
 
     public void setminigameID(int minigameID) {

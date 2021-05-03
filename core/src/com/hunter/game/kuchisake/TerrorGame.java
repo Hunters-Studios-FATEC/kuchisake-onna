@@ -2,7 +2,8 @@ package com.hunter.game.kuchisake;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.hunter.game.kuchisake.screen.Screen;
+import com.hunter.game.kuchisake.screen.Sala01;
+import com.hunter.game.kuchisake.screen.StandardRoom;
 
 public class TerrorGame extends Game{
 	
@@ -15,7 +16,7 @@ public class TerrorGame extends Game{
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new Screen(this));
+		this.setScreen(new Sala01(this, 1000));
 	}
 
 	@Override

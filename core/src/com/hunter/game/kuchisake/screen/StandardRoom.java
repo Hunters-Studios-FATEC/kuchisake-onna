@@ -2,8 +2,11 @@ package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -18,9 +21,11 @@ import com.hunter.game.kuchisake.tools.WorldContactListener;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import javax.swing.Spring;
+
 //import com.hunter.game.kuchisake.teste.WireMinigame;
 
-public class Screen implements com.badlogic.gdx.Screen {
+public class StandardRoom implements com.badlogic.gdx.Screen {
 	
 	TerrorGame game;
 	
@@ -48,8 +53,15 @@ public class Screen implements com.badlogic.gdx.Screen {
 
 	InventoryManager inventoryManager;
 
+	String direction;
+	int doorNum;
+
+	Texture portaFechada;
+	Texture portaAberta;
+
+	float doorAnimationTimer = 0f;
 	
-	public Screen(TerrorGame game) {
+	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
 		this.game = game;
 
 		camera = new OrthographicCamera();
@@ -66,18 +78,19 @@ public class Screen implements com.badlogic.gdx.Screen {
 
 		inventoryManager = new InventoryManager(game.batch);
 		
-		collisions = new Collisions(world);
-		player = new Player(world, minigameManager, inventoryManager);
+		collisions = new Collisions(world, fundo_sala);
+		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX);
 		
-		world.setContactListener(new WorldContactListener(minigameManager, player));
+		world.setContactListener(new WorldContactListener(minigameManager, player, this));
 
 		debugRenderer = new Box2DDebugRenderer();
 
 		mapRenderer = collisions.getMapRenderer();
+
+		portaFechada = new Texture("porta1.png");
+		portaAberta = new Texture("porta2.png");
 	}
 
-
-	
 	void stepWorld(float dt) {
 		accumulator += (dt < 0.25f)? dt : 0.25f;
 		
@@ -91,6 +104,10 @@ public class Screen implements com.badlogic.gdx.Screen {
 		}
 	}
 
+	public void setChangeRoom(String up_or_down, int room_num){
+		direction = up_or_down;
+		doorNum = room_num;
+	}
 
 	@Override
 	public void show() {
@@ -109,17 +126,17 @@ public class Screen implements com.badlogic.gdx.Screen {
 		
 		collisions.getMapRenderer().render();
 		
-		game.batch.setProjectionMatrix(camera.combined);
-		game.batch.begin();
-		game.batch.end();
-		
-		debugRenderer.render(world, camera.combined);
-
-		for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}
-
-		inventoryManager.inventoryUpdate(delta);
+//		game.batch.setProjectionMatrix(camera.combined);
+//		game.batch.begin();
+//		game.batch.end();
+//
+//		debugRenderer.render(world, camera.combined);
+//
+//		for (int i = 0; i < maxMinigameID; i++) {
+//				minigameManager.minigameUpdate(delta, i);
+//		}
+//
+//		inventoryManager.inventoryUpdate(delta);
 	}
 
 	@Override
@@ -156,10 +173,9 @@ public class Screen implements com.badlogic.gdx.Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		game.batch.dispose();
+		//game.batch.dispose();
 		world.dispose();
 		player.getPolygonShape().dispose();
-		collisions.getMap().dispose();
 		collisions.getPolygonShape().dispose();
 		debugRenderer.dispose();
 		minigameManager.minigameDispose();
