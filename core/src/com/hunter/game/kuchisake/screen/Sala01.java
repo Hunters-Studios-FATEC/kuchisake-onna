@@ -1,9 +1,6 @@
 package com.hunter.game.kuchisake.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.hunter.game.kuchisake.TerrorGame;
 
@@ -17,7 +14,7 @@ public class Sala01 extends StandardRoom implements Screen {
         collisions.CreateCollisions(1750, "doorUp1",280, collisions.getPortaBit());
 
         porta1 = new Sprite(portaFechada);
-        porta1.setSize(porta1.getWidth() / TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
+        porta1.setSize((porta1.getWidth() / TerrorGame.SCALE) * 1.5f, (porta1.getHeight() / TerrorGame.SCALE) * 1.5f);
         porta1.setPosition(1750 / TerrorGame.SCALE - porta1.getWidth() / 2, 160 / TerrorGame.SCALE);
     }
 
@@ -50,9 +47,7 @@ public class Sala01 extends StandardRoom implements Screen {
 
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 1){
-                porta1 = new Sprite(portaAberta);
-                porta1.setSize(porta1.getWidth() / TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
-                porta1.setPosition(1750 / TerrorGame.SCALE - porta1.getWidth() / 2, 160 / TerrorGame.SCALE);
+                porta1.setTexture(portaAberta);
                 System.out.println("muda porra");
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){

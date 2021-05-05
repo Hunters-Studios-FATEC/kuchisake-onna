@@ -100,8 +100,8 @@ public class Player {
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
 
-        playerSprite.setSize(128 * 4/ TerrorGame.SCALE, 128 * 4/ TerrorGame.SCALE);
-        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (232 / TerrorGame.SCALE));
+        playerSprite.setSize(128 * 5/ TerrorGame.SCALE, 128 * 5/ TerrorGame.SCALE);
+        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
 
         //parametro minigameManager criado e atribuido a variavel global minigameManager.
         this.minigameManager = minigameManager;
@@ -220,7 +220,7 @@ public class Player {
     }
 
     public void playerUpdate(float delta){
-        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (232 / TerrorGame.SCALE));
+        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
         playerSprite.setRegion(changeFrame(delta));
     }
 

@@ -1,6 +1,8 @@
 package com.hunter.game.kuchisake.startMenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,9 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.hunter.game.kuchisake.TerrorGame;
-import com.hunter.game.kuchisake.screen.Sala01;
 
-public class ButtonStartGame extends Actor {
+public class ButtonControles extends Actor {
     Texture image;
     Sprite botao;
 
@@ -19,10 +20,11 @@ public class ButtonStartGame extends Actor {
     float posY;
     TerrorGame game;
 
-    public ButtonStartGame(String imagem_path, float posX, float posY, TerrorGame terrorGame){
+    boolean controlesCarregados;
+
+    public ButtonControles(String imagem_path, float posX, float posY){
         image = new Texture(imagem_path);
         botao = new Sprite(image);
-        game = terrorGame;
 
         this.posX = posX;
         this.posY = posY;
@@ -43,27 +45,40 @@ public class ButtonStartGame extends Actor {
                 boolean buttonPressed = Gdx.input.isTouched();
 
                 if ((checaLargura && checaAltura) && buttonPressed){
-                    loadScene();
+                    loadControlesImage();
                     System.out.println("INicia porra");
                 }
-
                 System.out.println(event.getStageX() + " , " + event.getStageY());
+                return true;
+            }
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && controlesCarregados){
+                    retirarImagemControles();
+                    controlesCarregados = false;
+                }
                 return true;
             }
         });
 
     }
 
-
-    public void loadScene(){
-        game.setScreen(new Sala01(game, 1000 / TerrorGame.SCALE));
+    public void loadControlesImage(){
+        System.out.println("Controles aparacendo");
     }
 
-    public Sprite getBotaoStart() {
-        return botao;
-    }
-
+    @Override
     public void draw(Batch batch, float parentAlpha) {
         botao.draw(batch);
     }
+
+    public void retirarImagemControles(){
+        System.out.println("Controles saíram");
+    }
+
+    public Sprite getBotaoControle() {
+        return botao;
+    }
+
 }
