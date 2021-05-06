@@ -8,7 +8,7 @@ public class Sala02 extends StandardRoom {
     Sprite porta1;
 
     public Sala02(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/saguao.tmx", playerDoorPosX);
+        super(game, "Tilesets/saguao.tmx",5, 160, playerDoorPosX);
         collisions.CreateCollisions(1750, "doorDown1",280, collisions.getPortaBit());
 
         porta1 = new Sprite(portaFechada);

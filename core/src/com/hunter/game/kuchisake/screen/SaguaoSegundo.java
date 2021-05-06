@@ -1,29 +1,40 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 
-public class Sala01 extends StandardRoom implements Screen {
+public class SaguaoSegundo extends StandardRoom implements Screen {
 
+    TextureAtlas textureAtlas;
+
+    TextureRegion corrimao;
+    TextureRegion portaAberta;
+    TextureRegion portaFechada;
+
+    Sprite corri;
     Sprite porta1;
+    Sprite porta2;
 
+    public SaguaoSegundo(TerrorGame game, float playerDoorPosX) {
+        super(game, "Tilesets/saguao_segundo.tmx",3, 160 + 750 - 128, playerDoorPosX);
+        collisions.CreateCollisions(1750, "DoorUp1",320, collisions.getPortaBit());
 
-    public Sala01(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/saguao_primeiro.tmx",5, 160,playerDoorPosX);
-        collisions.CreateCollisions(1750, "doorUp1",280, collisions.getPortaBit());
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/SaguaoPrimeiroPack.atlas", TextureAtlas.class);
+        corrimao = textureAtlas.findRegion("corrimao");
+        portaAberta = textureAtlas.findRegion("porta1");
+        portaFechada = textureAtlas.findRegion("porta2");
 
+        corri = new Sprite(corrimao);
         porta1 = new Sprite(portaFechada);
-        porta1.setSize((porta1.getWidth() / TerrorGame.SCALE) * 1.5f, (porta1.getHeight() / TerrorGame.SCALE) * 1.5f);
-        porta1.setPosition(1750 / TerrorGame.SCALE - porta1.getWidth() / 2, 160 / TerrorGame.SCALE);
-    }
+        porta2 = new Sprite(portaFechada);
 
+        corri.setSize(corri.getWidth() / TerrorGame.SCALE, corri.getHeight() / TerrorGame.SCALE);
+        corri.setPosition(0, 10.46f - corri.getHeight());
 
-
-    @Override
-    public void show() {
     }
 
     @Override
@@ -35,31 +46,30 @@ public class Sala01 extends StandardRoom implements Screen {
         player.playerUpdate(delta);
 
         game.batch.begin();
-        porta1.draw(game.batch);
         player.draw(game.batch);
+        corri.draw(game.batch);
         game.batch.end();
 
-		debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
 		}*/
 
-		//inventoryManager.inventoryUpdate(delta);
+        //inventoryManager.inventoryUpdate(delta);
 
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 1){
-                porta1.setTexture(portaAberta);
                 System.out.println("muda porra");
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
-                    
+
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
-                	game.getAssetManager().load("Tilesets/saguao.tmx", TiledMap.class);
-                	
-                	game.getAssetManager().finishLoading();
-                	
+                    game.getAssetManager().load("Tilesets/saguao.tmx", TiledMap.class);
+
+                    game.getAssetManager().finishLoading();
+
                     game.setScreen(new Sala02(game, 1750));
                 }
 

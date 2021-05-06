@@ -60,20 +60,22 @@ public class Player {
 
     public Array<TextureRegion> testeAnima;
 
-    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, TerrorGame game) {
+    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, float playerSizeMultiplier, float PlayerPosY, TerrorGame game) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
 
-        playerWalk = game.getAssetManager().get("sprites_protag_right.png", Texture.class);
-        playerStop = game.getAssetManager().get("sprite_stoped_right.png", Texture.class);
+        playerWalk = game.getAssetManager().get("CharactersAssets/sprites_protag_right.png", Texture.class);
+        playerStop = game.getAssetManager().get("CharactersAssets/sprite_stoped_right.png", Texture.class);
 
         animationStopped = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerStop, 4, 6, 24));
         animationWalking = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerWalk, 3, 3, 7));
         playerSprite = new Sprite(new TextureRegion(playerStop, 720, 720));
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(initialX / TerrorGame.SCALE, 160 / TerrorGame.SCALE + 1.28f);
+
+        // Pos Y padrão para as salas - 160 / TerrorGame.SCALE + 1.28f
+        bodyDef.position.set(initialX / TerrorGame.SCALE, PlayerPosY / TerrorGame.SCALE + 1.28f);
         player = world.createBody(bodyDef);
 
         polygonShape.setAsBox(128 / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
@@ -104,7 +106,8 @@ public class Player {
         
         collisionSensor.dispose();
 
-        playerSprite.setSize(128 * 5/ TerrorGame.SCALE, 128 * 5/ TerrorGame.SCALE);
+        // 5 é o padrão pro player size multiplier.
+        playerSprite.setSize(128 * playerSizeMultiplier/ TerrorGame.SCALE, 128 * playerSizeMultiplier/ TerrorGame.SCALE);
         playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
 
         //parametro minigameManager criado e atribuido a variavel global minigameManager.
@@ -140,6 +143,9 @@ public class Player {
             }
         }
         return spritesFrames;
+    }
+
+    public void shrinkSize(){
     }
 
 

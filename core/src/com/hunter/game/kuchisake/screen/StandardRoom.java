@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -60,8 +61,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	Texture portaAberta;
 
 	float doorAnimationTimer = 0f;
-	
-	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
+
+	public StandardRoom(TerrorGame game, String fundo_sala, float playerSizemult, float playerPosY, float playerDoorPosX) {
 		this.game = game;
 
 		camera = new OrthographicCamera();
@@ -79,7 +80,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		inventoryManager = new InventoryManager(game);
 		
 		collisions = new Collisions(world, fundo_sala, game);
-		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, game);
+		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, playerSizemult, playerPosY, game);
 		
 		world.setContactListener(new WorldContactListener(minigameManager, player, this));
 
@@ -87,8 +88,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 		mapRenderer = collisions.getMapRenderer();
 
-		portaFechada = game.getAssetManager().get("porta1.png", Texture.class);
-		portaAberta = game.getAssetManager().get("porta2.png", Texture.class);
+//		portaFechada = game.getAssetManager().get("PortasEEscadas/porta1.png", Texture.class);
+//		portaAberta = game.getAssetManager().get("PortasEEscadas/porta2.png", Texture.class);
 	}
 
 	void stepWorld(float dt) {
