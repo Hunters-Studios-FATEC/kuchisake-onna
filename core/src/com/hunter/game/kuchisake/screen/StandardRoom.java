@@ -76,10 +76,10 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		minigameManager = new MinigameManager(game.batch, player);
 
-		inventoryManager = new InventoryManager(game.batch);
+		inventoryManager = new InventoryManager(game);
 		
-		collisions = new Collisions(world, fundo_sala);
-		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX);
+		collisions = new Collisions(world, fundo_sala, game);
+		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, game);
 		
 		world.setContactListener(new WorldContactListener(minigameManager, player, this));
 
@@ -87,8 +87,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 		mapRenderer = collisions.getMapRenderer();
 
-		portaFechada = new Texture("porta1.png");
-		portaAberta = new Texture("porta2.png");
+		portaFechada = game.getAssetManager().get("porta1.png", Texture.class);
+		portaAberta = game.getAssetManager().get("porta2.png", Texture.class);
 	}
 
 	void stepWorld(float dt) {
@@ -145,11 +145,11 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		viewport.update(width, height);
 		game.batch.setProjectionMatrix(camera.combined);
 
-		for (int i = 0; i < maxMinigameID; i++) {
+		/*for (int i = 0; i < maxMinigameID; i++) {
 			minigameManager.minigameResize(width, height, i);
-		}
+		}*/
 
-		inventoryManager.inventoryResize(width, height);
+		//inventoryManager.inventoryResize(width, height);
 	}
 	
 	@Override
@@ -175,10 +175,11 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		// TODO Auto-generated method stub
 		//game.batch.dispose();
 		world.dispose();
-		player.getPolygonShape().dispose();
-		collisions.getPolygonShape().dispose();
+		//player.getPolygonShape().dispose();
+		//collisions.getPolygonShape().dispose();
+		mapRenderer.dispose();
 		debugRenderer.dispose();
-		minigameManager.minigameDispose();
+		//minigameManager.minigameDispose();
 		inventoryManager.inventoryDispose();
 	}
 }

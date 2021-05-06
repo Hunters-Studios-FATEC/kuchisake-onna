@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.hunter.game.kuchisake.TerrorGame;
 
 public class SelectionArrow extends Actor {
 
@@ -15,7 +16,7 @@ public class SelectionArrow extends Actor {
     boolean isRightArrow;
     InventoryItem inventoryItem;
 
-    public SelectionArrow(float xPos, float yPos, boolean rigthArrow, InventoryItem inventoryIt){
+    public SelectionArrow(float xPos, float yPos, boolean rigthArrow, InventoryItem inventoryIt, TerrorGame game){
         float posX = xPos;
         float posY = yPos;
 
@@ -24,7 +25,7 @@ public class SelectionArrow extends Actor {
         float seta_width = 1f; // width e height ja divididos pela escala - 100.
         float seta_height = 1f;
 
-        setaTexture = new Texture("arrow.png");
+        setaTexture = game.getAssetManager().get("arrow.png", Texture.class);
         seta = new Sprite(setaTexture);
         this.inventoryItem = inventoryIt;
 

@@ -60,13 +60,13 @@ public class Player {
 
     public Array<TextureRegion> testeAnima;
 
-    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX) {
+    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, TerrorGame game) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
 
-        playerWalk = new Texture("sprites_protag_right.png");
-        playerStop = new Texture("sprite_stoped_right.png");
+        playerWalk = game.getAssetManager().get("sprites_protag_right.png", Texture.class);
+        playerStop = game.getAssetManager().get("sprite_stoped_right.png", Texture.class);
 
         animationStopped = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerStop, 4, 6, 24));
         animationWalking = new Animation<TextureRegion>(transitionTime, setFrameAnimation(playerWalk, 3, 3, 7));
@@ -83,6 +83,8 @@ public class Player {
         fixtureDef.filter.maskBits = collisions.getGroundBit();
 
         fixture = player.createFixture(fixtureDef);
+        
+        polygonShape.dispose();
 
         fixtureDef = new FixtureDef();
 
@@ -99,6 +101,8 @@ public class Player {
         fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit());
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
+        
+        collisionSensor.dispose();
 
         playerSprite.setSize(128 * 5/ TerrorGame.SCALE, 128 * 5/ TerrorGame.SCALE);
         playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
@@ -248,7 +252,8 @@ public class Player {
         return player;
     }
 
-    public PolygonShape getPolygonShape() {
+    /*public PolygonShape getPolygonShape() {
         return polygonShape;
-    }
+    }*/
+    
 }

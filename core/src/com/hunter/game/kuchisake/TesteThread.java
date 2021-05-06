@@ -15,19 +15,6 @@ public class TesteThread {
 
 	ArrayList<Integer[]> path;
 	ArrayList<ArrayList<Integer[]>> paths;
-
-	int roomLine = 2;
-	int roomColumn = 0;
-	//int sector = 1;
-
-	int endLine = 0;
-	int endColumn = 0;
-	int endSector = 1;
-	
-	boolean firstLoop = true;
-	boolean foundRoute = false;
-	
-	int pathIndex = 0;
 	
 	public TesteThread() {
 		doorsRoom0 = new Object[][] {{1}, {"doorUp1-1", 1}, {"doorUp2-2", "doorUp3-2", 1}, {1}};
@@ -40,7 +27,18 @@ public class TesteThread {
 		paths = new ArrayList<ArrayList<Integer[]>>();
 	}
 	
-	public void testarThread() {
+	public void testarThread(int initialLine, int initialColumn, int finalLine, int finalColumn) {
+		int roomLine = initialLine;
+		int roomColumn = initialColumn;
+
+		int endLine = finalLine;
+		int endColumn = finalColumn;
+		
+		boolean firstLoop = true;
+		boolean foundRoute = false;
+		
+		int pathIndex = 0;
+		
 		while(!foundRoute) {
 			if(roomLine == endLine) {
 				boolean canGo = true;
@@ -103,7 +101,7 @@ public class TesteThread {
 						}
 					}
 					
-					Object[][] previousRoomsArray = new Object[][] {};
+					/*Object[][] previousRoomsArray = new Object[][] {};
 					Object[][] nextRoomsArray = new Object[][] {};
 					
 					if(roomLine > 0) {
@@ -112,7 +110,7 @@ public class TesteThread {
 					
 					if(roomLine < doors.length - 1) {
 						nextRoomsArray = doors[roomLine + 1];
-					}
+					}*/
 					
 					ArrayList<Integer> addedSectors = new ArrayList<Integer>();
 					boolean previousRoomsHasDoors = false;
@@ -132,6 +130,7 @@ public class TesteThread {
 									for(Object door : doorsArray) {
 										doorsUserData.add(door.toString());
 									}
+									
 									
 									for(String door : doorsUserData) {
 										if(door.contains("doorDown") && door.contains("-" + Integer.toString(endSector)) &&
@@ -235,8 +234,8 @@ public class TesteThread {
 					
 					for(String targetDoor : targetSectorDoors) {
 						if(targetDoor.contains("doorUp")) {
-							int sectorIndex = targetDoor.indexOf("-");
-							int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
+							//int sectorIndex = targetDoor.indexOf("-");
+							//int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
 							
 							for(int i = 0; i < roomsArray.length; i++) {
 								if((int) roomsArray[i][roomsArray[i].length - 1] == sector) {
@@ -370,7 +369,7 @@ public class TesteThread {
 					}
 				}
 				
-				Object[][] previousRoomsArray = new Object[][] {};
+				/*Object[][] previousRoomsArray = new Object[][] {};
 				Object[][] nextRoomsArray = new Object[][] {};
 				
 				if(roomLine > 0) {
@@ -379,7 +378,7 @@ public class TesteThread {
 				
 				if(roomLine < doors.length - 1) {
 					nextRoomsArray = doors[roomLine + 1];
-				}
+				}*/
 				
 				ArrayList<Integer> addedSectors = new ArrayList<Integer>();
 				boolean previousRoomsHasDoors = false;
@@ -387,7 +386,7 @@ public class TesteThread {
 				
 				for(String targetDoor : targetSectorDoors) {
 					if(targetDoor.contains("doorDown")) {
-						int sectorIndex = targetDoor.indexOf("-");
+						//int sectorIndex = targetDoor.indexOf("-");
 						//int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
 						//int roomID = Integer.parseInt(targetDoor.substring("doorDown".length(), sectorIndex));
 						
@@ -501,7 +500,7 @@ public class TesteThread {
 				
 				for(String targetDoor : targetSectorDoors) {
 					if(targetDoor.contains("doorUp")) {
-						int sectorIndex = targetDoor.indexOf("-");
+						//int sectorIndex = targetDoor.indexOf("-");
 						//int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
 						
 						for(int i = 0; i < roomsArray.length; i++) {
@@ -617,7 +616,7 @@ public class TesteThread {
 				int sector = (int) roomsArray[roomColumn][roomsArray[roomColumn].length - 1];
 				int endSector = (int) targetLineRooms[endColumn][targetLineRooms[endColumn].length - 1];
 				
-				Object[][] previousRoomsArray = new Object[][] {};
+				/*Object[][] previousRoomsArray = new Object[][] {};
 				Object[][] nextRoomsArray = new Object[][] {};
 				
 				if(roomLine > 0) {
@@ -626,7 +625,7 @@ public class TesteThread {
 				
 				if(roomLine < doors.length - 1) {
 					nextRoomsArray = doors[roomLine + 1];
-				}
+				}*/
 				
 				ArrayList<Integer> addedSectors = new ArrayList<Integer>();
 				//boolean previousRoomsHasDoors = false;
@@ -757,33 +756,12 @@ public class TesteThread {
 			
 			for(ArrayList<Integer[]> foundPath : paths) {
 				if(foundPath.get(foundPath.size() - 1)[0].equals(endLine) && 
-				   foundPath.get(foundPath.size() - 1)[1].equals(endColumn) && 
-				   foundPath.get(foundPath.size() - 1)[2].equals(endSector)) {
+				   foundPath.get(foundPath.size() - 1)[1].equals(endColumn)) {
 					path.addAll(foundPath);
 					foundRoute = true;
 					break;
 				}
 			}
-			
-			/*System.out.println("Mostrando todos os caminhos da lista Paths: ");
-			for(ArrayList<Integer[]> teste : paths) {
-				String caminho = "";
-				
-				for(Integer[] posicao : teste) {
-					String pos  = "(";
-					for(Integer num : posicao) {
-						pos += num.toString();
-						pos += " - ";
-					}
-					pos += ")";
-					
-					caminho += pos;
-					caminho += " -> ";
-				}
-				
-				System.out.println(caminho);
-			}
-			System.out.println("///////////////////////////////////////////////////////");*/
 		}
 		
 		

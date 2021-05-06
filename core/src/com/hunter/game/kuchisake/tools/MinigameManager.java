@@ -37,11 +37,11 @@ public class MinigameManager {
     public MinigameManager(SpriteBatch batch, Player player){
     	//SpriteBatch spriteBatch = batch; -> A variavel global spriteBatch nao estava recebendo o parametro batch.
         spriteBatch = batch;
-        hideMinigame = new Hide(batch);
+        /*hideMinigame = new Hide(batch);
         lockPickMinigame = new LockPickMinigame(batch);
         minigameBook = new MinigameBook(batch);
         wireMinigame = new WireMinigame(batch);
-        geradorMinigame = new MinigameGerador(batch);
+        geradorMinigame = new MinigameGerador(batch);*/
         minigamePlayer = player;
 
 //        int hideMinigame_ID = 0;

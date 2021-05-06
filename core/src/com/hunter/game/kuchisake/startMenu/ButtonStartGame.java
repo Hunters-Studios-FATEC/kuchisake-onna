@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -17,16 +20,18 @@ public class ButtonStartGame extends Actor {
 
     float posX;
     float posY;
+    
     TerrorGame game;
+    SceneMenu menu;
 
-    public ButtonStartGame(String imagem_path, float posX, float posY, TerrorGame terrorGame){
-        image = new Texture(imagem_path);
-        botao = new Sprite(image);
+    public ButtonStartGame(String imagem_path, float posX, float posY, TerrorGame terrorGame, SceneMenu menu){
         game = terrorGame;
+        
+        image = game.getAssetManager().get(imagem_path, Texture.class);
+        botao = new Sprite(image);
 
         this.posX = posX;
         this.posY = posY;
-
 
         botao.setSize(botao.getWidth() / TerrorGame.SCALE, botao.getHeight() / TerrorGame.SCALE);
         botao.setPosition(posX - botao.getWidth() / 2, posY);
@@ -40,9 +45,9 @@ public class ButtonStartGame extends Actor {
                 boolean checaLargura = (event.getStageX() >= botao.getX() && event.getStageX() <= botao.getX() + botao.getWidth());
                 boolean checaAltura = (event.getStageY() >= botao.getY() && event.getStageY() <= botao.getY() + botao.getHeight());
 
-                boolean buttonPressed = Gdx.input.isTouched();
+                //boolean buttonPressed = Gdx.input.isTouched();
 
-                if ((checaLargura && checaAltura) && buttonPressed){
+                if (checaLargura && checaAltura){
                     loadScene();
                     System.out.println("INicia porra");
                 }
@@ -56,6 +61,22 @@ public class ButtonStartGame extends Actor {
 
 
     public void loadScene(){
+    	game.getAssetManager().unload("ButtonAssets/controles_rascunho.png");
+    	game.getAssetManager().unload("ButtonAssets/Logo_rascunho.png");
+    	game.getAssetManager().unload("ButtonAssets/start_rascunho.png");
+    	
+    	game.getAssetManager().setLoader(TiledMap.class, new TmxMapLoader());
+    	
+    	game.getAssetManager().load("sprites_protag_right.png", Texture.class);
+    	game.getAssetManager().load("sprite_stoped_right.png", Texture.class);
+    	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+    	game.getAssetManager().load("porta1.png", Texture.class);
+    	game.getAssetManager().load("porta2.png", Texture.class);
+    	game.getAssetManager().load("arrow.png", Texture.class);
+    	game.getAssetManager().load("arrow.png", Texture.class);
+    	
+    	game.getAssetManager().finishLoading();
+    	
         game.setScreen(new Sala01(game, 1000 / TerrorGame.SCALE));
     }
 

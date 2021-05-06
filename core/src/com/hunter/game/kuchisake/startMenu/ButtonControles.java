@@ -22,8 +22,10 @@ public class ButtonControles extends Actor {
 
     boolean controlesCarregados;
 
-    public ButtonControles(String imagem_path, float posX, float posY){
-        image = new Texture(imagem_path);
+    public ButtonControles(String imagem_path, float posX, float posY, TerrorGame terrorGame){
+    	game = terrorGame;
+    	
+        image = game.getAssetManager().get(imagem_path, Texture.class);
         botao = new Sprite(image);
 
         this.posX = posX;
@@ -42,9 +44,9 @@ public class ButtonControles extends Actor {
                 boolean checaLargura = (event.getStageX() >= botao.getX() && event.getStageX() <= botao.getX() + botao.getWidth());
                 boolean checaAltura = (event.getStageY() >= botao.getY() && event.getStageY() <= botao.getY() + botao.getHeight());
 
-                boolean buttonPressed = Gdx.input.isTouched();
+                //boolean buttonPressed = Gdx.input.isTouched();
 
-                if ((checaLargura && checaAltura) && buttonPressed){
+                if (checaLargura && checaAltura){
                     loadControlesImage();
                     System.out.println("INicia porra");
                 }

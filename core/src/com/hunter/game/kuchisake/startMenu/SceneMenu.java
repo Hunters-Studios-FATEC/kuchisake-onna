@@ -36,13 +36,13 @@ public class SceneMenu implements Screen {
         orthographicCamera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         orthographicCamera.update();
 
-        logo = new Texture("ButtonAssets//Logo_rascunho.png");
+        logo = terrorGame.getAssetManager().get("ButtonAssets/Logo_rascunho.png", Texture.class);
         logoSprite = new Sprite(logo);
         logoSprite.setSize(logoSprite.getWidth() / TerrorGame.SCALE, logoSprite.getHeight() / TerrorGame.SCALE);
         logoSprite.setPosition(viewport.getWorldWidth() / 2 - logoSprite.getWidth() / 2, viewport.getWorldHeight() / 2 + 1);
 
-        this.start = new ButtonStartGame("ButtonAssets/start_rascunho.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 1, terrorGame);
-        this.controls = new ButtonControles("ButtonAssets/controles_rascunho.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f);
+        this.start = new ButtonStartGame("ButtonAssets/start_rascunho.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 1, terrorGame, this);
+        this.controls = new ButtonControles("ButtonAssets/controles_rascunho.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame);
         this.contin = new ButtonContinue("ButtonAssets/controles_rascunho.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 3.5f, terrorGame);
 
         stage = new Stage(viewport, terrorGame.batch);
@@ -51,6 +51,10 @@ public class SceneMenu implements Screen {
         stage.addActor(start);
         stage.addActor(contin);
         stage.addActor(controls);
+    }
+    
+    public Stage getStage() {
+    	return stage;
     }
 
     @Override
@@ -90,11 +94,12 @@ public class SceneMenu implements Screen {
 
     @Override
     public void hide() {
-
+    	stage.clear();
+    	dispose();
     }
 
     @Override
     public void dispose() {
-
+    	stage.dispose();
     }
 }

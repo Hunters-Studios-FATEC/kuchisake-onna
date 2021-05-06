@@ -1,5 +1,6 @@
 package com.hunter.game.kuchisake.screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 
 public class Sala02 extends StandardRoom {
@@ -39,11 +40,11 @@ public class Sala02 extends StandardRoom {
 
         debugRenderer.render(world, camera.combined);
 
-        for (int i = 0; i < maxMinigameID; i++) {
+        /*for (int i = 0; i < maxMinigameID; i++) {
             minigameManager.minigameUpdate(delta, i);
-        }
+        }*/
 
-        inventoryManager.inventoryUpdate(delta);
+        //inventoryManager.inventoryUpdate(delta);
 
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 1){
@@ -52,6 +53,12 @@ public class Sala02 extends StandardRoom {
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
+                    
+                    game.getAssetManager().unload("Tilesets/saguao.tmx");
+                	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+                	
+                	game.getAssetManager().finishLoading();
+                    
                     game.setScreen(new Sala01(game, 1750));
                 }
             }

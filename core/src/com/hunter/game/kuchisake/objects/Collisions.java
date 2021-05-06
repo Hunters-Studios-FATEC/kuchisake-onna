@@ -1,5 +1,6 @@
 package com.hunter.game.kuchisake.objects;
 
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -27,11 +28,9 @@ public class Collisions {
     final short GERADOR_BIT = 64;
     final short PORTA_BIT = 128;
 
-    PolygonShape polygonShape = new PolygonShape();
+    //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
     OrthogonalTiledMapRenderer mapRenderer;
-
-
 
     Body shelf;
     Body body1;
@@ -42,7 +41,7 @@ public class Collisions {
     Body invisible_wall;
     World world;
 
-    public Collisions(World world, String mapa_path) {
+    public Collisions(World world, String mapa_path, TerrorGame game) {
         FixtureDef fixtureDef = new FixtureDef();
 
         this.world = world;
@@ -55,7 +54,7 @@ public class Collisions {
         fixtureDef.filter.maskBits = PLAYER_BIT;
 
         TmxMapLoader mapLoader = new TmxMapLoader();
-        map = mapLoader.load(mapa_path);
+        map = game.getAssetManager().get(mapa_path, TiledMap.class);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / TerrorGame.SCALE);
 
         for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
@@ -72,6 +71,8 @@ public class Collisions {
             fixtureDef.filter.categoryBits = GROUND_BIT;
             fixtureDef.filter.maskBits = PLAYER_BIT;
             invisible_wall.createFixture(fixtureDef);
+            
+            polygonShape.dispose();
         }
 
 //        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
@@ -146,11 +147,13 @@ public class Collisions {
         fixtureDef.filter.maskBits = PLAYER_BIT;
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(collision_tag);
+        
+        porygonShape.dispose();
     }
 
-    public PolygonShape getPolygonShape() {
+    /*public PolygonShape getPolygonShape() {
         return polygonShape;
-    }
+    }*/
 
     public TiledMap getMap() {
         return map;

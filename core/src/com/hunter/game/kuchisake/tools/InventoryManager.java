@@ -27,22 +27,27 @@ public class InventoryManager {
     InventoryItem inventoryItem;
 
     boolean isInventoryOpen = false;
+    
+    TerrorGame game;
 
-    public InventoryManager(SpriteBatch batch){
+    public InventoryManager(TerrorGame game){
         Table table = new Table();
-        spriteBatch = batch;
+        
+        this.game = game;
+        
+        spriteBatch = game.batch;
 
         viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, new OrthographicCamera());
 
         viewport.apply();
 
         stage = new Stage(viewport, spriteBatch);
-        background = new Background(0, 0);
+        //background = new Background(0, 0);
 
-        inventoryItem = new InventoryItem(viewport.getWorldWidth()  / 2, viewport.getWorldHeight() / 2);
+        //inventoryItem = new InventoryItem(viewport.getWorldWidth()  / 2, viewport.getWorldHeight() / 2);
 
-        selectionArrowLeft = new SelectionArrow((viewport.getWorldWidth() - 2)  / 2 - 7, viewport.getWorldHeight() / 2, false, inventoryItem);
-        selectionArrowRight = new SelectionArrow((viewport.getWorldWidth()) / 2 + 7, viewport.getWorldHeight() / 2, true, inventoryItem);
+        //selectionArrowLeft = new SelectionArrow((viewport.getWorldWidth() - 2)  / 2 - 7, viewport.getWorldHeight() / 2, false, inventoryItem, game);
+        //selectionArrowRight = new SelectionArrow((viewport.getWorldWidth()) / 2 + 7, viewport.getWorldHeight() / 2, true, inventoryItem, game);
     }
 
     public void openInventory(){
