@@ -133,14 +133,15 @@ public class Collisions {
 //        fixture4.setUserData("gerador");
     }
 
-    public void CreateCollisions(float posX, String collision_tag, float sprite_width, short category_bits){
+    public void CreateCollisions(float posX,float posY, String collision_tag, float sprite_width, short category_bits){
         BodyDef bodyDef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape porygonShape = new PolygonShape();
         Body body;
 
-        bodyDef.position.set(posX / TerrorGame.SCALE, 425 / TerrorGame.SCALE);
-        porygonShape.setAsBox(80 / TerrorGame.SCALE, sprite_width / TerrorGame.SCALE);
+        //Pos Y padrao - 425
+        bodyDef.position.set(posX / TerrorGame.SCALE, (posY + 128)  / TerrorGame.SCALE);
+        porygonShape.setAsBox(sprite_width / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
         body = world.createBody(bodyDef);
         fixtureDef.shape = porygonShape;
         fixtureDef.filter.categoryBits = category_bits;

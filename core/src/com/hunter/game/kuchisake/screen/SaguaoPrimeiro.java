@@ -10,8 +10,8 @@ public class SaguaoPrimeiro extends StandardRoom implements Screen {
     TextureAtlas textureAtlas;
 
     public SaguaoPrimeiro(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/saguao_primeiro.tmx",5, 160, playerDoorPosX);
-        collisions.CreateCollisions(1750, "DoorUp1",320, collisions.getPortaBit());
+        super(game, "Tilesets/saguao_primeiro.tmx", playerDoorPosX);
+        collisions.CreateCollisions(1750,425, "DoorUp1",320, collisions.getPortaBit());
         textureAtlas = new TextureAtlas("ScenaryAssets/SaguaoPrimeiroPack.atlas");
 
     }

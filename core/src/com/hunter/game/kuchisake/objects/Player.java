@@ -194,7 +194,7 @@ public class Player {
 
 
             // Vai abrir e fechar
-            if (Gdx.input.isKeyPressed(Input.Keys.I)){
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
                 if (inventoryManager.getInventoryOpen()) {
                     inventoryManager.openInventory();
                     inventoryManager.setInventoryOpen(false);
@@ -223,14 +223,15 @@ public class Player {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F) && isTouchingDoor){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor){
             setCanChangeRoom(true);
+            System.out.println("mudou");
         }
 
     }
 
     public void playerUpdate(float delta){
-        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
+        playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, player.getPosition().y - (1.28f + (36f / 720f) * playerSprite.getHeight()));
         playerSprite.setRegion(changeFrame(delta));
     }
 
@@ -242,6 +243,10 @@ public class Player {
         isTouchingDoor = touchingDoor;
     }
 
+    public void setSizeAndPosition(int sizeMultiplicator, float yPosition){
+        playerSprite.setSize(128 * sizeMultiplicator/ TerrorGame.SCALE, 128 * sizeMultiplicator/ TerrorGame.SCALE);
+        player.setTransform(player.getPosition().x, player.getPosition().y + yPosition, 0);
+    }
     public void setCanChangeRoom(boolean canChangeRoom) {
         this.canChangeRoom = canChangeRoom;
     }

@@ -12,8 +12,8 @@ public class Sala01 extends StandardRoom implements Screen {
 
 
     public Sala01(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/saguao_primeiro.tmx",5, 160,playerDoorPosX);
-        collisions.CreateCollisions(1750, "doorUp1",280, collisions.getPortaBit());
+        super(game, "Tilesets/saguao_primeiro.tmx",playerDoorPosX);
+        collisions.CreateCollisions(1750,425, "doorUp1",280, collisions.getPortaBit());
 
         porta1 = new Sprite(portaFechada);
         porta1.setSize((porta1.getWidth() / TerrorGame.SCALE) * 1.5f, (porta1.getHeight() / TerrorGame.SCALE) * 1.5f);

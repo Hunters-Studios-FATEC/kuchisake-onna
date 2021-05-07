@@ -1,11 +1,9 @@
 package com.hunter.game.kuchisake.startMenu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,8 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.hunter.game.kuchisake.TerrorGame;
-import com.hunter.game.kuchisake.screen.SaguaoSegundo;
-import com.hunter.game.kuchisake.screen.Sala01;
+import com.hunter.game.kuchisake.screen.Saguao;
 
 public class ButtonStartGame extends Actor {
     Texture image;
@@ -80,7 +77,7 @@ public class ButtonStartGame extends Actor {
     	
     	game.getAssetManager().finishLoading();
     	
-        game.setScreen(new SaguaoSegundo(game, 1000 / TerrorGame.SCALE));
+        game.setScreen(new Saguao(game, 1000 / TerrorGame.SCALE));
     }
 
     public Sprite getBotaoStart() {

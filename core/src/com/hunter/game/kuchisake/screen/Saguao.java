@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 
-public class SaguaoSegundo extends StandardRoom implements Screen {
+import javax.xml.stream.FactoryConfigurationError;
+
+public class Saguao extends StandardRoom implements Screen {
 
     TextureAtlas textureAtlas;
 
@@ -19,9 +21,14 @@ public class SaguaoSegundo extends StandardRoom implements Screen {
     Sprite porta1;
     Sprite porta2;
 
-    public SaguaoSegundo(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/saguao_segundo.tmx",3, 160 + 750 - 128, playerDoorPosX);
-        collisions.CreateCollisions(1750, "DoorUp1",320, collisions.getPortaBit());
+    boolean isSecondFloor = false;
+
+    public Saguao(TerrorGame game, float playerDoorPosX) {
+        super(game, "Tilesets/saguao_segundo.tmx", playerDoorPosX);
+        collisions.CreateCollisions(1750, 160,"doorUp1",320, collisions.getPortaBit());
+        collisions.CreateCollisions(1750, 585,"doorDown1",320, collisions.getPortaBit());
+//        collisions.CreateCollisions();
+//        collisions.CreateCollisions();
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/SaguaoPrimeiroPack.atlas", TextureAtlas.class);
         corrimao = textureAtlas.findRegion("corrimao");
@@ -46,8 +53,13 @@ public class SaguaoSegundo extends StandardRoom implements Screen {
         player.playerUpdate(delta);
 
         game.batch.begin();
-        player.draw(game.batch);
-        corri.draw(game.batch);
+        if (isSecondFloor){ ;
+            player.draw(game.batch);
+            corri.draw(game.batch);
+        }else {
+            corri.draw(game.batch);
+            player.draw(game.batch);
+        }
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -57,24 +69,24 @@ public class SaguaoSegundo extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
-
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 1){
-                System.out.println("muda porra");
-                doorAnimationTimer += delta;
-                if(doorAnimationTimer > 1.5f){
-                    dispose();
+                isSecondFloor = true;
+                player.setSizeAndPosition(3, 4.25f);
+//                System.out.println("subir");
+                player.setCanChangeRoom(false);
+            }
 
-                    game.getAssetManager().unload("Tilesets/corredor.tmx");
-                    game.getAssetManager().load("Tilesets/saguao.tmx", TiledMap.class);
-
-                    game.getAssetManager().finishLoading();
-
-                    game.setScreen(new Sala02(game, 1750));
-                }
+            if (direction == "doorDown" && doorNum == 1){
+                isSecondFloor = false;
+                player.setSizeAndPosition(5,-4.25f);
+//                System.out.println("descer");
+                player.setCanChangeRoom(false);
 
             }
         }
+
+
     }
 
     @Override

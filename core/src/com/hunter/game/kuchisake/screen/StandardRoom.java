@@ -62,7 +62,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 	float doorAnimationTimer = 0f;
 
-	public StandardRoom(TerrorGame game, String fundo_sala, float playerSizemult, float playerPosY, float playerDoorPosX) {
+	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
 		this.game = game;
 
 		camera = new OrthographicCamera();
@@ -80,7 +80,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		inventoryManager = new InventoryManager(game);
 		
 		collisions = new Collisions(world, fundo_sala, game);
-		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, playerSizemult, playerPosY, game);
+		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, 5, 160, game);
 		
 		world.setContactListener(new WorldContactListener(minigameManager, player, this));
 
