@@ -11,7 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.screen.CorredorQuarto;
+import com.hunter.game.kuchisake.screen.CorredorSalas;
+import com.hunter.game.kuchisake.screen.Quarto;
 import com.hunter.game.kuchisake.screen.Saguao;
+import com.hunter.game.kuchisake.screen.Sala1;
+import com.hunter.game.kuchisake.screen.Sala2;
 
 public class ButtonStartGame extends Actor {
     Texture image;
@@ -68,8 +73,22 @@ public class ButtonStartGame extends Actor {
     	
     	game.getAssetManager().load("CharactersAssets/sprites_protag_right.png", Texture.class);
     	game.getAssetManager().load("CharactersAssets/sprite_stoped_right.png", Texture.class);
+    	
     	game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
-    	game.getAssetManager().load("ScenaryAssets/SaguaoPrimeiroPack.atlas", TextureAtlas.class);
+    	game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
+    	
+    	//game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
+    	//game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+    	
+    	//game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
+    	//game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+    	
+    	//game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
+    	//game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+    	
+    	//game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+    	//game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+    	
 //    	game.getAssetManager().load("PortasEEscadas/porta1.png", Texture.class);
 //    	game.getAssetManager().load("PortasEEscadas/porta2.png", Texture.class);
 //    	game.getAssetManager().load("arrow.png", Texture.class);
@@ -77,7 +96,8 @@ public class ButtonStartGame extends Actor {
     	
     	game.getAssetManager().finishLoading();
     	
-        game.setScreen(new Saguao(game, 1000 / TerrorGame.SCALE));
+        //game.setScreen(new Saguao(game, 1000));
+    	game.setScreen(new Saguao(game, 1750,  false));
     }
 
     public Sprite getBotaoStart() {

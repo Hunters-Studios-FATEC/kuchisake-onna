@@ -58,7 +58,7 @@ public class WorldContactListener implements ContactListener{
 					int roomN = Integer.parseInt(object.getUserData().toString().substring("doorUp".length()));
 					standardRoom.setChangeRoom("doorUp", roomN);
 				}
-				if (object.getUserData().toString().contains("Down")){
+				else if (object.getUserData().toString().contains("Down")){
 					int roomN = Integer.parseInt(object.getUserData().toString().substring("doorDown".length()));
 					standardRoom.setChangeRoom("doorDown", roomN);
 				}

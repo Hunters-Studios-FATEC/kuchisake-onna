@@ -17,7 +17,10 @@ public class TesteThread {
 	ArrayList<ArrayList<Integer[]>> paths;
 	
 	public TesteThread() {
-		doorsRoom0 = new Object[][] {{1}, {"doorUp1-1", 1}, {"doorUp2-2", "doorUp3-2", 1}, {1}};
+		doorsRoom0 = new Object[][] {{"doorUp0-0", 0}, {"doorUp2-1", 0}, {"doorUp4-2", "doorUp5-3", 0}};
+		
+		
+		//doorsRoom0 = new Object[][] {{1}, {"doorUp1-1", 1}, {"doorUp2-2", "doorUp3-2", 1}, {1}};
 		doorsRoom1 = new Object[][] {{1}, {"doorDown1-1", 1}, {"doorDown2-1", "doorUp2-1", 2}, {"doorDown2-1", 2}};
 		doorsRoom2 = new Object[][] {{1}, {1}, {"doorDown2-2", 1}, {1}};
 		

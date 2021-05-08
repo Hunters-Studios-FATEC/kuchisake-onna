@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -48,6 +49,12 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	Player player;
 	Collisions collisions;
 	OrthogonalTiledMapRenderer mapRenderer;
+	
+	MapProperties mapProperties;
+	
+	int tilesNumberX;
+	float tileWidth;
+	float mapWidth;
 
 	MinigameManager minigameManager;
 	int maxMinigameID = 5;
@@ -80,13 +87,19 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		inventoryManager = new InventoryManager(game);
 		
 		collisions = new Collisions(world, fundo_sala, game);
-		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, 5, 160, game);
+		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, game);
 		
 		world.setContactListener(new WorldContactListener(minigameManager, player, this));
 
 		debugRenderer = new Box2DDebugRenderer();
 
 		mapRenderer = collisions.getMapRenderer();
+		
+		mapProperties = collisions.getMapProperties();
+		
+		tilesNumberX = mapProperties.get("width", Integer.class);
+		tileWidth = mapProperties.get("tilewidth", Integer.class) / TerrorGame.SCALE;
+		mapWidth = tilesNumberX * tileWidth;
 
 //		portaFechada = game.getAssetManager().get("PortasEEscadas/porta1.png", Texture.class);
 //		portaAberta = game.getAssetManager().get("PortasEEscadas/porta2.png", Texture.class);
@@ -98,9 +111,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		while(accumulator >= TIME_STEP) {
 			player.handleInput();
 			
-			camera.position.x = player.getBody().getPosition().x;
-			camera.update();
 			world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+			updateCamera();
 			accumulator -= TIME_STEP;
 		}
 	}
@@ -108,6 +120,28 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	public void setChangeRoom(String up_or_down, int room_num){
 		direction = up_or_down;
 		doorNum = room_num;
+	}
+	
+	void updateCamera() {
+		float playerXPos = player.getBody().getPosition().x;
+		
+		if(playerXPos > viewport.getWorldWidth() / 2 && playerXPos < mapWidth - viewport.getWorldWidth() / 2) {
+			camera.position.x = playerXPos;
+		}
+		else {
+			if(playerXPos <= viewport.getWorldWidth() / 2) {
+				camera.position.x = viewport.getWorldWidth() / 2;
+			}
+			else {
+				camera.position.x = mapWidth - viewport.getWorldWidth() / 2;
+			}
+		}
+		
+		camera.update();
+	}
+	
+	float getMapWidth() {
+		return mapWidth;
 	}
 
 	@Override

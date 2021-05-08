@@ -48,7 +48,7 @@ public class SaguaoPrimeiro extends StandardRoom implements Screen {
 
                     game.getAssetManager().finishLoading();
 
-                    game.setScreen(new Sala02(game, 1750));
+                    //game.setScreen(new Sala02(game, 1750));
                 }
 
             }

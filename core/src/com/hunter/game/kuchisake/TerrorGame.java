@@ -4,8 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.hunter.game.kuchisake.screen.Sala01;
-import com.hunter.game.kuchisake.screen.Sala02;
 import com.hunter.game.kuchisake.screen.StandardRoom;
 import com.hunter.game.kuchisake.startMenu.SceneMenu;
 

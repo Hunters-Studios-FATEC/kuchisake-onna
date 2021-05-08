@@ -2,6 +2,7 @@ package com.hunter.game.kuchisake.objects;
 
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -31,6 +32,7 @@ public class Collisions {
     //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
     OrthogonalTiledMapRenderer mapRenderer;
+    MapProperties mapProperties;
 
     Body shelf;
     Body body1;
@@ -56,8 +58,10 @@ public class Collisions {
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = game.getAssetManager().get(mapa_path, TiledMap.class);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / TerrorGame.SCALE);
+        
+        mapProperties = map.getProperties();
 
-        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
+        /*for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE,
@@ -73,7 +77,7 @@ public class Collisions {
             invisible_wall.createFixture(fixtureDef);
             
             polygonShape.dispose();
-        }
+        }*/
 
 //        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
 //            Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -162,6 +166,10 @@ public class Collisions {
 
     public OrthogonalTiledMapRenderer getMapRenderer() {
         return mapRenderer;
+    }
+    
+    public MapProperties getMapProperties() {
+    	return mapProperties;
     }
 
     public short getGroundBit() {

@@ -60,7 +60,7 @@ public class Player {
 
     public Array<TextureRegion> testeAnima;
 
-    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, float playerSizeMultiplier, float PlayerPosY, TerrorGame game) {
+    public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, TerrorGame game) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
@@ -75,7 +75,7 @@ public class Player {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         // Pos Y padrão para as salas - 160 / TerrorGame.SCALE + 1.28f
-        bodyDef.position.set(initialX / TerrorGame.SCALE, PlayerPosY / TerrorGame.SCALE + 1.28f);
+        bodyDef.position.set(initialX / TerrorGame.SCALE, 160 / TerrorGame.SCALE + 1.28f);
         player = world.createBody(bodyDef);
 
         polygonShape.setAsBox(128 / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
@@ -107,7 +107,7 @@ public class Player {
         collisionSensor.dispose();
 
         // 5 é o padrão pro player size multiplier.
-        playerSprite.setSize(128 * playerSizeMultiplier/ TerrorGame.SCALE, 128 * playerSizeMultiplier/ TerrorGame.SCALE);
+        playerSprite.setSize(128 * 5 / TerrorGame.SCALE, 128 * 5 / TerrorGame.SCALE);
         playerSprite.setPosition(player.getPosition().x - playerSprite.getWidth() / 2, (player.getPosition().y - playerSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
 
         //parametro minigameManager criado e atribuido a variavel global minigameManager.
@@ -243,9 +243,10 @@ public class Player {
         isTouchingDoor = touchingDoor;
     }
 
-    public void setSizeAndPosition(int sizeMultiplicator, float yPosition){
+    public void setSizeAndPosition(float sizeMultiplicator, float yPosition){
         playerSprite.setSize(128 * sizeMultiplicator/ TerrorGame.SCALE, 128 * sizeMultiplicator/ TerrorGame.SCALE);
         player.setTransform(player.getPosition().x, player.getPosition().y + yPosition, 0);
+        player.setAwake(true);
     }
     public void setCanChangeRoom(boolean canChangeRoom) {
         this.canChangeRoom = canChangeRoom;
