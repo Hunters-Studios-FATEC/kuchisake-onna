@@ -10,21 +10,22 @@ public class TesteThread {
 	Object[][] doorsRoom0;
 	Object[][] doorsRoom1;
 	Object[][] doorsRoom2;
+	Object[][] doorsRoom3;
 
 	Object[][][] doors;
-
 	ArrayList<Integer[]> path;
 	ArrayList<ArrayList<Integer[]>> paths;
 	
 	public TesteThread() {
 		doorsRoom0 = new Object[][] {{"doorUp0-0", 0}, {"doorUp2-1", 0}, {"doorUp4-2", "doorUp5-3", 0}};
-		
-		
-		//doorsRoom0 = new Object[][] {{1}, {"doorUp1-1", 1}, {"doorUp2-2", "doorUp3-2", 1}, {1}};
-		doorsRoom1 = new Object[][] {{1}, {"doorDown1-1", 1}, {"doorDown2-1", "doorUp2-1", 2}, {"doorDown2-1", 2}};
-		doorsRoom2 = new Object[][] {{1}, {1}, {"doorDown2-2", 1}, {1}};
-		
-		doors = new Object[][][] {doorsRoom0, doorsRoom1, doorsRoom2};
+		doorsRoom1 = new Object[][] {
+				{"doorUp0-0", "doorDown0-0", 0}, {"doorUp1-1", 1}, {"doorUp2-2", "doorUp3-3", "doorDown1-0", 1},
+				{"doorUp4-4", "doorUp5-5", 1}, {"doorDown2-0", 2}, {"doorUp6-6", "doorDown2-0", 3}};
+		doorsRoom2 = new Object[][] {{"doorUp0-0", "doorDown0-0", 0}, {"doorDown1-1", 1}, {"doorDown2-1", 2},
+				{"doorDown2-1", 3}, {"doorDown3-1", 4}, {"doorDown3-1", 5}, {"doorDown5-3", 6}};
+		doorsRoom3 = new Object[][] {{"doorDown0-0", 0}};
+
+		doors = new Object[][][] {doorsRoom0, doorsRoom1, doorsRoom2, doorsRoom3};
 		
 		path = new ArrayList<Integer[]>();
 		paths = new ArrayList<ArrayList<Integer[]>>();

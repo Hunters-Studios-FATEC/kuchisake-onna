@@ -26,7 +26,7 @@ public class CorredorServico extends StandardRoom implements Screen {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(460, 160,"doorDown2", 230, collisions.getPortaBit());
-        collisions.CreateCollisions(3040, 160,"doorUp5", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(3040, 160,"doorUp6", 230, collisions.getPortaBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -110,7 +110,7 @@ public class CorredorServico extends StandardRoom implements Screen {
 		            game.setScreen(new Cozinha(game, 3143));
                 }
             }
-	        else if (direction == "doorUp" && doorNum == 5) {
+	        else if (direction == "doorUp" && doorNum == 6) {
 	        	doorAnimationTimer += delta;
 	        	
                 if(doorAnimationTimer > 1.5f){

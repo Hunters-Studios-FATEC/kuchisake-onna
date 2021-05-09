@@ -28,8 +28,8 @@ public class CorredorSalas extends StandardRoom implements Screen {
     public CorredorSalas(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(971, 160,"doorUp3", 230, collisions.getPortaBit());
-        collisions.CreateCollisions(2487, 160,"doorUp4", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(971, 160,"doorUp4", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(2487, 160,"doorUp5", 230, collisions.getPortaBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -101,7 +101,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
         }*/
         
         if (player.getCanChangeRoom()){
-        	if (direction == "doorUp" && doorNum == 3){
+        	if (direction == "doorUp" && doorNum == 4){
                 System.out.println("muda porra");
                 
                 doorAnimationTimer += delta;
@@ -119,7 +119,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
                     game.setScreen(new Sala3(game, 483));
                 }
             }
-        	else if (direction == "doorUp" && doorNum == 4){
+        	else if (direction == "doorUp" && doorNum == 5){
                 System.out.println("muda porra");
                 
                 doorAnimationTimer += delta;

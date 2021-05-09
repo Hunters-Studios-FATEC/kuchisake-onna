@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 
-import javax.xml.stream.FactoryConfigurationError;
-
-public class SalaEstar extends StandardRoom implements Screen {
+public class SalaSegura extends StandardRoom implements Screen {
 
     TextureAtlas textureAtlas;
 
@@ -18,21 +16,24 @@ public class SalaEstar extends StandardRoom implements Screen {
 
     Sprite porta;
 
-    public SalaEstar(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/sala1.tmx", playerDoorPosX);
-        
-        collisions.CreateCollisions(483, 160,"doorUp0", 203, collisions.getPortaBit());
-        
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
-        portaFechada = textureAtlas.findRegion("porta1");
-        portaAberta = textureAtlas.findRegion("porta2");
-        
-        porta = new Sprite(portaFechada);
-        
-        porta.setSize(porta.getWidth() * 1.45f / TerrorGame.SCALE, porta.getHeight() * 1.45f / TerrorGame.SCALE);
-        porta.setPosition(280 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+    boolean isSecondFloor = false;
 
+    public SalaSegura(TerrorGame game, float playerDoorPosX) {
+        super(game, "Tilesets/quarto.tmx", playerDoorPosX);
+
+        collisions.CreateCollisions(1900+230, 160,"doorDown0", 203, collisions.getPortaBit());
+
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+        portaFechada = textureAtlas.findRegion("portaCorredor1");
+        portaAberta = textureAtlas.findRegion("portaCorredor2");
+
+        porta = new Sprite(portaFechada);
+
+        porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
+        porta.setPosition(1900 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta.setAlpha(0.5f);
     }
+
 
     @Override
     public void render(float delta) {
@@ -43,10 +44,10 @@ public class SalaEstar extends StandardRoom implements Screen {
         player.playerUpdate(delta);
 
         game.batch.begin();
-        
-        porta.draw(game.batch);
+
         player.draw(game.batch);
-        
+        porta.draw(game.batch);
+
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -56,40 +57,25 @@ public class SalaEstar extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
-        
         if (player.getCanChangeRoom()){
-            if (direction == "doorUp" && doorNum == 0){
-                System.out.println("muda porra");
+            if (direction == "doorDown" && doorNum == 0){
+                System.out.println("Indo Corredor Biblioteca");
+
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/sala1.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
-                    
+                    game.getAssetManager().unload("Tilesets/quarto.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
+
                     game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
 
-                    game.setScreen(new CorredorBiblioteca(game, 2891));
+                    game.setScreen(new CorredorBiblioteca(game, 1900+230));
                 }
-
             }
-        }
-
-        if(player.getBody().getPosition().x > mapWidth) {
-        	dispose();
-
-            game.getAssetManager().unload("Tilesets/sala1.tmx");
-            game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
-            
-            game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
-            game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
-
-            game.getAssetManager().finishLoading();
-
-            game.setScreen(new Saguao(game, 128, false));
         }
     }
 

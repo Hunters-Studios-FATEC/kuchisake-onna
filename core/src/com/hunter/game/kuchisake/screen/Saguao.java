@@ -25,8 +25,8 @@ public class Saguao extends StandardRoom implements Screen {
         super(game, "Tilesets/saguao_segundo.tmx", playerDoorPosX);
         collisions.CreateCollisions(1750, 160,"doorUp2",320, collisions.getPortaBit());
         collisions.CreateCollisions(1750, 585,"doorDown1",320, collisions.getPortaBit());
-        collisions.CreateCollisions(420 + 280f / 2f, 585, "doorUp1", 140, collisions.getPortaBit());
-        collisions.CreateCollisions(2800 + 280f / 2f, 585, "doorUp2", 140, collisions.getPortaBit());
+        collisions.CreateCollisions(420 + 280f / 2f, 585, "doorUp2", 140, collisions.getPortaBit());
+        collisions.CreateCollisions(2800 + 280f / 2f, 585, "doorUp3", 140, collisions.getPortaBit());
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
         corrimao = textureAtlas.findRegion("corrimao");
@@ -61,9 +61,12 @@ public class Saguao extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
-        
+
+        game.getKuchisakeOnna().draw(game.batch);
+
         porta1.draw(game.batch);
         porta2.draw(game.batch);
         
@@ -101,7 +104,7 @@ public class Saguao extends StandardRoom implements Screen {
                      player.setCanChangeRoom(false);
                  }
                  
-                 if (direction == "doorUp" && doorNum == 1){
+                 if (direction == "doorUp" && doorNum == 2){
                      System.out.println("muda porra");
                      
                      doorAnimationTimer += delta;
@@ -119,7 +122,7 @@ public class Saguao extends StandardRoom implements Screen {
                          game.setScreen(new Sala1(game, 483));
                      }
                  }
-                 else if (direction == "doorUp" && doorNum == 2){
+                 else if (direction == "doorUp" && doorNum == 3){
                      System.out.println("muda porra");
                      doorAnimationTimer += delta;
                      if(doorAnimationTimer > 1.5f){

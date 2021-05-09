@@ -178,20 +178,17 @@ public class Player {
     }
 
     public void handleInput() {
+        isWalking = 0;
         if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !canChangeRoom){
-            isWalking = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 //                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
-                isWalking = 3.5f;
+                isWalking = 20f;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 //                player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
-                isWalking = -3.5f;
+                isWalking = -20f;
             }
-
-            player.setLinearVelocity(new Vector2(isWalking, 0));
-
 
             // Vai abrir e fechar
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
@@ -205,6 +202,8 @@ public class Player {
 //                }
             }
         }
+
+        player.setLinearVelocity(new Vector2(isWalking, 0));
 
         // Somente funcionando com teclas diferentes
         if (inventoryManager.getInventoryOpen()){

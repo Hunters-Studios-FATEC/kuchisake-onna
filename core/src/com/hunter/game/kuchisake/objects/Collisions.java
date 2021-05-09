@@ -28,6 +28,7 @@ public class Collisions {
     final short LOCKPICK_BIT = 32;
     final short GERADOR_BIT = 64;
     final short PORTA_BIT = 128;
+    final short KUCHISAKE_BIT = 256;
 
     //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
@@ -202,5 +203,9 @@ public class Collisions {
 
     public short getPortaBit() {
         return PORTA_BIT;
+    }
+
+    public short getKUCHISAKE_BIT() {
+        return KUCHISAKE_BIT;
     }
 }

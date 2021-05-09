@@ -93,8 +93,10 @@ public class ButtonStartGame extends Actor {
 //    	game.getAssetManager().load("PortasEEscadas/porta2.png", Texture.class);
 //    	game.getAssetManager().load("arrow.png", Texture.class);
 //    	game.getAssetManager().load("arrow.png", Texture.class);
-    	
-    	game.getAssetManager().finishLoading();
+
+        game.createVillain();
+
+        game.getAssetManager().finishLoading();
     	
         //game.setScreen(new Saguao(game, 1000));
     	game.setScreen(new Saguao(game, 1750,  false));

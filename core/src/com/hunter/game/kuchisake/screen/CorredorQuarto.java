@@ -24,7 +24,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
     public CorredorQuarto(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(1750, 160,"doorUp0", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(1750, 160,"doorUp1", 230, collisions.getPortaBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -86,7 +86,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         }*/
         
         if (player.getCanChangeRoom()){
-        	if (direction == "doorUp" && doorNum == 0){
+        	if (direction == "doorUp" && doorNum == 1){
                 System.out.println("muda porra");
                 
                 doorAnimationTimer += delta;
