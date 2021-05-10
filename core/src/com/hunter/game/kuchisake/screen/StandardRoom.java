@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.Collisions;
@@ -39,9 +41,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	
 	World world;
 	
-	final float TIME_STEP = 1 / 60f;
-	final int VELOCITY_ITERATIONS = 6;
-	final int POSITION_ITERATIONS = 2;
 	float accumulator = 0;
 	
 	Box2DDebugRenderer debugRenderer;
@@ -80,7 +79,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 		camera.update();
 		
-		world = new World(new Vector2(0, 0), true);
+		//world = new World(new Vector2(0, 0), true);
+		world = game.getWorld();
 		
 		minigameManager = new MinigameManager(game.batch, player);
 
@@ -103,17 +103,25 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 //		portaFechada = game.getAssetManager().get("PortasEEscadas/porta1.png", Texture.class);
 //		portaAberta = game.getAssetManager().get("PortasEEscadas/porta2.png", Texture.class);
+		
+		//game.getKuchisakeOnna().setStandardRoom(this);
 	}
 
 	void stepWorld(float dt) {
 		accumulator += (dt < 0.25f)? dt : 0.25f;
 		
-		while(accumulator >= TIME_STEP) {
+		while(accumulator >= game.getTimeStep()) {
 			player.handleInput();
 			
-			world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+			/*synchronized (this) {
+				world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+				notify();
+			}*/
+			game.worldStep();
+			
 			updateCamera();
-			accumulator -= TIME_STEP;
+			
+			accumulator -= game.getTimeStep();
 		}
 	}
 
@@ -209,7 +217,17 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		//game.batch.dispose();
-		world.dispose();
+		//world.dispose();
+		
+		Array<Body> bodies = new Array<Body>(world.getBodyCount());
+		world.getBodies(bodies);
+		
+		for(Body body: bodies) {
+			if(!body.equals(game.getKuchisakeOnna().getBody())) {
+				world.destroyBody(body);
+			}
+		}
+		
 		//player.getPolygonShape().dispose();
 		//collisions.getPolygonShape().dispose();
 		mapRenderer.dispose();

@@ -69,6 +69,8 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().unload("ButtonAssets/Logo_rascunho.png");
     	game.getAssetManager().unload("ButtonAssets/start_rascunho.png");
     	
+    	game.createVillain();
+    	
     	game.getAssetManager().setLoader(TiledMap.class, new TmxMapLoader());
     	
     	game.getAssetManager().load("CharactersAssets/sprites_protag_right.png", Texture.class);
@@ -93,8 +95,6 @@ public class ButtonStartGame extends Actor {
 //    	game.getAssetManager().load("PortasEEscadas/porta2.png", Texture.class);
 //    	game.getAssetManager().load("arrow.png", Texture.class);
 //    	game.getAssetManager().load("arrow.png", Texture.class);
-
-        game.createVillain();
 
         game.getAssetManager().finishLoading();
     	

@@ -94,6 +94,9 @@ public class Saguao extends StandardRoom implements Screen {
                     player.setSizeAndPosition(3.25f, 4.25f);
 //                    System.out.println("subir");
                     player.setCanChangeRoom(false);
+                    
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(2);
                 }
         	}
         	else {
@@ -102,6 +105,9 @@ public class Saguao extends StandardRoom implements Screen {
                      player.setSizeAndPosition(5,-4.25f);
 //                     System.out.println("descer");
                      player.setCanChangeRoom(false);
+                     
+                     game.incrementPlayerLine(-1);
+                     game.setPlayerColumn(1);
                  }
                  
                  if (direction == "doorUp" && doorNum == 2){
@@ -120,6 +126,9 @@ public class Saguao extends StandardRoom implements Screen {
                          game.getAssetManager().finishLoading();
 
                          game.setScreen(new Sala1(game, 483));
+                         
+                         game.incrementPlayerLine(1);
+                         game.setPlayerColumn(2);
                      }
                  }
                  else if (direction == "doorUp" && doorNum == 3){
@@ -137,6 +146,9 @@ public class Saguao extends StandardRoom implements Screen {
                          game.getAssetManager().finishLoading();
 
                          game.setScreen(new Sala2(game, 2891));
+                         
+                         game.incrementPlayerLine(1);
+                         game.setPlayerColumn(3);
                      }
                  }
             }

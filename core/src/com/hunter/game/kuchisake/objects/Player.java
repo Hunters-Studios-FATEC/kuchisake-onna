@@ -81,7 +81,7 @@ public class Player {
         polygonShape.setAsBox(128 / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
         fixtureDef.shape = polygonShape;
 
-        fixtureDef.filter.categoryBits = collisions.getPlayerBit();
+        fixtureDef.filter.categoryBits = game.getPlayerBit();
         fixtureDef.filter.maskBits = collisions.getGroundBit();
 
         fixture = player.createFixture(fixtureDef);
@@ -97,7 +97,7 @@ public class Player {
         fixtureDef.isSensor = true;
         
         //definido o categoryBits (identificador da fixture do sensor)
-        fixtureDef.filter.categoryBits = collisions.getPlayerBit();
+        fixtureDef.filter.categoryBits = game.getPlayerBit();
 
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
         fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit());

@@ -20,15 +20,13 @@ import javax.swing.Spring;
 
 public class Collisions {
 
-    final short GROUND_BIT = 1;
-    final short PLAYER_BIT = 2;
-    final short SHELF_BIT = 4;
-    final short HIDE_BIT = 8;
-    final short WIRE_BIT = 16;
-    final short LOCKPICK_BIT = 32;
-    final short GERADOR_BIT = 64;
-    final short PORTA_BIT = 128;
-    final short KUCHISAKE_BIT = 256;
+    final short GROUND_BIT = 4;
+    final short SHELF_BIT = 8;
+    final short HIDE_BIT = 16;
+    final short WIRE_BIT = 32;
+    final short LOCKPICK_BIT = 64;
+    final short GERADOR_BIT = 128;
+    final short PORTA_BIT = 256;
 
     //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
@@ -43,18 +41,12 @@ public class Collisions {
 
     Body invisible_wall;
     World world;
+    
+    TerrorGame game;
 
     public Collisions(World world, String mapa_path, TerrorGame game) {
-        FixtureDef fixtureDef = new FixtureDef();
-
         this.world = world;
-
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-
-        fixtureDef.filter.categoryBits = GROUND_BIT;
-        fixtureDef.filter.maskBits = PLAYER_BIT;
+        this.game = game;
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = game.getAssetManager().get(mapa_path, TiledMap.class);
@@ -150,7 +142,7 @@ public class Collisions {
         body = world.createBody(bodyDef);
         fixtureDef.shape = porygonShape;
         fixtureDef.filter.categoryBits = category_bits;
-        fixtureDef.filter.maskBits = PLAYER_BIT;
+        fixtureDef.filter.maskBits = game.getPlayerBit();
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(collision_tag);
         
@@ -177,10 +169,6 @@ public class Collisions {
         return GROUND_BIT;
     }
 
-    public short getPlayerBit() {
-        return PLAYER_BIT;
-    }
-
     public short getShelfBit() {
         return SHELF_BIT;
     }
@@ -203,9 +191,5 @@ public class Collisions {
 
     public short getPortaBit() {
         return PORTA_BIT;
-    }
-
-    public short getKUCHISAKE_BIT() {
-        return KUCHISAKE_BIT;
     }
 }

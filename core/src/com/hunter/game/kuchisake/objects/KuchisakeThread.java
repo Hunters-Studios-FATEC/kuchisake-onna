@@ -27,9 +27,9 @@ public class KuchisakeThread {
     public KuchisakeThread() {
         doorsRoom0 = new Object[][] {{"doorUp0-0", 0}, {"doorUp2-1", 0}, {"doorUp4-2", "doorUp5-3", 0}};
         doorsRoom1 = new Object[][] {
-                {"doorUp0-0", "doorDown0-0", 0}, {"doorUp1-1", 1}, {"doorUp2-2", "doorUp3-3", "doorDown1-0", 1},
-                {"doorUp4-4", "doorUp5-5", 1}, {"doorDown2-0", 2}, {"doorUp6-6", "doorDown2-0", 3}};
-        doorsRoom2 = new Object[][] {{"doorUp0-0", "doorDown0-0", 0}, {"doorDown1-1", 1}, {"doorDown2-1", 2},
+                {"doorUp0-0", "doorDown0-0", 0}, {"doorUp1-1", 1}, {"doorUp2-2", "doorDown1-0", "doorUp3-3", 1},
+                {"doorUp4-4", "doorUp5-5", 1}, {"doorDown2-0", 2}, {"doorDown2-0", "doorUp6-6", 3}};
+        doorsRoom2 = new Object[][] {{"doorDown0-0", "doorUp0-0", 0}, {"doorDown1-1", 1}, {"doorDown2-1", 2},
                 {"doorDown2-1", 3}, {"doorDown3-1", 4}, {"doorDown3-1", 5}, {"doorDown5-3", 6}};
         doorsRoom3 = new Object[][] {{"doorDown0-0", 0}};
 
@@ -42,12 +42,15 @@ public class KuchisakeThread {
         doorsPosX3 = new Float[][]{{(2487+230f) / TerrorGame.SCALE}};
 
         doorsPosX = new Float[][][] {doorsPosX0, doorsPosX1, doorsPosX2, doorsPosX3};
-
+        
         path = new ArrayList<Integer[]>();
         paths = new ArrayList<ArrayList<Integer[]>>();
     }
 
     public void runThread(int initialLine, int initialColumn, int finalLine, int finalColumn) {
+    	path.clear();
+    	paths.clear();
+    	
         int roomLine = initialLine;
         int roomColumn = initialColumn;
 
@@ -785,7 +788,7 @@ public class KuchisakeThread {
         }
 
 
-        System.out.println("Mostrando todos os caminhos da lista Paths: ");
+        /*System.out.println("Mostrando todos os caminhos da lista Paths: ");
         for(ArrayList<Integer[]> teste : paths) {
             String caminho = "";
 
@@ -803,9 +806,9 @@ public class KuchisakeThread {
 
             System.out.println(caminho);
         }
-        System.out.println("///////////////////////////////////////////////////////");
+        System.out.println("///////////////////////////////////////////////////////");*/
 
-		/*String caminho = "";
+		String caminho = "";
 		for(Integer[] posicao : path) {
 			String pos  = "(";
 			for(Integer num : posicao) {
@@ -818,7 +821,7 @@ public class KuchisakeThread {
 			caminho += " -> ";
 		}
 
-		System.out.println(caminho);*/
+		System.out.println(caminho);
     }
 
     public ArrayList<Integer[]> getPath(){
