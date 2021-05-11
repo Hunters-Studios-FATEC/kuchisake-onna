@@ -39,12 +39,13 @@ public class SalaEstar extends StandardRoom implements Screen {
         super.render(delta);
 
         game.batch.setProjectionMatrix(camera.combined);
-
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
         player.playerUpdate(delta);
 
         game.batch.begin();
         
         porta.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         
         game.batch.end();
@@ -59,7 +60,6 @@ public class SalaEstar extends StandardRoom implements Screen {
         
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 0){
-                System.out.println("muda porra");
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -71,7 +71,8 @@ public class SalaEstar extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(0);
                     game.setScreen(new CorredorBiblioteca(game, 2891));
                 }
 
@@ -88,7 +89,7 @@ public class SalaEstar extends StandardRoom implements Screen {
             game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
 
             game.getAssetManager().finishLoading();
-
+            game.setPlayerColumn(1);
             game.setScreen(new Saguao(game, 128, false));
         }
     }

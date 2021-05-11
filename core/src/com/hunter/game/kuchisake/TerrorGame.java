@@ -78,11 +78,15 @@ public class TerrorGame extends Game{
 		playerColumn = column;
 	}
 	
-	public int getPlayerLine() {
+	public synchronized int getPlayerLine() {
+		kuchisakeOnna.setIsWaiting(false);
+		notify();
 		return playerLine;
 	}
 	
-	public int getPlayerColumn() {
+	public synchronized int getPlayerColumn() {
+		kuchisakeOnna.setIsWaiting(false);
+		notify();
 		return playerColumn;
 	}
 	

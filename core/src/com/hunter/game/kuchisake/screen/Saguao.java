@@ -64,17 +64,33 @@ public class Saguao extends StandardRoom implements Screen {
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
-
-        game.getKuchisakeOnna().draw(game.batch);
-
         porta1.draw(game.batch);
         porta2.draw(game.batch);
         
-        if (isSecondFloor){ ;
+        if (isSecondFloor){
+
+            if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f + 4.25f){
+                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            }
+
             player.draw(game.batch);
+
             corri.draw(game.batch);
+
+            if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f){
+                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            }
         }else {
+            if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f + 4.25f){
+                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            }
+
             corri.draw(game.batch);
+
+            if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f){
+                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            }
+
             player.draw(game.batch);
         }
         
@@ -111,8 +127,6 @@ public class Saguao extends StandardRoom implements Screen {
                  }
                  
                  if (direction == "doorUp" && doorNum == 2){
-                     System.out.println("muda porra");
-                     
                      doorAnimationTimer += delta;
                      if(doorAnimationTimer > 1.5f){
                          dispose();
@@ -132,7 +146,6 @@ public class Saguao extends StandardRoom implements Screen {
                      }
                  }
                  else if (direction == "doorUp" && doorNum == 3){
-                     System.out.println("muda porra");
                      doorAnimationTimer += delta;
                      if(doorAnimationTimer > 1.5f){
                          dispose();
@@ -165,7 +178,7 @@ public class Saguao extends StandardRoom implements Screen {
                 game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                 game.getAssetManager().finishLoading();
-
+                game.setPlayerColumn(0);
                 game.setScreen(new SalaEstar(game, 3500 - 128));
             }
             else if(player.getBody().getPosition().x > mapWidth) {
@@ -178,7 +191,7 @@ public class Saguao extends StandardRoom implements Screen {
                 game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                 game.getAssetManager().finishLoading();
-
+                game.setPlayerColumn(2);
                 game.setScreen(new Cozinha(game, 128));
             }
         }
@@ -193,7 +206,7 @@ public class Saguao extends StandardRoom implements Screen {
                 game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                 game.getAssetManager().finishLoading();
-
+                game.setPlayerColumn(1);
                 game.setScreen(new CorredorQuarto(game, 3500 - 128));
             }
             else if(player.getBody().getPosition().x > mapWidth) {
@@ -206,7 +219,7 @@ public class Saguao extends StandardRoom implements Screen {
                 game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                 game.getAssetManager().finishLoading();
-
+                game.setPlayerColumn(3);
                 game.setScreen(new CorredorSalas(game, 128));
             }
         }

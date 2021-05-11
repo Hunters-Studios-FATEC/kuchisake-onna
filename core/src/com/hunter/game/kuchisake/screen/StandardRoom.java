@@ -168,7 +168,20 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		collisions.getMapRenderer().render();
-		
+
+		boolean isPlayerInSaguao = ((game.getPlayerLine() == 0 && game.getPlayerColumn() == 1) ||
+					(game.getPlayerLine() == 1 && game.getPlayerColumn() == 2));
+
+		boolean isNextRoomSaguao = ((game.getKuchisakeOnna().getCurrentLine() == 0 && game.getKuchisakeOnna().getCurrentColumn() == 1) || (game.getKuchisakeOnna().getCurrentLine() == 1 && game.getKuchisakeOnna().getCurrentColumn() == 2));
+
+		if((isPlayerInSaguao && isNextRoomSaguao) ||
+				game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() && game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()) {
+			game.getKuchisakeOnna().getKuchisakeSprite().setAlpha(1);
+		}
+		else {
+			game.getKuchisakeOnna().getKuchisakeSprite().setAlpha(0);
+		}
+
 //		game.batch.setProjectionMatrix(camera.combined);
 //		game.batch.begin();
 //		game.batch.end();

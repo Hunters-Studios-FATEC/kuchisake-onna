@@ -52,12 +52,14 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
         
         estatua1.draw(game.batch);
         estatua2.draw(game.batch);
         porta.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         
         game.batch.end();
@@ -87,8 +89,6 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         
         if (player.getCanChangeRoom()){
         	if (direction == "doorUp" && doorNum == 1){
-                System.out.println("muda porra");
-                
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -100,7 +100,8 @@ public class CorredorQuarto extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(1);
                     game.setScreen(new Quarto(game, 2810));
                 }
             }
@@ -116,7 +117,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
             game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
 
             game.getAssetManager().finishLoading();
-
+            game.setPlayerColumn(2);
             game.setScreen(new Saguao(game, 128, true));
         }
 

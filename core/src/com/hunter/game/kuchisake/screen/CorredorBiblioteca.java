@@ -59,11 +59,12 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
-
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
         game.batch.begin();
 
         porta3.draw(game.batch);
         porta2.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta1.draw(game.batch);
 
@@ -78,7 +79,6 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
-                System.out.println("Indo Sala de estar");
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -90,13 +90,12 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(-1);
+                    game.setPlayerColumn(0);
                     game.setScreen(new SalaEstar(game, 483));
                 }
 
             } else if (direction == "doorUp" && doorNum == 0){
-                System.out.println("Indo Biblioteca");
-
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -108,12 +107,11 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(0);
                     game.setScreen(new Biblioteca(game, 971+230));
                 }
             } else if (direction == "doorUp" && doorNum == -1){
-                System.out.println("INdo sala segura");
-
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -125,7 +123,8 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(-1);
                     game.setScreen(new SalaSegura(game, 1900+230));
                 }
             }

@@ -65,6 +65,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
         
@@ -73,6 +74,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
         estatua3.draw(game.batch);
         porta1.draw(game.batch);
         porta2.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         
         game.batch.end();
@@ -102,8 +104,6 @@ public class CorredorSalas extends StandardRoom implements Screen {
         
         if (player.getCanChangeRoom()){
         	if (direction == "doorUp" && doorNum == 4){
-                System.out.println("muda porra");
-                
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -115,13 +115,12 @@ public class CorredorSalas extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(4);
                     game.setScreen(new Sala3(game, 483));
                 }
             }
         	else if (direction == "doorUp" && doorNum == 5){
-                System.out.println("muda porra");
-                
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -133,7 +132,8 @@ public class CorredorSalas extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(5);
                     game.setScreen(new SalaVitima1(game, 2891));
                 }
             }
@@ -149,7 +149,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
             game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
 
             game.getAssetManager().finishLoading();
-
+            game.setPlayerColumn(2);
             game.setScreen(new Saguao(game, 3500 - 128, true));
         }
 

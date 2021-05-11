@@ -46,10 +46,12 @@ public class SalaSecreta extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
 
         porta.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
 
         game.batch.end();
@@ -63,8 +65,6 @@ public class SalaSecreta extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
-                System.out.println("Indo Biblioteca");
-
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -76,7 +76,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(-1);
+                    game.setPlayerColumn(0);
                     game.setScreen(new Biblioteca(game, 2487+230));
                 }
             }

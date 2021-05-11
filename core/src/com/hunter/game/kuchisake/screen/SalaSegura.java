@@ -59,8 +59,6 @@ public class SalaSegura extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
-                System.out.println("Indo Corredor Biblioteca");
-
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -72,7 +70,8 @@ public class SalaSegura extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(-1);
+                    game.setPlayerColumn(0);
                     game.setScreen(new CorredorBiblioteca(game, 1900+230));
                 }
             }

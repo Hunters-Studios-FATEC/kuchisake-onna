@@ -44,9 +44,10 @@ public class Quarto extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
-        
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta.draw(game.batch);
         
@@ -61,8 +62,6 @@ public class Quarto extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 1){
-                System.out.println("muda porra");
-                
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -74,7 +73,8 @@ public class Quarto extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(-1);
+                    game.setPlayerColumn(1);
                     game.setScreen(new CorredorQuarto(game, 1980));
                 }
             }

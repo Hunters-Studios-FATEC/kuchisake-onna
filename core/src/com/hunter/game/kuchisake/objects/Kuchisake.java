@@ -64,6 +64,8 @@ public class Kuchisake extends Thread{
     
     boolean isWaiting = true;
 
+    boolean isSecondFloor = false;
+
     public Kuchisake(float initialX, TerrorGame game, World world) {
     	this.game = game;
     	
@@ -260,8 +262,8 @@ public class Kuchisake extends Thread{
     void walkToXPos(int nxtLine, int nxtColumn, ArrayList<Integer[]> path) {
     	int nextLine = nxtLine;
     	int nextColumn = nxtColumn;
-        
-    	if (kuchisake.getPosition().x > doorX + 1f) {
+
+        if (kuchisake.getPosition().x > doorX + 1f) {
             kuchisake.setLinearVelocity(-5f, 0);
         } else if (kuchisake.getPosition().x < doorX - 1){
         	kuchisake.setLinearVelocity(5f, 0);
@@ -291,13 +293,22 @@ public class Kuchisake extends Thread{
     	            }
     	
     	            kuchisake.setTransform(newXPos, kuchisake.getPosition().y, 0);
-    	            
-    	            if((nextLine == 1 && nextColumn == 2) && (currentLine == 0 && currentColumn == 1)) {
+
+                    System.out.println(nextLine + " " + nextColumn);
+
+    	            if((nextLine == 1 && nextColumn == 2)) {
+    	                isSecondFloor = true;
     	            	setSizeAndPosition(3.75f, 4.25f);
     	            }
-    	            else if((nextLine == 0 && nextColumn == 1) && (currentLine == 1 && currentColumn == 2)) {
+    	            else if((nextLine == 0 && nextColumn == 1)) {
+    	                isSecondFloor = false;
     	            	setSizeAndPosition(5.5f, -4.25f);
     	            }
+    	            else{
+    	                isSecondFloor = false;
+                        kuchisakeSprite.setSize(128 * 5.5f/ TerrorGame.SCALE, 128 * 5.5f/ TerrorGame.SCALE);
+                        kuchisake.setTransform(kuchisake.getPosition().x, 2.88f, 0);
+                    }
             	}
             	else {
             		if(currentColumn > nextColumn) {
@@ -307,20 +318,7 @@ public class Kuchisake extends Thread{
             			kuchisake.setTransform(0, kuchisake.getPosition().y, 0);
             		}
             	}
-        		
-        		boolean isPlayerInSaguao = ((game.getPlayerLine() == 0 && game.getPlayerColumn() == 1) || 
-        									(game.getPlayerLine() == 1 && game.getPlayerColumn() == 2));
-        		
-        		boolean isNextRoomSaguao = ((nextLine == 0 && nextColumn == 1) || (nextLine == 1 && nextColumn == 2));
-        		
-        		if((isPlayerInSaguao && isNextRoomSaguao) || 
-        		   game.getPlayerLine() == nextLine && game.getPlayerColumn() == nextColumn) {
-        			kuchisakeSprite.setAlpha(1);
-        		}
-        		else {
-        			kuchisakeSprite.setAlpha(0);
-        		}
-            	
+
                 currentLine = nextLine;
                 currentColumn = nextColumn;
                 pathStep += 1;
@@ -432,9 +430,6 @@ public class Kuchisake extends Thread{
         System.out.println("Posicao next L: " + nextLine + " C: " + nextColumn);
     }*/
 
-    public void walkTowardsDoor(){
-
-    }
 
     @Override
     public void run() {
@@ -451,4 +446,15 @@ public class Kuchisake extends Thread{
     	return kuchisake;
     }
 
+    public int getCurrentLine() {
+        return currentLine;
+    }
+
+    public int getCurrentColumn() {
+        return currentColumn;
+    }
+
+    public Sprite getKuchisakeSprite() {
+        return kuchisakeSprite;
+    }
 }

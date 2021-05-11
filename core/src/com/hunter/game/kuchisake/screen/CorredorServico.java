@@ -58,6 +58,7 @@ public class CorredorServico extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
         
@@ -65,6 +66,7 @@ public class CorredorServico extends StandardRoom implements Screen {
         estatua2.draw(game.batch);
         porta1.draw(game.batch);
         porta2.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         
         game.batch.end();
@@ -106,7 +108,8 @@ public class CorredorServico extends StandardRoom implements Screen {
 		            game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 		
 		            game.getAssetManager().finishLoading();
-		
+		            game.incrementPlayerLine(-1);
+		            game.setPlayerColumn(2);
 		            game.setScreen(new Cozinha(game, 3143));
                 }
             }
@@ -123,7 +126,8 @@ public class CorredorServico extends StandardRoom implements Screen {
 		            game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 		
 		            game.getAssetManager().finishLoading();
-		
+                    game.incrementPlayerLine(1);
+                    game.setPlayerColumn(6);
 		            game.setScreen(new Porao(game, 2810));
                 }
 	        }

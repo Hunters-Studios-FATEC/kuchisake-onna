@@ -51,10 +51,12 @@ public class AreaServico extends StandardRoom implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         player.playerUpdate(delta);
+        game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
         
         quadroEnergia.draw(game.batch);
+        game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta.draw(game.batch);
         
@@ -69,7 +71,6 @@ public class AreaServico extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 2){
-                System.out.println("muda porra");
                 doorAnimationTimer += delta;
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -81,7 +82,8 @@ public class AreaServico extends StandardRoom implements Screen {
                     game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
-
+                    game.incrementPlayerLine(-1);
+                    game.setPlayerColumn(2);
                     game.setScreen(new Cozinha(game, 483));
                 }
 
