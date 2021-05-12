@@ -167,13 +167,19 @@ public class Player {
             isLookingRight = true;
         }
 
-        frameChangeTimer = (currentState == formerState) ? frameChangeTimer + delta:0;
+        frameChangeTimer = (currentState == formerState) ? frameChangeTimer + delta : 0;
         formerState = currentState;
-
-//        System.out.println(formerState);
-//        System.out.println(currentState);
-//        System.out.println();
-
+        
+        short framesCount = 24;
+        
+        if(currentState == 1) {
+        	framesCount = 8;
+        }
+        
+        if(frameChangeTimer >= transitionTime * framesCount) {
+        	frameChangeTimer -= transitionTime * framesCount;
+        }
+        
         return textureRegion;
     }
 

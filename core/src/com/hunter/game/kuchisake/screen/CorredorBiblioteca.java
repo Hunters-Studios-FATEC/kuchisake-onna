@@ -125,6 +125,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(-1);
+                    game.setHasEncountered(false);
                     game.setScreen(new SalaSegura(game, 1900+230));
                 }
             }

@@ -3,6 +3,8 @@ package com.hunter.game.kuchisake.hide;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
@@ -17,7 +19,7 @@ public class Circle extends Actor{
 	float timeCount = 0;
 	float startTime = 0;
 	
-	Texture texture;
+	TextureRegion texture;
 	
 	Sprite circleSprite;
 	Sprite arrowSprite;
@@ -33,21 +35,25 @@ public class Circle extends Actor{
 	SizeToAction sizeToAction;
 	MoveByAction moveByAction;
 	
-	public Circle(float x, float y, int randomN, float time, int stgIndex) {
+	Hide hideMinigame;
+	
+	boolean canIncrementCount = true;
+	
+	public Circle(float x, float y, int randomN, float time, int stgIndex, TextureAtlas textureAtlas, Hide hideMinigame) {
 		nValue = randomN;
 		
 		startTime = time;
 		
 		stageIndex = stgIndex;
 		
-		texture = new Texture("circle.png");
+		texture = textureAtlas.findRegion("circle");
 		
 		circleSprite = new Sprite(texture);
 		circleSprite.setBounds(x, y, circleSprite.getWidth() / TerrorGame.SCALE, circleSprite.getHeight() / TerrorGame.SCALE);
 		
 		setBounds(x, y, circleSprite.getWidth(), circleSprite.getHeight());
 		
-		texture = new Texture("arrow.png");
+		texture = textureAtlas.findRegion("red_arrow");
 		
 		arrowSprite = new Sprite(texture);
 		arrowSprite.setBounds(x, y, circleSprite.getWidth() / 2, circleSprite.getHeight() / 2);
@@ -64,6 +70,8 @@ public class Circle extends Actor{
 		previousHeight = getHeight();
 		
 		setColor(0, 0, 0, 0);
+		
+		this.hideMinigame = hideMinigame;
 	}
 	
 	void addInitialActions() {
@@ -95,6 +103,8 @@ public class Circle extends Actor{
 			addAction(sizeToAction);
 			
 			keyPressed = true;
+			
+			hideMinigame.incrementHitCount();
 		}
 	}
 	
@@ -159,5 +169,10 @@ public class Circle extends Actor{
 		missKey();
 		
 		super.act(delta);
+		
+		if((getActions().size == 0 && (keyPressed || triggeredMissedKeyEvent)) && canIncrementCount) {
+			hideMinigame.incrementCount();
+			canIncrementCount = false;
+		}
 	}
 }

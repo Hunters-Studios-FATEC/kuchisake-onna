@@ -38,7 +38,7 @@ public class Kuchisake extends Thread{
     float transitionTime = 0.10f;
     float frameChangeTimer = 0;
 
-    boolean isLookingRight = true;
+    boolean isLookingRight = false;
 
     Sprite kuchisakeSprite;
 
@@ -66,7 +66,7 @@ public class Kuchisake extends Thread{
 
     boolean isSecondFloor = false;
 
-    public Kuchisake(float initialX, TerrorGame game, World world) {
+    public Kuchisake(float initialX, TerrorGame game) {
     	this.game = game;
     	
     	bodyDef = new BodyDef();
@@ -77,7 +77,7 @@ public class Kuchisake extends Thread{
 
         // Pos Y padrão para as salas - 160 / TerrorGame.SCALE + 1.28f
         bodyDef.position.set(initialX / TerrorGame.SCALE, 160 / TerrorGame.SCALE + 1.28f);
-        kuchisake = world.createBody(bodyDef);
+        kuchisake = game.getWorld().createBody(bodyDef);
 
         polygonShape.setAsBox(128 / TerrorGame.SCALE, 128 / TerrorGame.SCALE);
         fixtureDef.shape = polygonShape;
@@ -121,6 +121,7 @@ public class Kuchisake extends Thread{
                 frameCounter += 1;
             }
         }
+        
         return spritesFrames;
     }
 
@@ -128,15 +129,20 @@ public class Kuchisake extends Thread{
         TextureRegion textureRegion;
         textureRegion = animationWalking.getKeyFrame(frameChangeTimer, true);
 
-        if ((isWalking < 0 || !isLookingRight) && !textureRegion.isFlipX()){
+        if ((kuchisake.getLinearVelocity().x < 0 || !isLookingRight) && textureRegion.isFlipX()){
             textureRegion.flip(true, false);
             isLookingRight = false;
-        } else if ((isWalking > 0 || isLookingRight)&& textureRegion.isFlipX()){
+        } else if ((kuchisake.getLinearVelocity().x > 0 || isLookingRight) && !textureRegion.isFlipX()){
             textureRegion.flip(true, false);
             isLookingRight = true;
         }
 
         frameChangeTimer += delta;
+        
+        if(frameChangeTimer >= transitionTime * 30) {
+        	frameChangeTimer -= transitionTime * 30;
+        }
+        
         return textureRegion;
     }
 
@@ -150,11 +156,8 @@ public class Kuchisake extends Thread{
         kuchisakeSprite.draw(batch);
     }
 
-    public void setSizeAndPosition(float sizeMultiplicator, float yPosition){
-        kuchisakeSprite.setSize(128 * sizeMultiplicator/ TerrorGame.SCALE, 128 * sizeMultiplicator/ TerrorGame.SCALE);
+    void setPosition(float yPosition){
         kuchisake.setTransform(kuchisake.getPosition().x, kuchisake.getPosition().y + yPosition, 0);
-        
-        kuchisake.setAwake(true);
     }
 
     public void setminigameID(int minigameID) {
@@ -194,7 +197,7 @@ public class Kuchisake extends Thread{
 
     }
     
-    public void searchPlayer() {
+    void searchPlayer() {
         int nextLine;
         int nextColumn;
 
@@ -249,28 +252,103 @@ public class Kuchisake extends Thread{
 						e.printStackTrace();
 					}
         		}
-        		
-        		walkToXPos(nextLine, nextColumn, path);
 			}
+        	
+        	if(!game.getHasEncountered()) {
+        		walkToXPos(nextLine, nextColumn, path);
+        	}
+        	else {
+        		foundDoorXPos = false;
+        		moveTimer = 0;
+        		isSearching = false;
+            	pathStep = 0;
+        	}
     	}
     }
     
-    public void setIsWaiting(boolean value) {
-    	isWaiting = value;
+    void goToPlayerRoom() {
+        int nextLine;
+        int nextColumn;
+
+        //float doorX = 0;
+
+        ArrayList<Integer[]> path = kuchisakeThread.getPath();
+
+        nextLine = path.get(pathStep)[0];
+        nextColumn = path.get(pathStep)[1];
+        
+        if (currentLine == nextLine){
+            if (currentColumn > nextColumn ) {
+                doorX = 0;
+            } else if (currentColumn < nextColumn){
+                doorX = 3500f / TerrorGame.SCALE;
+            }
+        } else if (currentLine != nextLine) {
+        	Object[] portas = Arrays.copyOfRange(kuchisakeThread.getDoors()[currentLine][currentColumn], 0, 
+					 kuchisakeThread.getDoors()[currentLine][currentColumn].length - 1);;
+					 
+        	if (currentLine > nextLine) {
+                for (int i = 0; i < portas.length; i++) {
+                    if (portas[i].toString().contains("doorDown" + Integer.toString(nextColumn))) {
+                        Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
+                        doorX = doorsPosX[i];
+                        //System.out.println(doorX);
+                        break;
+                    }
+                }
+            } else if (currentLine < nextLine) {
+                for (int i = 0; i < portas.length; i++) {
+                    if (portas[i].toString().contains("doorUp" + Integer.toString(nextColumn))) {
+                        Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
+                        doorX = doorsPosX[i];
+                        //System.out.println(doorX);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        foundDoorXPos = true;
+        
+        while(foundDoorXPos) {
+        	synchronized (game) {
+        		isWaiting = true;
+        		
+        		while(isWaiting) {
+        			try {
+						game.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+        		}
+			}
+        	
+        	if(!game.getIsHiding()) {
+        		walkToXPos(nextLine, nextColumn, path);
+        	}
+        	else {
+        		foundDoorXPos = false;
+        		moveTimer = 0;
+        		isSearching = false;
+            	pathStep = 0;
+        	}
+    	}
     }
     
     void walkToXPos(int nxtLine, int nxtColumn, ArrayList<Integer[]> path) {
     	int nextLine = nxtLine;
     	int nextColumn = nxtColumn;
-
-        if (kuchisake.getPosition().x > doorX + 1f) {
+    	
+    	if (kuchisake.getPosition().x > doorX + 0.5f) {
             kuchisake.setLinearVelocity(-5f, 0);
-        } else if (kuchisake.getPosition().x < doorX - 1){
+        } else if (kuchisake.getPosition().x < doorX - 0.5f){
         	kuchisake.setLinearVelocity(5f, 0);
         } else {
         	kuchisake.setLinearVelocity(0, 0);
         	
-        	if(moveTimer >= 1.5f) {
+        	boolean changedRoom = false;
+        	
+        	if(moveTimer > 1f && !changedRoom) {
         		if(currentLine != nextLine) {
     	            Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[nextLine][nextColumn];
     	            Object[] portas = Arrays.copyOfRange(kuchisakeThread.getDoors()[nextLine][nextColumn], 0, 
@@ -291,155 +369,108 @@ public class Kuchisake extends Thread{
     	                    }
     	                }
     	            }
-    	
-    	            kuchisake.setTransform(newXPos, kuchisake.getPosition().y, 0);
-
-                    System.out.println(nextLine + " " + nextColumn);
-
-    	            if((nextLine == 1 && nextColumn == 2)) {
-    	                isSecondFloor = true;
-    	            	setSizeAndPosition(3.75f, 4.25f);
+    	            
+    	            if(!game.getWorld().isLocked()) {
+    	            	kuchisake.setTransform(newXPos, kuchisake.getPosition().y, 0);
+    	            	changedRoom = true;
     	            }
-    	            else if((nextLine == 0 && nextColumn == 1)) {
-    	                isSecondFloor = false;
-    	            	setSizeAndPosition(5.5f, -4.25f);
-    	            }
-    	            else{
-    	                isSecondFloor = false;
-                        kuchisakeSprite.setSize(128 * 5.5f/ TerrorGame.SCALE, 128 * 5.5f/ TerrorGame.SCALE);
-                        kuchisake.setTransform(kuchisake.getPosition().x, 2.88f, 0);
-                    }
             	}
             	else {
             		if(currentColumn > nextColumn) {
-            			kuchisake.setTransform(3500 / TerrorGame.SCALE, kuchisake.getPosition().y, 0);
+            			if(!game.getWorld().isLocked()) {
+            				kuchisake.setTransform(3500 / TerrorGame.SCALE, kuchisake.getPosition().y, 0);
+            				changedRoom = true;
+            			}
             		}
             		else {
-            			kuchisake.setTransform(0, kuchisake.getPosition().y, 0);
+            			if(!game.getWorld().isLocked()) {
+            				kuchisake.setTransform(0, kuchisake.getPosition().y, 0);
+            				changedRoom = true;
+            			}
             		}
             	}
+        		
+        		if(changedRoom) {
+        			currentLine = nextLine;
+                    currentColumn = nextColumn;
+                    
+                    if((currentLine == 1 && currentColumn == 2)) {
+    	                isSecondFloor = true;
+    	                setPosition(4.25f);
+    	            }
+    	            else if(isSecondFloor){
+    	                isSecondFloor = false;
+    	                setPosition(-4.25f);
+                    }
 
-                currentLine = nextLine;
-                currentColumn = nextColumn;
-                pathStep += 1;
-                foundDoorXPos = false;
-                
-                moveTimer = 0;
-                
-                if(pathStep == path.size()) {
-                	isSearching = false;
-                	pathStep = 0;
-                }
+                    pathStep += 1;
+                    foundDoorXPos = false;
+                    
+                    moveTimer = 0;
+                    
+                    if(pathStep == path.size()) {
+                    	isSearching = false;
+                    	pathStep = 0;
+                    }
+        		}
         	}
         	else {
         		moveTimer += Gdx.graphics.getDeltaTime();
         	}
         }
     }
-
-    /*public void searchPlayer(){
-        int nextLine;
-        int nextColumn;
-
-        float doorX = 0;
-
-        Object[] portas;
-        Float[] doorsPosX = new Float[0];
-
-        ArrayList<Integer[]> path = kuchisakeThread.getPath();
-
-        nextLine = path.get(pathStep)[0];
-        nextColumn = path.get(pathStep)[1];
-
-        if (currentLine == nextLine){
-            if (currentColumn > nextColumn ) {
-                kuchisakeSprite.setX(kuchisakeSprite.getX() - (10f * Gdx.graphics.getDeltaTime()));
-                if (kuchisakeSprite.getX() < 0){
-                    kuchisakeSprite.setX(3500/TerrorGame.SCALE);
-                    currentColumn = nextColumn;
-                    pathStep += 1;
-                }
-            } else if (currentColumn < nextColumn){
-                kuchisakeSprite.setX(kuchisakeSprite.getX() + (10f * Gdx.graphics.getDeltaTime()));
-                if (kuchisakeSprite.getX() > 3500/TerrorGame.SCALE){
-                    kuchisakeSprite.setX(0);
-                    currentColumn = nextColumn;
-                    pathStep += 1;
-                }
-            } else {
-                currentColumn = nextColumn;
-                pathStep += 1;
-                isSearching = false;
-            }
-        } else if (currentLine != nextLine) {
-            if (!foundDoorXPos) {
-                if (currentLine > nextLine) {
-                    portas = Arrays.copyOfRange(kuchisakeThread.getDoors()[currentLine][currentColumn], 0, kuchisakeThread.getDoors()[currentLine][currentColumn].length - 1);
-                    for (int i = 0; i < portas.length; i++) {
-                        if (portas[i].toString().contains("doorDown" + Integer.toString(nextColumn))) {
-                            doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
-                            doorX = doorsPosX[i];
-                            foundDoorXPos = true;
-                            break;
-                        }
-                    }
-                } else if (currentLine < nextLine) {
-                    portas = Arrays.copyOfRange(kuchisakeThread.getDoors()[currentLine][currentColumn], 0, kuchisakeThread.getDoors()[currentLine][currentColumn].length - 1);
-                    for (int i = 0; i < portas.length; i++) {
-                        if (portas[i].toString().contains("doorUp" + Integer.toString(nextColumn))) {
-                            doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
-                            doorX = doorsPosX[i];
-                            foundDoorXPos = true;
-                            break;
-                        }
-                    }
-                }
-            } else {
-                if (kuchisakeSprite.getX() > doorX){
-                    kuchisakeSprite.setX(kuchisakeSprite.getX() - 10f * Gdx.graphics.getDeltaTime());
-                } else if (kuchisakeSprite.getX() < doorX){
-                    kuchisakeSprite.setX(kuchisakeSprite.getX() + 10f * Gdx.graphics.getDeltaTime());
-                } else {
-                    foundDoorXPos = false;
-                    doorsPosX = kuchisakeThread.getDoorsPosX()[nextLine][nextColumn];
-                    portas = Arrays.copyOfRange(kuchisakeThread.getDoors()[nextLine][nextColumn], 0, kuchisakeThread.getDoors()[nextLine][nextColumn].length);
-
-                    for (int i = 0; i < portas.length; i++) {
-                        if (currentLine > nextLine) {
-                            if (portas[i].toString().contains("doorUp" + Integer.toString(currentColumn))) {
-                                doorsPosX = kuchisakeThread.getDoorsPosX()[nextLine][nextColumn];
-                                doorX = doorsPosX[i];
-                                break;
-                            }
-                        } else if (currentLine < nextLine){
-                            if (portas[i].toString().contains("doorDown" + Integer.toString(currentColumn))) {
-                                doorsPosX = kuchisakeThread.getDoorsPosX()[nextLine][nextColumn];
-                                doorX = doorsPosX[i];
-                                break;
-                            }
-                        }
-                    }
-
-                    kuchisakeSprite.setX(doorX);
-                    currentLine = nextLine;
-                    currentColumn = nextColumn;
-                    pathStep += 1;
-                }
-            }
-        }
-        System.out.println("Posicao next L: " + nextLine + " C: " + nextColumn);
-    }*/
-
+    
+    public void setIsWaiting(boolean value) {
+    	isWaiting = value;
+    }
 
     @Override
     public void run() {
     	while(true) {
-    		calculateRoute();
+    		if(!game.getIsHiding()) {
+    			if(!game.getHasEncountered()) {
+        			calculateRoute();
+        		}
+        		else {
+        			stalkPlayer();
+        		}
+    		}
     	}
     }
 
     public void stalkPlayer(){
-        kuchisakeThread.runThread(currentLine, currentColumn, finalLine, finalColumn);
+    	if(currentLine != game.getPlayerLine() || currentColumn != game.getPlayerColumn()) {
+    		finalLine = game.getPlayerLine();
+        	finalColumn = game.getPlayerColumn();
+        	
+            kuchisakeThread.runThread(currentLine, currentColumn, finalLine, finalColumn);
+            
+            isSearching = true;
+            
+            while (isSearching){
+            	goToPlayerRoom();
+            }
+    	}
+    	else {
+        	synchronized (game) {
+        		isWaiting = true;
+        		
+        		while(isWaiting) {
+        			try {
+						game.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+        		}
+			}
+        	
+    		if(game.getPlayerXPos() > kuchisake.getPosition().x) {
+    			kuchisake.setLinearVelocity(5f, 0);
+    		}
+    		else if(game.getPlayerXPos() < kuchisake.getPosition().x){
+    			kuchisake.setLinearVelocity(-5f, 0);
+    		}
+    	}
     }
     
     public Body getBody() {
@@ -454,7 +485,7 @@ public class Kuchisake extends Thread{
         return currentColumn;
     }
 
-    public Sprite getKuchisakeSprite() {
+    public Sprite getSprite() {
         return kuchisakeSprite;
     }
 }

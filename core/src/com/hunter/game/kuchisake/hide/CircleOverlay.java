@@ -3,6 +3,8 @@ package com.hunter.game.kuchisake.hide;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
@@ -14,7 +16,7 @@ public class CircleOverlay extends Actor{
 	float timeCount = 0;
 	float startTime = 0;
 	
-	Texture texture;
+	TextureRegion texture;
 	Sprite sprite;
 	
 	float previousWidth = 0;
@@ -28,10 +30,10 @@ public class CircleOverlay extends Actor{
 	SizeToAction sizeToAction;
 	MoveByAction moveByAction;
 	
-	public CircleOverlay(float x, float y, float time) {
+	public CircleOverlay(float x, float y, float time, TextureAtlas textureAtlas) {
 		startTime = time;
 		
-		texture = new Texture("hitcircleoverlay.png");
+		texture = textureAtlas.findRegion("hitcircleoverlay");
 		
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() * 4 / TerrorGame.SCALE, sprite.getHeight() * 4 / TerrorGame.SCALE);

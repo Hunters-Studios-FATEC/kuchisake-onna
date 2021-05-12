@@ -34,6 +34,11 @@ public class Quarto extends StandardRoom implements Screen {
         porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition((3500 - 460 * 2) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta.setAlpha(0.5f);
+        
+        if(game.getHasEncountered()) {
+        	game.getMinigameManager().setMinigameActive(true);
+        	game.getMinigameManager().startMinigame(0);
+        }
 
     }
 
@@ -60,6 +65,9 @@ public class Quarto extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
+        
+        game.getMinigameManager().minigameUpdate(delta, 0);
+        
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 1){
                 doorAnimationTimer += delta;
@@ -86,6 +94,8 @@ public class Quarto extends StandardRoom implements Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        
+        game.getMinigameManager().minigameResize(width, height, 0);
     }
 
     @Override

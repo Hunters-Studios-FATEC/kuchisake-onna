@@ -70,7 +70,7 @@ public class Saguao extends StandardRoom implements Screen {
         if (isSecondFloor){
 
             if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f + 4.25f){
-                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+                game.getKuchisakeOnna().draw(game.batch);
             }
 
             player.draw(game.batch);
@@ -78,17 +78,17 @@ public class Saguao extends StandardRoom implements Screen {
             corri.draw(game.batch);
 
             if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f){
-                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            	game.getKuchisakeOnna().draw(game.batch);
             }
         }else {
             if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f + 4.25f){
-                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            	game.getKuchisakeOnna().draw(game.batch);
             }
 
             corri.draw(game.batch);
 
             if (game.getKuchisakeOnna().getBody().getPosition().y == 2.88f){
-                game.getKuchisakeOnna().getKuchisakeSprite().draw(game.batch);
+            	game.getKuchisakeOnna().draw(game.batch);
             }
 
             player.draw(game.batch);
@@ -138,11 +138,11 @@ public class Saguao extends StandardRoom implements Screen {
                          game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                          game.getAssetManager().finishLoading();
-
-                         game.setScreen(new Sala1(game, 483));
                          
                          game.incrementPlayerLine(1);
                          game.setPlayerColumn(2);
+
+                         game.setScreen(new Sala1(game, 483));
                      }
                  }
                  else if (direction == "doorUp" && doorNum == 3){
@@ -157,11 +157,11 @@ public class Saguao extends StandardRoom implements Screen {
                          game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
 
                          game.getAssetManager().finishLoading();
-
-                         game.setScreen(new Sala2(game, 2891));
                          
                          game.incrementPlayerLine(1);
                          game.setPlayerColumn(3);
+
+                         game.setScreen(new Sala2(game, 2891));
                      }
                  }
             }

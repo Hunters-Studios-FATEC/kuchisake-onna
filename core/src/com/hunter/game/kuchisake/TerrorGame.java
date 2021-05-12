@@ -1,7 +1,5 @@
 package com.hunter.game.kuchisake;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.hunter.game.kuchisake.objects.Kuchisake;
 import com.hunter.game.kuchisake.screen.StandardRoom;
 import com.hunter.game.kuchisake.startMenu.SceneMenu;
+import com.hunter.game.kuchisake.tools.MinigameManager;
 
 public class TerrorGame extends Game{
 	
@@ -38,6 +37,12 @@ public class TerrorGame extends Game{
 	private int playerLine = 0;
 	private int playerColumn = 1;
 	
+	private float playerXPos = 1000f;
+	
+	MinigameManager minigameManager;
+	
+	private boolean isHiding = false;
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -63,6 +68,7 @@ public class TerrorGame extends Game{
 	public synchronized void worldStep() {
 		kuchisakeOnna.setIsWaiting(false);
 		notify();
+		
 		world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 	}
 	
@@ -78,16 +84,20 @@ public class TerrorGame extends Game{
 		playerColumn = column;
 	}
 	
-	public synchronized int getPlayerLine() {
-		kuchisakeOnna.setIsWaiting(false);
-		notify();
+	public int getPlayerLine() {
 		return playerLine;
 	}
 	
-	public synchronized int getPlayerColumn() {
-		kuchisakeOnna.setIsWaiting(false);
-		notify();
+	public int getPlayerColumn() {
 		return playerColumn;
+	}
+	
+	public void setPlayerXPos(float xPos) {
+		playerXPos = xPos;
+	}
+	
+	public float getPlayerXPos() {
+		return playerXPos;
 	}
 	
 	public AssetManager getAssetManager() {
@@ -98,10 +108,18 @@ public class TerrorGame extends Game{
 		world = new World(new Vector2(0, 0), true);
 		this.getAssetManager().load("CharactersAssets/muie_sprites.png", Texture.class);
 		assetManager.finishLoading();
-		kuchisakeOnna = new Kuchisake(1750, this, world);
+		kuchisakeOnna = new Kuchisake(1750, this);
 
 		//Thread run aqui
 		kuchisakeOnna.start();
+	}
+	
+	public void createMinigameManager() {
+		minigameManager = new MinigameManager(batch, this);
+	}
+	
+	public MinigameManager getMinigameManager() {
+		return minigameManager;
 	}
 	
 	public World getWorld() {
@@ -119,4 +137,20 @@ public class TerrorGame extends Game{
 	public short getKuchisakeBit() {
         return KUCHISAKE_BIT;
     }
+	
+	public void setHasEncountered(boolean value) {
+		hasEncountered = value;
+	}
+	
+	public boolean getHasEncountered() {
+		return hasEncountered;
+	}
+	
+	public void setIsHiding(boolean value) {
+		isHiding = value;
+	}
+	
+	public boolean getIsHiding() {
+		return isHiding;
+	}
 }

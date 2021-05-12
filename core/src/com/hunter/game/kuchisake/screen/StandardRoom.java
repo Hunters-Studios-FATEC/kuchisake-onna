@@ -23,10 +23,6 @@ import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import javax.swing.Spring;
-
 //import com.hunter.game.kuchisake.teste.WireMinigame;
 
 public class StandardRoom implements com.badlogic.gdx.Screen {
@@ -55,7 +51,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	float tileWidth;
 	float mapWidth;
 
-	MinigameManager minigameManager;
 	int maxMinigameID = 5;
 
 	InventoryManager inventoryManager;
@@ -81,15 +76,13 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		//world = new World(new Vector2(0, 0), true);
 		world = game.getWorld();
-		
-		minigameManager = new MinigameManager(game.batch, player);
 
 		inventoryManager = new InventoryManager(game);
 		
 		collisions = new Collisions(world, fundo_sala, game);
-		player = new Player(world, minigameManager, inventoryManager, collisions, this, playerDoorPosX, game);
+		player = new Player(world, game.getMinigameManager(), inventoryManager, collisions, this, playerDoorPosX, game);
 		
-		world.setContactListener(new WorldContactListener(minigameManager, player, this));
+		world.setContactListener(new WorldContactListener(game.getMinigameManager(), player, this));
 
 		debugRenderer = new Box2DDebugRenderer();
 
@@ -112,6 +105,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		while(accumulator >= game.getTimeStep()) {
 			player.handleInput();
+			
+			game.setPlayerXPos(player.getBody().getPosition().x);
 			
 			/*synchronized (this) {
 				world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
@@ -168,18 +163,27 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		collisions.getMapRenderer().render();
-
-		boolean isPlayerInSaguao = ((game.getPlayerLine() == 0 && game.getPlayerColumn() == 1) ||
-					(game.getPlayerLine() == 1 && game.getPlayerColumn() == 2));
-
-		boolean isNextRoomSaguao = ((game.getKuchisakeOnna().getCurrentLine() == 0 && game.getKuchisakeOnna().getCurrentColumn() == 1) || (game.getKuchisakeOnna().getCurrentLine() == 1 && game.getKuchisakeOnna().getCurrentColumn() == 2));
-
-		if((isPlayerInSaguao && isNextRoomSaguao) ||
-				game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() && game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()) {
-			game.getKuchisakeOnna().getKuchisakeSprite().setAlpha(1);
+		
+		if(game.getKuchisakeOnna().getBody().getPosition().y == 2.88f + 4.25f) {
+			game.getKuchisakeOnna().getSprite().setSize(128 * 3.75f / TerrorGame.SCALE, 128 * 3.75f / TerrorGame.SCALE);
 		}
 		else {
-			game.getKuchisakeOnna().getKuchisakeSprite().setAlpha(0);
+			game.getKuchisakeOnna().getSprite().setSize(128 * 5.5f / TerrorGame.SCALE, 128 * 5.5f / TerrorGame.SCALE);
+		}
+
+		boolean isPlayerInSaguao = ((game.getPlayerLine() == 0 && game.getPlayerColumn() == 1) ||
+								    (game.getPlayerLine() == 1 && game.getPlayerColumn() == 2));
+
+		boolean isKuchisakeInSaguao = ((game.getKuchisakeOnna().getCurrentLine() == 0 && game.getKuchisakeOnna().getCurrentColumn() == 1) || 
+									   (game.getKuchisakeOnna().getCurrentLine() == 1 && game.getKuchisakeOnna().getCurrentColumn() == 2));
+
+		if((isPlayerInSaguao && isKuchisakeInSaguao) ||
+				game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() && game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()) {
+			game.getKuchisakeOnna().getSprite().setAlpha(1);
+			game.setHasEncountered(true);
+		}
+		else {
+			game.getKuchisakeOnna().getSprite().setAlpha(0);
 		}
 
 //		game.batch.setProjectionMatrix(camera.combined);

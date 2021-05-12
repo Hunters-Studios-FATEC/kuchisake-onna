@@ -102,6 +102,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(1);
+                    
                     game.setScreen(new Quarto(game, 2810));
                 }
             }

@@ -4,8 +4,10 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,17 +26,43 @@ public class Hide {
 	
 	Background background;
 
-	boolean isfinished = false;
+	boolean isFinished = false;
+	boolean canShowResults = false;
 
 	SpriteBatch hideBatch;
 	
-	public Hide(SpriteBatch batch) {
+	TextureAtlas textureAtlas;
+	
+	int count = 0;
+	int hitCount = 0;
+	
+	float playSoundTimer = 0;
+	
+	TerrorGame game;
+	
+	Sound openDoor;
+	Sound closeDoor;
+	Sound foundPlayer;
+	
+	boolean playAudio2 = true;
+	boolean gotCaught = false;
+	
+	public Hide(SpriteBatch batch, TerrorGame game, TextureAtlas textureAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
 								   new OrthographicCamera());
 
 		hideBatch = batch;
 
 		stage = new Stage(viewport, hideBatch);
+		
+		this.textureAtlas = textureAtlas;
+		
+		this.game = game;
+		
+		openDoor = game.getAssetManager().get("Audio/Sfx/porta abrindo 3.ogg", Sound.class);
+		closeDoor = game.getAssetManager().get("Audio/Sfx/porta fechando 3.ogg", Sound.class);
+		foundPlayer = game.getAssetManager().get("Audio/Sfx/Achei voce.ogg", Sound.class);
+		
 	}
 	
 	void createHitCircles() {
@@ -53,23 +81,25 @@ public class Hide {
 			randomX = 1.28f * 2 + random.nextFloat() * (viewport.getWorldWidth() - 1.28f * 4);
 			randomY = 1.28f * 2 + random.nextFloat() * (viewport.getWorldHeight() - 1.28f * 4);
 			
-			circle = new Circle(randomX, randomY, random.nextInt(4), randomTime, i + 1);
+			circle = new Circle(randomX, randomY, random.nextInt(4), randomTime, i + 1, textureAtlas, this);
 			
 			//circle = new Circle(randomX, randomY, 0, randomTime, i + 1);
 			
 			circleArray.add(circle);
 			
-			circleOverlay = new CircleOverlay(randomX, randomY, randomTime);
+			circleOverlay = new CircleOverlay(randomX, randomY, randomTime, textureAtlas);
 			
 			circleOverlayArray.add(circleOverlay);
 		}
 	}
 
 	public void startMinigame(){
+		count = 0;
+		playSoundTimer = 0;
 
 		stage = new Stage(viewport, hideBatch);
 
-		background = new Background(0, 0);
+		background = new Background(0, 0, textureAtlas);
 
 		Gdx.input.setInputProcessor(stage);
 
@@ -148,13 +178,68 @@ public class Hide {
 			}
 		});
 	}
+	
+	public void verifyConclusion() {
+		if(count == (stage.getActors().size - 1) / 2) {
+			isFinished = true;
+		}
+	}
+	
+	public boolean showResults(float delta) {
+		if(!canShowResults) {
+			canShowResults = true;
+			
+			background.setSolidColor();
+			
+			openDoor.setVolume(openDoor.play(), 0.5f);
+		}
+		else {
+			playSoundTimer += delta;
+			
+			if(playSoundTimer > 3f && playAudio2) {
+				playAudio2 = false;
+				
+				if(hitCount >= count / 2) {
+					closeDoor.setVolume(closeDoor.play(), 0.5f);
+				}
+				else {
+					gotCaught = true;
+					foundPlayer.setVolume(foundPlayer.play(), 0.5f);
+				}
+			}
+			else if(playSoundTimer > 5.5f) {
+				if(gotCaught) {
+					// funcao para ir para a tela de game over
+				}
+				else {
+					background.fadeOut();
+				}
+				
+				if(playSoundTimer > 5.75f) {
+					System.out.println("TESTE");
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public void incrementCount() {
+		count++;
+	}
+	
+	public void incrementHitCount() {
+		hitCount++;
+	}
+
 
 	public void closeMinigame() {
 		stage.clear();
 	}
 
 	public boolean getIsFinished() {
-		return isfinished;
+		return isFinished;
 	}
 
 	public Stage getStage(){

@@ -1,14 +1,15 @@
 package com.hunter.game.kuchisake.tools;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.WireMinigame.WireMinigame;
 import com.hunter.game.kuchisake.hide.Hide;
 import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
 import com.hunter.game.kuchisake.minigameGerador.MinigameGerador;
-import com.hunter.game.kuchisake.objects.Player;
 
 public class MinigameManager {
 
@@ -19,7 +20,6 @@ public class MinigameManager {
     WireMinigame wireMinigame;
     MinigameGerador geradorMinigame;
     SpriteBatch spriteBatch;
-    Player minigamePlayer;
 
     boolean hideCompleted; // Hide completed é só para testes
     boolean lockCompleted;
@@ -31,18 +31,24 @@ public class MinigameManager {
     boolean isMinigameActive = false;
 
     float clearStageTimer = 0f;
+    
+    TextureAtlas textureAtlas;
+    
+    TerrorGame game;
 
-
-
-    public MinigameManager(SpriteBatch batch, Player player){
+    public MinigameManager(SpriteBatch batch, TerrorGame game){
     	//SpriteBatch spriteBatch = batch; -> A variavel global spriteBatch nao estava recebendo o parametro batch.
         spriteBatch = batch;
-        /*hideMinigame = new Hide(batch);
-        lockPickMinigame = new LockPickMinigame(batch);
+        
+        this.game = game;
+        
+        textureAtlas = game.getAssetManager().get("MinigameAssets/MinigameObjects.atlas", TextureAtlas.class);
+        
+        hideMinigame = new Hide(batch, game, textureAtlas);
+        /*lockPickMinigame = new LockPickMinigame(batch);
         minigameBook = new MinigameBook(batch);
         wireMinigame = new WireMinigame(batch);
         geradorMinigame = new MinigameGerador(batch);*/
-        minigamePlayer = player;
 
 //        int hideMinigame_ID = 0;
 //        int lockPickMinigame_ID = 1;
@@ -55,6 +61,9 @@ public class MinigameManager {
             case 0:
                 if (!hideCompleted) {
                     hideMinigame.startMinigame();
+                    game.setIsHiding(true);
+                    game.setHasEncountered(false);
+                    
                 } else {
                     isMinigameActive = false;
                 }
@@ -100,18 +109,28 @@ public class MinigameManager {
             case 0: {
                 if (hideMinigame.stage.getActors().size > 0) {
                     spriteBatch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
+                    hideMinigame.verifyConclusion();
                     hideMinigame.stage.act(dt);
                     hideMinigame.stage.draw();
 
                     if (hideMinigame.getIsFinished()) {
-                        clearStageTimer += dt;
+                    	boolean clearStage = hideMinigame.showResults(dt);
+                    	
+                    	if(clearStage) {
+                    		/*clearStageTimer += dt;
 
-                        if (clearStageTimer > 1.5) {
-                            clearStageTimer = 0;
-                            hideCompleted = true;
+                            if (clearStageTimer > 1.5) {
+                                clearStageTimer = 0;
+                                hideCompleted = true;
+                                closeMinigame(0);
+                                canStartMinigame = false;
+                            }*/
+                    		
+                    		hideCompleted = true;
                             closeMinigame(0);
+                            game.setIsHiding(false);
                             canStartMinigame = false;
-                        }
+                    	}	
                     }
                 }
                 break;
