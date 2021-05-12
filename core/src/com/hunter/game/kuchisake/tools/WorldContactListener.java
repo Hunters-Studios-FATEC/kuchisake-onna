@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.Player;
 import com.hunter.game.kuchisake.screen.StandardRoom;
 
@@ -13,12 +14,14 @@ public class WorldContactListener implements ContactListener{
 	MinigameManager minigameManager;
 	Player player;
 	StandardRoom standardRoom;
+	InventoryManager inventoryManager;
 
-	public WorldContactListener(MinigameManager minigameManager, Player player, StandardRoom standardRoom){
+	public WorldContactListener(MinigameManager minigameManager, Player player, StandardRoom standardRoom, InventoryManager inventoryManager){
 		// parametro player criado e atribuido a variavel global player.
 		this.minigameManager = minigameManager;
 		this.player = player;
 		this.standardRoom = standardRoom;
+		this.inventoryManager = inventoryManager;
 	}
 
 	@Override
@@ -53,7 +56,6 @@ public class WorldContactListener implements ContactListener{
 				player.setminigameID(4);
 			} else if (object.getUserData().toString().contains("door")) {
 				player.setTouchingDoor(true);
-				System.out.println("porrtaaaa");
 				if (object.getUserData().toString().contains("Up")){
 					int roomN = Integer.parseInt(object.getUserData().toString().substring("doorUp".length()));
 					standardRoom.setChangeRoom("doorUp", roomN);
@@ -62,6 +64,11 @@ public class WorldContactListener implements ContactListener{
 					int roomN = Integer.parseInt(object.getUserData().toString().substring("doorDown".length()));
 					standardRoom.setChangeRoom("doorDown", roomN);
 				}
+			} else if (object.getUserData().equals("fios")){
+				inventoryManager.setCanCollectItem(true);
+
+			} else if (object.getUserData().equals("chaveServico")){
+				inventoryManager.setCanCollectItem(true);
 			}
 		}
 	}
@@ -78,6 +85,7 @@ public class WorldContactListener implements ContactListener{
 			
 			minigameManager.setCanStartMinigame(false);
 			player.setTouchingDoor(false);
+			inventoryManager.setCanCollectItem(false);
 		}
 	}
 

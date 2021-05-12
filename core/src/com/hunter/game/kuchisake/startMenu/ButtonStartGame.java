@@ -81,10 +81,14 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
     	
     	game.getAssetManager().load("MinigameAssets/MinigameObjects.atlas", TextureAtlas.class);
+        game.getAssetManager().load("Coletaveis/Coletaveis.atlas", TextureAtlas.class);
+        game.getAssetManager().load("Coletaveis/DescriptionAtlas.atlas", TextureAtlas.class);
+
     	game.getAssetManager().load("Audio/Sfx/porta abrindo 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/porta fechando 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/Achei voce.ogg", Sound.class);
-    	
+
+
     	//game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
     	//game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
     	

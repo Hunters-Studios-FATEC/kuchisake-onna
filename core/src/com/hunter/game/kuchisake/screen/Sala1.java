@@ -24,6 +24,7 @@ public class Sala1 extends StandardRoom implements Screen {
         super(game, "Tilesets/sala1.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(483, 160,"doorDown2", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(1750, 160, "chaveServico", 203, collisions.getITEM_BIT());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("porta1");
@@ -54,6 +55,7 @@ public class Sala1 extends StandardRoom implements Screen {
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);
+        inventoryManager.inventoryUpdate(delta);
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);

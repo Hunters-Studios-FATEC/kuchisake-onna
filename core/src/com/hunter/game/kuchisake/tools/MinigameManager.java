@@ -21,7 +21,6 @@ public class MinigameManager {
     MinigameGerador geradorMinigame;
     SpriteBatch spriteBatch;
 
-    boolean hideCompleted; // Hide completed é só para testes
     boolean lockCompleted;
     boolean wireCompleted;
     boolean bookCompleted;
@@ -59,14 +58,9 @@ public class MinigameManager {
     public void startMinigame (int id){
         switch (id){
             case 0:
-                if (!hideCompleted) {
-                    hideMinigame.startMinigame();
-                    game.setIsHiding(true);
-                    game.setHasEncountered(false);
-                    
-                } else {
-                    isMinigameActive = false;
-                }
+                hideMinigame.startMinigame();
+                game.setIsHiding(true);
+                game.setHasEncountered(false);
                 break;
 
             case 1:
@@ -125,8 +119,7 @@ public class MinigameManager {
                                 closeMinigame(0);
                                 canStartMinigame = false;
                             }*/
-                    		
-                    		hideCompleted = true;
+
                             closeMinigame(0);
                             game.setIsHiding(false);
                             canStartMinigame = false;

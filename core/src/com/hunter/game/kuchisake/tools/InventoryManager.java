@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.minigameGerador.Arrow;
 import com.hunter.game.kuchisake.minigameGerador.Background;
+
+import javax.xml.soap.Text;
 
 public class InventoryManager {
     public Stage stage;
@@ -27,12 +30,23 @@ public class InventoryManager {
     InventoryItem inventoryItem;
 
     boolean isInventoryOpen = false;
+    boolean canCollectItem = false;
     
     TerrorGame game;
 
+    TextureAtlas textureAtlas;
+    TextureAtlas objectsAtlas;
+    TextureAtlas descriptionAtlas;
+
+    String collisionTag;
+
     public InventoryManager(TerrorGame game){
         Table table = new Table();
-        
+
+        textureAtlas = game.getAssetManager().get("MinigameAssets/MinigameObjects.atlas");
+        objectsAtlas = game.getAssetManager().get("Coletaveis/Coletaveis.atlas");
+        descriptionAtlas = game.getAssetManager().get("Coletaveis/DescriptionAtlas.atlas");
+
         this.game = game;
         
         spriteBatch = game.batch;
@@ -42,12 +56,12 @@ public class InventoryManager {
         viewport.apply();
 
         stage = new Stage(viewport, spriteBatch);
-        //background = new Background(0, 0);
+        background = new Background(0, 0);
 
-        //inventoryItem = new InventoryItem(viewport.getWorldWidth()  / 2, viewport.getWorldHeight() / 2);
+        inventoryItem = new InventoryItem(viewport.getWorldWidth()  / 2, viewport.getWorldHeight() / 2, objectsAtlas, descriptionAtlas);
 
-        //selectionArrowLeft = new SelectionArrow((viewport.getWorldWidth() - 2)  / 2 - 7, viewport.getWorldHeight() / 2, false, inventoryItem, game);
-        //selectionArrowRight = new SelectionArrow((viewport.getWorldWidth()) / 2 + 7, viewport.getWorldHeight() / 2, true, inventoryItem, game);
+        selectionArrowLeft = new SelectionArrow((viewport.getWorldWidth() - 2)  / 2 - 7, viewport.getWorldHeight() / 2, false, inventoryItem, game, textureAtlas);
+        selectionArrowRight = new SelectionArrow((viewport.getWorldWidth()) / 2 + 7, viewport.getWorldHeight() / 2, true, inventoryItem, game, textureAtlas);
     }
 
     public void openInventory(){
@@ -59,6 +73,10 @@ public class InventoryManager {
         stage.addActor(selectionArrowRight);
         stage.addActor(inventoryItem);
 
+    }
+
+    public void addItem(){
+        inventoryItem.addInventoryItem();
     }
 
     public void inventoryUpdate(float dt){
@@ -89,4 +107,14 @@ public class InventoryManager {
     public boolean getInventoryOpen() {
         return isInventoryOpen;
     }
+
+    public boolean getCanCollectItem() {
+        return canCollectItem;
+    }
+
+    public void setCanCollectItem(boolean canCollectItem) {
+        this.canCollectItem = canCollectItem;
+    }
+
+
 }

@@ -196,7 +196,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 //				minigameManager.minigameUpdate(delta, i);
 //		}
 //
-//		inventoryManager.inventoryUpdate(delta);
 	}
 
 	@Override

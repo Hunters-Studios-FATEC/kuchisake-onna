@@ -27,6 +27,7 @@ public class Collisions {
     final short LOCKPICK_BIT = 64;
     final short GERADOR_BIT = 128;
     final short PORTA_BIT = 256;
+    final short ITEM_BIT = 512;
 
     //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
@@ -191,5 +192,9 @@ public class Collisions {
 
     public short getPortaBit() {
         return PORTA_BIT;
+    }
+
+    public short getITEM_BIT() {
+        return ITEM_BIT;
     }
 }

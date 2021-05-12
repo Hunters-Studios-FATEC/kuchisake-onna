@@ -1,0 +1,20 @@
+
+DescriptionAtlas.png
+size: 1882, 306
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+chaveServico
+  rotate: false
+  xy: 2, 2
+  size: 1493, 150
+  orig: 1493, 150
+  offset: 0, 0
+  index: -1
+fios
+  rotate: false
+  xy: 2, 154
+  size: 1878, 150
+  orig: 1878, 150
+  offset: 0, 0
+  index: -1

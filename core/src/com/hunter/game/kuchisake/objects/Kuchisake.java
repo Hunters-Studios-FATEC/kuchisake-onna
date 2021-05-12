@@ -331,6 +331,7 @@ public class Kuchisake extends Thread{
         		moveTimer = 0;
         		isSearching = false;
             	pathStep = 0;
+            	kuchisake.setLinearVelocity(0,0);
         	}
     	}
     }
@@ -434,7 +435,9 @@ public class Kuchisake extends Thread{
         		else {
         			stalkPlayer();
         		}
-    		}
+    		} else {
+                game.getKuchisakeOnna().getBody().setLinearVelocity(0,0);
+            }
     	}
     }
 

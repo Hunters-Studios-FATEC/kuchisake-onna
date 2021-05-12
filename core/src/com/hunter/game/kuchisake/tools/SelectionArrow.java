@@ -3,6 +3,8 @@ package com.hunter.game.kuchisake.tools;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,11 +14,11 @@ import com.hunter.game.kuchisake.TerrorGame;
 public class SelectionArrow extends Actor {
 
     Sprite seta;
-    Texture setaTexture;
+    TextureRegion setaTexture;
     boolean isRightArrow;
     InventoryItem inventoryItem;
 
-    public SelectionArrow(float xPos, float yPos, boolean rigthArrow, InventoryItem inventoryIt, TerrorGame game){
+    public SelectionArrow(float xPos, float yPos, boolean rigthArrow, InventoryItem inventoryIt, TerrorGame game, TextureAtlas textureAtlas){
         float posX = xPos;
         float posY = yPos;
 
@@ -25,7 +27,7 @@ public class SelectionArrow extends Actor {
         float seta_width = 1f; // width e height ja divididos pela escala - 100.
         float seta_height = 1f;
 
-        setaTexture = game.getAssetManager().get("arrow.png", Texture.class);
+        setaTexture = textureAtlas.findRegion("red_arrow");
         seta = new Sprite(setaTexture);
         this.inventoryItem = inventoryIt;
 

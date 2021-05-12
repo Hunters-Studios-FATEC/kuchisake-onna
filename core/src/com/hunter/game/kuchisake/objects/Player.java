@@ -100,7 +100,7 @@ public class Player {
         fixtureDef.filter.categoryBits = game.getPlayerBit();
 
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
-        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit());
+        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit() + collisions.getITEM_BIT());
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
         
@@ -185,7 +185,7 @@ public class Player {
 
     public void handleInput() {
         isWalking = 0;
-        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !canChangeRoom){
+        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !canChangeRoom) {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 //                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
                 isWalking = 20f;
@@ -195,29 +195,28 @@ public class Player {
 //                player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
                 isWalking = -20f;
             }
-
+        }
             // Vai abrir e fechar
-            if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
-                if (inventoryManager.getInventoryOpen()) {
-                    inventoryManager.openInventory();
-                    inventoryManager.setInventoryOpen(false);
-                }
-//                else {
-//                    inventoryManager.closeInventory();
-//                    inventoryManager.setInventoryOpen(true);
-//                }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            if (!inventoryManager.getInventoryOpen()) {
+                inventoryManager.openInventory();
+                inventoryManager.setInventoryOpen(true);
+            }
+            else {
+                inventoryManager.closeInventory();
+                inventoryManager.setInventoryOpen(false);
             }
         }
 
         player.setLinearVelocity(new Vector2(isWalking, 0));
 
         // Somente funcionando com teclas diferentes
-        if (inventoryManager.getInventoryOpen()){
-            if (Gdx.input.isKeyPressed(Input.Keys.C)){
-                inventoryManager.closeInventory();
-                inventoryManager.setInventoryOpen(false);
-            }
-        }
+//        if (inventoryManager.getInventoryOpen()){
+//            if (Gdx.input.isKeyPressed(Input.Keys.C)){
+//                inventoryManager.closeInventory();
+//                inventoryManager.setInventoryOpen(false);
+//            }
+//        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && minigameManager.getCanStartMinigame()) {
             if (minigameManager.getActors(minigameID).size == 0) {
@@ -226,6 +225,10 @@ public class Player {
             } else {
                 minigameManager.closeMinigame(minigameID);
             }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && inventoryManager.getCanCollectItem()){
+            inventoryManager.
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor){

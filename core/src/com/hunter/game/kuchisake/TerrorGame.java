@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.hunter.game.kuchisake.objects.Kuchisake;
 import com.hunter.game.kuchisake.screen.StandardRoom;
 import com.hunter.game.kuchisake.startMenu.SceneMenu;
+import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 
 public class TerrorGame extends Game{
@@ -21,6 +22,7 @@ public class TerrorGame extends Game{
 	public static final float HEIGHT = 1080;
 	
 	private AssetManager assetManager;
+	private InventoryManager inventoryManager;
 
 	Kuchisake kuchisakeOnna;
 	boolean hasEncountered = false;
@@ -47,6 +49,7 @@ public class TerrorGame extends Game{
 	public void create () {
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
+		inventoryManager = new InventoryManager(this);
 		assetManager.load("ButtonAssets/controles_rascunho.png", Texture.class);
 		assetManager.load("ButtonAssets/Logo_rascunho.png", Texture.class);
 		assetManager.load("ButtonAssets/start_rascunho.png", Texture.class);
@@ -102,6 +105,10 @@ public class TerrorGame extends Game{
 	
 	public AssetManager getAssetManager() {
 		return assetManager;
+	}
+
+	public InventoryManager getInventoryManager() {
+		return inventoryManager;
 	}
 
 	public void createVillain(){

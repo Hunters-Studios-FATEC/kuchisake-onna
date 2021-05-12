@@ -59,6 +59,7 @@ public class Quarto extends StandardRoom implements Screen {
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);
+        inventoryManager.inventoryUpdate(delta);
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
