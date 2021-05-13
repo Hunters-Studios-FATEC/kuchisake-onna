@@ -118,6 +118,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(4);
+                    
                     game.setScreen(new Sala3(game, 483));
                 }
             }
@@ -135,6 +136,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(5);
+                    
                     game.setScreen(new SalaVitima1(game, 2891));
                 }
             }
@@ -151,6 +153,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
 
             game.getAssetManager().finishLoading();
             game.setPlayerColumn(2);
+            
             game.setScreen(new Saguao(game, 3500 - 128, true));
         }
 

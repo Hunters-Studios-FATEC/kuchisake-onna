@@ -180,6 +180,7 @@ public class Saguao extends StandardRoom implements Screen {
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(0);
+                
                 game.setScreen(new SalaEstar(game, 3500 - 128));
             }
             else if(player.getBody().getPosition().x > mapWidth) {
@@ -193,6 +194,7 @@ public class Saguao extends StandardRoom implements Screen {
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(2);
+                
                 game.setScreen(new Cozinha(game, 128));
             }
         }
@@ -208,6 +210,7 @@ public class Saguao extends StandardRoom implements Screen {
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(1);
+                
                 game.setScreen(new CorredorQuarto(game, 3500 - 128));
             }
             else if(player.getBody().getPosition().x > mapWidth) {
@@ -221,6 +224,7 @@ public class Saguao extends StandardRoom implements Screen {
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(3);
+                
                 game.setScreen(new CorredorSalas(game, 128));
             }
         }

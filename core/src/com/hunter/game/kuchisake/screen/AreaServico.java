@@ -73,6 +73,7 @@ public class AreaServico extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 2){
                 doorAnimationTimer += delta;
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
@@ -85,6 +86,7 @@ public class AreaServico extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(2);
+                    
                     game.setScreen(new Cozinha(game, 483));
                 }
 

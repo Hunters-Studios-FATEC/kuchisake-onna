@@ -93,6 +93,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(0);
+                    
                     game.setScreen(new SalaEstar(game, 483));
                 }
 
@@ -110,6 +111,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(0);
+                    
                     game.setScreen(new Biblioteca(game, 971+230));
                 }
             } else if (direction == "doorUp" && doorNum == -1){
@@ -126,7 +128,9 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(-1);
+                    
                     game.setHasEncountered(false);
+                    
                     game.setScreen(new SalaSegura(game, 1900+230));
                 }
             }

@@ -46,10 +46,10 @@ public class InventoryItem extends Actor{
         itemSprite = new Array<Sprite>();
         itemDescription = new Array<Sprite>();
 
-        addInventoryItem("blue_square.png", "A blue square"); //teste
-        changedSprite = new Sprite(itemSprite.get(0));
-        changedDescription = new Sprite(itemDescription.get(0));
-        addInventoryItem("green_square.png", "A green square");
+        //addInventoryItem("blue_square.png", "A blue square"); //teste
+        //changedSprite = new Sprite(itemSprite.get(0));
+        //changedDescription = new Sprite(itemDescription.get(0));
+        //addInventoryItem("green_square.png", "A green square");
 
 
     }
@@ -70,9 +70,11 @@ public class InventoryItem extends Actor{
         System.out.println(maxItem);
     }
 
-    public void changeItem(int showedItem){
-        changedSprite = itemSprite.get(showedItem);
-        changedDescription = itemDescription.get(showedItem);
+    public void changeItem(int showedItem) {
+    	if(itemSprite.size > 0) {
+    		changedSprite = itemSprite.get(showedItem);
+            changedDescription = itemDescription.get(showedItem);
+    	}
     }
 
     public int getShowedItem() {
@@ -101,7 +103,9 @@ public class InventoryItem extends Actor{
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        changedSprite.draw(batch);
-        changedDescription.draw(batch);
+    	if(changedSprite != null) {
+    		changedSprite.draw(batch);
+            changedDescription.draw(batch);
+    	}
     }
 }

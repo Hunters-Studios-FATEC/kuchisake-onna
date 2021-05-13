@@ -77,12 +77,12 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		//world = new World(new Vector2(0, 0), true);
 		world = game.getWorld();
 
-		inventoryManager = new InventoryManager(game);
+		inventoryManager = game.getInventoryManager();
 		
 		collisions = new Collisions(world, fundo_sala, game);
 		player = new Player(world, game.getMinigameManager(), inventoryManager, collisions, this, playerDoorPosX, game);
 		
-		world.setContactListener(new WorldContactListener(game.getMinigameManager(), player, this));
+		world.setContactListener(new WorldContactListener(game.getMinigameManager(), player, this, inventoryManager));
 
 		debugRenderer = new Box2DDebugRenderer();
 

@@ -83,6 +83,7 @@ public class Cozinha extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(4);
+                    
                     game.setScreen(new AreaServico(game, 2891));
                 }
 
@@ -101,6 +102,7 @@ public class Cozinha extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(5);
+                    
                     game.setScreen(new CorredorServico(game, 128));
                 }
 
@@ -119,6 +121,7 @@ public class Cozinha extends StandardRoom implements Screen {
 
             game.getAssetManager().finishLoading();
             game.setPlayerColumn(1);
+            
             game.setScreen(new Saguao(game, 3500 - 128, false));
         }
     }

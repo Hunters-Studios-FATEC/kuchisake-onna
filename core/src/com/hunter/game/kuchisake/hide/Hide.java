@@ -95,7 +95,14 @@ public class Hide {
 
 	public void startMinigame(){
 		count = 0;
+		hitCount = 0;
 		playSoundTimer = 0;
+		
+		playAudio2 = true;
+		gotCaught = false;
+		
+		isFinished = false;
+		canShowResults = false;
 
 		stage = new Stage(viewport, hideBatch);
 

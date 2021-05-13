@@ -228,7 +228,7 @@ public class Player {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && inventoryManager.getCanCollectItem()){
-            inventoryManager.
+            //inventoryManager.
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor){

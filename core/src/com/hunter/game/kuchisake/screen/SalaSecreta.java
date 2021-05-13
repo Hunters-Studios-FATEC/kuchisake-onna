@@ -79,6 +79,7 @@ public class SalaSecreta extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(0);
+                    
                     game.setScreen(new Biblioteca(game, 2487+230));
                 }
             }

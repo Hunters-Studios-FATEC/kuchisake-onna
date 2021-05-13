@@ -85,6 +85,7 @@ public class SalaVitima1 extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(3);
+                    
                     game.setScreen(new CorredorSalas(game, 2487));
                 }
         	}

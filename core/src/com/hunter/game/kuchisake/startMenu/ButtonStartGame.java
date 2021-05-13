@@ -109,6 +109,7 @@ public class ButtonStartGame extends Actor {
         game.getAssetManager().finishLoading();
         
         game.createMinigameManager();
+        game.createInventoryManager();
     	
         //game.setScreen(new Saguao(game, 1000));
     	game.setScreen(new Saguao(game, 1750,  false));

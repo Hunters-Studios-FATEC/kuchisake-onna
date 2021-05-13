@@ -87,6 +87,7 @@ public class Sala2 extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(2);
+                    
                     game.setScreen(new Saguao(game, 2800 + 280f / 2f, true));
                 }
 

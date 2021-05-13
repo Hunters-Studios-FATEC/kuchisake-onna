@@ -85,6 +85,7 @@ public class Biblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(0);
+                    
                     game.setScreen(new CorredorBiblioteca(game, 971));
                 }
 
@@ -102,6 +103,7 @@ public class Biblioteca extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(0);
+                    
                     game.setScreen(new SalaSecreta(game, 2487+230));
                 }
             }

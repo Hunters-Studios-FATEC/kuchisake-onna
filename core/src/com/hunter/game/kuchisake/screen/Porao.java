@@ -76,6 +76,7 @@ public class Porao extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(5);
+                    
                     game.setScreen(new CorredorServico(game, 3500 - 128));
                 }
 

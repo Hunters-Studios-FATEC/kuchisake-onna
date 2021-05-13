@@ -111,6 +111,7 @@ public class CorredorServico extends StandardRoom implements Screen {
 		            game.getAssetManager().finishLoading();
 		            game.incrementPlayerLine(-1);
 		            game.setPlayerColumn(2);
+		            
 		            game.setScreen(new Cozinha(game, 3143));
                 }
             }
@@ -129,6 +130,7 @@ public class CorredorServico extends StandardRoom implements Screen {
 		            game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(6);
+                    
 		            game.setScreen(new Porao(game, 2810));
                 }
 	        }

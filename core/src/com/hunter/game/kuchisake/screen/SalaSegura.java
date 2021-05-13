@@ -73,6 +73,7 @@ public class SalaSegura extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(0);
+                    
                     game.setScreen(new CorredorBiblioteca(game, 1900+230));
                 }
             }

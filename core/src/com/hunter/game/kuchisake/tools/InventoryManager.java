@@ -76,7 +76,7 @@ public class InventoryManager {
     }
 
     public void addItem(){
-        inventoryItem.addInventoryItem();
+        //inventoryItem.addInventoryItem();
     }
 
     public void inventoryUpdate(float dt){

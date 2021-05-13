@@ -62,7 +62,9 @@ public class Kuchisake extends Thread{
     
     TerrorGame game;
     
-    boolean isWaiting = true;
+    boolean canMove = false;
+    boolean canChangeRoom = false;
+    boolean isChangingRoom = false;
 
     boolean isSecondFloor = false;
 
@@ -156,10 +158,6 @@ public class Kuchisake extends Thread{
         kuchisakeSprite.draw(batch);
     }
 
-    void setPosition(float yPosition){
-        kuchisake.setTransform(kuchisake.getPosition().x, kuchisake.getPosition().y + yPosition, 0);
-    }
-
     public void setminigameID(int minigameID) {
         this.minigameID = minigameID;
     }
@@ -243,9 +241,9 @@ public class Kuchisake extends Thread{
         
         while(foundDoorXPos) {
         	synchronized (game) {
-        		isWaiting = true;
+        		canMove = false;
         		
-        		while(isWaiting) {
+        		while(!canMove) {
         			try {
 						game.wait();
 					} catch (InterruptedException e) {
@@ -312,9 +310,9 @@ public class Kuchisake extends Thread{
         
         while(foundDoorXPos) {
         	synchronized (game) {
-        		isWaiting = true;
+        		canMove = false;
         		
-        		while(isWaiting) {
+        		while(!canMove) {
         			try {
 						game.wait();
 					} catch (InterruptedException e) {
@@ -323,7 +321,10 @@ public class Kuchisake extends Thread{
         		}
 			}
         	
-        	if(!game.getIsHiding()) {
+        	int lastStepLine = path.get(path.size() - 1)[0];
+        	int lastStepColumn = path.get(path.size() - 1)[1];
+        	
+        	if(!game.getIsHiding() && (game.getPlayerLine() == lastStepLine && game.getPlayerColumn() == lastStepColumn)) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
         	else {
@@ -331,7 +332,6 @@ public class Kuchisake extends Thread{
         		moveTimer = 0;
         		isSearching = false;
             	pathStep = 0;
-            	kuchisake.setLinearVelocity(0,0);
         	}
     	}
     }
@@ -347,15 +347,13 @@ public class Kuchisake extends Thread{
         } else {
         	kuchisake.setLinearVelocity(0, 0);
         	
-        	boolean changedRoom = false;
-        	
-        	if(moveTimer > 1f && !changedRoom) {
+        	if(moveTimer > 1.5f) {
+        		float newXPos = 0;
+        		
         		if(currentLine != nextLine) {
     	            Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[nextLine][nextColumn];
     	            Object[] portas = Arrays.copyOfRange(kuchisakeThread.getDoors()[nextLine][nextColumn], 0, 
     	            									 kuchisakeThread.getDoors()[nextLine][nextColumn].length - 1);
-    	            
-    	            float newXPos = 0;
     	
     	            for (int i = 0; i < portas.length; i++) {
     	                if (currentLine > nextLine) {
@@ -370,41 +368,46 @@ public class Kuchisake extends Thread{
     	                    }
     	                }
     	            }
-    	            
-    	            if(!game.getWorld().isLocked()) {
-    	            	kuchisake.setTransform(newXPos, kuchisake.getPosition().y, 0);
-    	            	changedRoom = true;
-    	            }
             	}
             	else {
             		if(currentColumn > nextColumn) {
-            			if(!game.getWorld().isLocked()) {
-            				kuchisake.setTransform(3500 / TerrorGame.SCALE, kuchisake.getPosition().y, 0);
-            				changedRoom = true;
-            			}
+            			newXPos = 3500 / TerrorGame.SCALE;
             		}
             		else {
-            			if(!game.getWorld().isLocked()) {
-            				kuchisake.setTransform(0, kuchisake.getPosition().y, 0);
-            				changedRoom = true;
-            			}
+            			newXPos = 0;
             		}
             	}
-        		
-        		if(changedRoom) {
-        			currentLine = nextLine;
+            	
+            	canChangeRoom = false;
+                
+                synchronized (game) {
+        			while(!canChangeRoom) {
+        				try {
+    						game.wait();
+    					} catch (InterruptedException e) {
+    						e.printStackTrace();
+    					}
+        			}
+        			
+        			isChangingRoom = true;
+    			}
+            	
+                synchronized (this) {
+                	kuchisake.setTransform(newXPos, kuchisake.getPosition().y, 0);
+                	
+                	currentLine = nextLine;
                     currentColumn = nextColumn;
-                    
-                    if((currentLine == 1 && currentColumn == 2)) {
-    	                isSecondFloor = true;
-    	                setPosition(4.25f);
-    	            }
-    	            else if(isSecondFloor){
-    	                isSecondFloor = false;
-    	                setPosition(-4.25f);
+                	
+                	if((currentLine == 1 && currentColumn == 2)) {
+                        isSecondFloor = true;
+                        kuchisake.setTransform(kuchisake.getPosition().x, kuchisake.getPosition().y + 4.25f, 0);
                     }
-
-                    pathStep += 1;
+                    else if(isSecondFloor){
+                        isSecondFloor = false;
+                        kuchisake.setTransform(kuchisake.getPosition().x, kuchisake.getPosition().y - 4.25f, 0);
+                    }
+                	
+                	pathStep += 1;
                     foundDoorXPos = false;
                     
                     moveTimer = 0;
@@ -413,7 +416,10 @@ public class Kuchisake extends Thread{
                     	isSearching = false;
                     	pathStep = 0;
                     }
-        		}
+                	
+                	isChangingRoom = false;
+                	notify();
+                }
         	}
         	else {
         		moveTimer += Gdx.graphics.getDeltaTime();
@@ -421,8 +427,16 @@ public class Kuchisake extends Thread{
         }
     }
     
-    public void setIsWaiting(boolean value) {
-    	isWaiting = value;
+    public void setCanMove(boolean value) {
+    	canMove = value;
+    }
+    
+    public void setCanChangeRoom(boolean value) {
+    	canChangeRoom = value;
+    }
+    
+    public boolean getIsChangingRoom() {
+    	return isChangingRoom;
     }
 
     @Override
@@ -435,9 +449,10 @@ public class Kuchisake extends Thread{
         		else {
         			stalkPlayer();
         		}
-    		} else {
-                game.getKuchisakeOnna().getBody().setLinearVelocity(0,0);
-            }
+    		}
+    		else {
+    			kuchisake.setLinearVelocity(0,0);
+    		}
     	}
     }
 
@@ -456,9 +471,9 @@ public class Kuchisake extends Thread{
     	}
     	else {
         	synchronized (game) {
-        		isWaiting = true;
+        		canMove = false;
         		
-        		while(isWaiting) {
+        		while(!canMove) {
         			try {
 						game.wait();
 					} catch (InterruptedException e) {

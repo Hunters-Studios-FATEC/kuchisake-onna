@@ -49,7 +49,6 @@ public class TerrorGame extends Game{
 	public void create () {
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
-		inventoryManager = new InventoryManager(this);
 		assetManager.load("ButtonAssets/controles_rascunho.png", Texture.class);
 		assetManager.load("ButtonAssets/Logo_rascunho.png", Texture.class);
 		assetManager.load("ButtonAssets/start_rascunho.png", Texture.class);
@@ -69,8 +68,21 @@ public class TerrorGame extends Game{
 	}
 	
 	public synchronized void worldStep() {
-		kuchisakeOnna.setIsWaiting(false);
+		kuchisakeOnna.setCanMove(true);
 		notify();
+		
+		kuchisakeOnna.setCanChangeRoom(true);
+		notify();
+		
+		synchronized (kuchisakeOnna) {
+			while(kuchisakeOnna.getIsChangingRoom()) {
+				try {
+					kuchisakeOnna.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 	}
@@ -123,6 +135,10 @@ public class TerrorGame extends Game{
 	
 	public void createMinigameManager() {
 		minigameManager = new MinigameManager(batch, this);
+	}
+	
+	public void createInventoryManager() {
+		inventoryManager = new InventoryManager(this);
 	}
 	
 	public MinigameManager getMinigameManager() {

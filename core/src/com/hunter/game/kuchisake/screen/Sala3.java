@@ -76,6 +76,7 @@ public class Sala3 extends StandardRoom implements Screen {
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(3);
+                    
                     game.setScreen(new CorredorSalas(game, 971));
                 }
         	}
