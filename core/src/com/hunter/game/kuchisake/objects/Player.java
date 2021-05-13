@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.minigameGerador.Background;
 import com.hunter.game.kuchisake.screen.StandardRoom;
 import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
@@ -25,6 +26,7 @@ import com.hunter.game.kuchisake.tools.MinigameManager;
 public class Player {
     Body player;
     BodyDef bodyDef;
+    World world;
 
     FixtureDef fixtureDef;
     Fixture fixture;
@@ -38,6 +40,8 @@ public class Player {
 
     int formerState;
     int currentState;
+    String itemName;
+
 
     EdgeShape collisionSensor;
 
@@ -58,12 +62,15 @@ public class Player {
     Animation<TextureRegion> animationWalking;
 
 
+
     public Array<TextureRegion> testeAnima;
 
     public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, TerrorGame game) {
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
         polygonShape = new PolygonShape();
+
+        this.world = world;
 
         playerWalk = game.getAssetManager().get("CharactersAssets/sprites_protag_right.png", Texture.class);
         playerStop = game.getAssetManager().get("CharactersAssets/sprite_stoped_right.png", Texture.class);
@@ -210,14 +217,6 @@ public class Player {
 
         player.setLinearVelocity(new Vector2(isWalking, 0));
 
-        // Somente funcionando com teclas diferentes
-//        if (inventoryManager.getInventoryOpen()){
-//            if (Gdx.input.isKeyPressed(Input.Keys.C)){
-//                inventoryManager.closeInventory();
-//                inventoryManager.setInventoryOpen(false);
-//            }
-//        }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && minigameManager.getCanStartMinigame()) {
             if (minigameManager.getActors(minigameID).size == 0) {
                 minigameManager.setMinigameActive(true);
@@ -228,7 +227,19 @@ public class Player {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && inventoryManager.getCanCollectItem()){
-            //inventoryManager.
+            inventoryManager.addItem(itemName);
+            Array<Body> bodies = new Array<Body>(world.getBodyCount());
+            world.getBodies(bodies);
+            for (Body body:bodies){
+                Array<Fixture> fixtures;
+                fixtures = body.getFixtureList();
+                for (Fixture fixture:fixtures){
+                    if (itemName.equals(fixture.getUserData())){
+                        world.destroyBody(body);
+                        break;
+                    }
+                }
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor){
@@ -266,6 +277,10 @@ public class Player {
 
     public void setminigameID(int minigameID) {
         this.minigameID = minigameID;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public Body getBody() {

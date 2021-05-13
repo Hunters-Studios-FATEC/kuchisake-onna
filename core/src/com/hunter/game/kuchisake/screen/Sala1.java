@@ -24,8 +24,11 @@ public class Sala1 extends StandardRoom implements Screen {
         super(game, "Tilesets/sala1.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(483, 160,"doorDown2", 203, collisions.getPortaBit());
-        collisions.CreateCollisions(1750, 160, "chaveServico", 203, collisions.getITEM_BIT());
-        
+
+        if (!game.getInventoryManager().getItemBackpack().contains("chaveServico", false)) {
+            collisions.CreateCollisions(1750, 160, "chaveServico", 203, collisions.getITEM_BIT());
+        }
+
         textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("porta1");
         portaAberta = textureAtlas.findRegion("porta2");

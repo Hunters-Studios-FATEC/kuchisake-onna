@@ -26,8 +26,8 @@ public class InventoryItem extends Actor{
 
     float ITEMBOX_WIDTH = 1.96f;
     float ITEMBOX_HEIGHT = 1.96f;
-    float DESCRIPTION_WIDTH = 1.96f;
-    float DESCRIPTION_HEIGHT = 1.96f;
+    float DESCRIPTION_WIDTH = 17.64f;
+    float DESCRIPTION_HEIGHT = 5.88f;
 
     float positionX;
     float positionY;
@@ -51,23 +51,27 @@ public class InventoryItem extends Actor{
         //changedDescription = new Sprite(itemDescription.get(0));
         //addInventoryItem("green_square.png", "A green square");
 
-
     }
 
-    public void addInventoryItem(String texturePath, String description){
-        TextureRegion tpath = objectsAtlas.findRegion(texturePath);
-        TextureRegion opath = descriptionAtlas.findRegion(description);
+    public void addInventoryItem(String itemRegion){
+        TextureRegion tpath = objectsAtlas.findRegion(itemRegion);
+        TextureRegion opath = descriptionAtlas.findRegion(itemRegion);
         itemSprite.add(new Sprite(tpath));
         itemDescription.add(new Sprite(opath));
 
         itemSprite.get(maxItem).setBounds(positionX, positionY, ITEMBOX_WIDTH, ITEMBOX_HEIGHT);
-        itemSprite.get(maxItem).setPosition(positionX - ITEMBOX_WIDTH / 2, (positionY - ITEMBOX_HEIGHT / 2) + 1);
+        itemSprite.get(maxItem).setPosition(positionX - ITEMBOX_WIDTH / 2, (positionY - ITEMBOX_HEIGHT / 2) + 2.5f);
 
         itemDescription.get(maxItem).setBounds(positionX, positionY - 2, DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT);
         itemDescription.get(maxItem).setPosition(positionX - DESCRIPTION_WIDTH / 2, (positionY - DESCRIPTION_HEIGHT / 2) - 1);
 
         incrementMaxItem();
         System.out.println(maxItem);
+
+        if (itemSprite.size == 1){
+            changedSprite = itemSprite.get(0);
+            changedDescription = itemDescription.get(0);
+        }
     }
 
     public void changeItem(int showedItem) {

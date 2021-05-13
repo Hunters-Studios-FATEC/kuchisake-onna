@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,6 +22,8 @@ public class Cozinha extends StandardRoom implements Screen {
 
     boolean isSecondFloor = false;
 
+    Sound portraTrancada;
+
     public Cozinha(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala1.tmx", playerDoorPosX);
         
@@ -40,6 +43,7 @@ public class Cozinha extends StandardRoom implements Screen {
         porta2.setSize(porta2.getWidth() * 1.45f / TerrorGame.SCALE, porta2.getHeight() * 1.45f / TerrorGame.SCALE);
         porta2.setPosition(2940 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
 
+        portraTrancada = game.getAssetManager().get("Audio/Sfx/porta trancada.ogg");
     }
 
     @Override
@@ -70,21 +74,26 @@ public class Cozinha extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 4){
-                doorAnimationTimer += delta;
-                if(doorAnimationTimer > 1.5f){
-                    dispose();
+                if (game.getInventoryManager().getItemBackpack().contains("chaveServico", false)) {
+                    doorAnimationTimer += delta;
+                    if (doorAnimationTimer > 1.5f) {
+                        dispose();
 
-                    game.getAssetManager().unload("Tilesets/sala1.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+                        game.getAssetManager().unload("Tilesets/sala1.tmx");
+                        game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
 
-                    game.getAssetManager().finishLoading();
-                    game.incrementPlayerLine(1);
-                    game.setPlayerColumn(4);
-                    
-                    game.setScreen(new AreaServico(game, 2891));
+                        game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+
+                        game.getAssetManager().finishLoading();
+                        game.incrementPlayerLine(1);
+                        game.setPlayerColumn(4);
+
+                        game.setScreen(new AreaServico(game, 2891));
+                    }
+                    } else {
+                    portraTrancada.setVolume(portraTrancada.play(), 0.5f);
+                    player.setCanChangeRoom(false);
                 }
 
             }

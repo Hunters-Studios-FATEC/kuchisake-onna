@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -191,6 +192,7 @@ public class Saguao extends StandardRoom implements Screen {
                 
                 game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
                 game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(2);

@@ -64,11 +64,13 @@ public class WorldContactListener implements ContactListener{
 					int roomN = Integer.parseInt(object.getUserData().toString().substring("doorDown".length()));
 					standardRoom.setChangeRoom("doorDown", roomN);
 				}
-			} else if (object.getUserData().equals("fios")){
+			} else if (object.getUserData().equals("fiosItem")){
 				inventoryManager.setCanCollectItem(true);
+				player.setItemName("fiosItem");
 
 			} else if (object.getUserData().equals("chaveServico")){
 				inventoryManager.setCanCollectItem(true);
+				player.setItemName("chaveServico");
 			}
 		}
 	}

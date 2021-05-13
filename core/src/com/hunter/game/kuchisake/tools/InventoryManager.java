@@ -2,21 +2,14 @@ package com.hunter.game.kuchisake.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
-import com.hunter.game.kuchisake.minigameGerador.Arrow;
 import com.hunter.game.kuchisake.minigameGerador.Background;
-
-import javax.xml.soap.Text;
 
 public class InventoryManager {
     public Stage stage;
@@ -31,21 +24,20 @@ public class InventoryManager {
 
     boolean isInventoryOpen = false;
     boolean canCollectItem = false;
-    
+
+    Array<String> itemBackpack;
+
     TerrorGame game;
 
     TextureAtlas textureAtlas;
     TextureAtlas objectsAtlas;
     TextureAtlas descriptionAtlas;
-
-    String collisionTag;
-
     public InventoryManager(TerrorGame game){
-        Table table = new Table();
-
         textureAtlas = game.getAssetManager().get("MinigameAssets/MinigameObjects.atlas");
         objectsAtlas = game.getAssetManager().get("Coletaveis/Coletaveis.atlas");
         descriptionAtlas = game.getAssetManager().get("Coletaveis/DescriptionAtlas.atlas");
+
+        itemBackpack = new Array<String>();
 
         this.game = game;
         
@@ -75,8 +67,9 @@ public class InventoryManager {
 
     }
 
-    public void addItem(){
-        //inventoryItem.addInventoryItem();
+    public void addItem(String itemTag){
+        inventoryItem.addInventoryItem(itemTag);
+        itemBackpack.add(itemTag);
     }
 
     public void inventoryUpdate(float dt){
@@ -94,6 +87,10 @@ public class InventoryManager {
     public void inventoryResize(int width, int height) {
         stage.getViewport().update(width, height);
         spriteBatch.setProjectionMatrix(stage.getCamera().combined);
+    }
+
+    public Array<String> getItemBackpack() {
+        return itemBackpack;
     }
 
     public void inventoryDispose(){

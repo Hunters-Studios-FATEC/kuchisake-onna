@@ -51,7 +51,7 @@ public class SelectionArrow extends Actor {
                     inventoryItem.incrementShowedItem();
                     System.out.println("+1");
 
-                    if (inventoryItem.getShowedItem() > inventoryItem.getMaxItem()){
+                    if (inventoryItem.getShowedItem() > inventoryItem.getMaxItem() - 1){
                         inventoryItem.setShowedItem(0);
                         inventoryItem.changeItem(inventoryItem.getShowedItem());
                     } else {
@@ -64,7 +64,7 @@ public class SelectionArrow extends Actor {
                     System.out.println("-1");
 
                     if (inventoryItem.getShowedItem() < 0){
-                        inventoryItem.setShowedItem(inventoryItem.getMaxItem());
+                        inventoryItem.setShowedItem(inventoryItem.getMaxItem() - 1);
                         inventoryItem.changeItem(inventoryItem.getShowedItem());
                     } else {
                         inventoryItem.changeItem(inventoryItem.getShowedItem());
