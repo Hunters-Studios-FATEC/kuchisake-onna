@@ -1,17 +1,21 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.tools.MinigameManager;
 
 import javax.xml.stream.FactoryConfigurationError;
 
 public class AreaServico extends StandardRoom implements Screen {
 
     TextureAtlas textureAtlas;
+
+    MinigameManager minigameManager;
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
@@ -26,6 +30,8 @@ public class AreaServico extends StandardRoom implements Screen {
         super(game, "Tilesets/sala2.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2891, 160,"doorDown2", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(203, 160, "fios", 203, collisions.getWireBit());
+        collisions.CreateCollisions(1750, 160, "gerador", 203, collisions.getGeradorBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("porta1");
@@ -42,6 +48,7 @@ public class AreaServico extends StandardRoom implements Screen {
         quadroEnergia.setSize(quadroEnergia.getWidth() / TerrorGame.SCALE, quadroEnergia.getHeight() / TerrorGame.SCALE);
         quadroEnergia.setPosition(51 / TerrorGame.SCALE, 476 / TerrorGame.SCALE);
 
+        minigameManager = game.getMinigameManager();
     }
 
     @Override
@@ -66,9 +73,11 @@ public class AreaServico extends StandardRoom implements Screen {
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
+
+
+        minigameManager.minigameUpdate(delta, 3);
+        minigameManager.minigameUpdate(delta, 4);
+
 
         //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
@@ -88,6 +97,8 @@ public class AreaServico extends StandardRoom implements Screen {
 
                     game.getAssetManager().unload("Tilesets/sala2.tmx");
                     game.getAssetManager().unload("ScenaryAssets/sala_2/Sala2Objects.atlas");
+                    game.getAssetManager().unload("Audio/Sfx/minigame complete 6.ogg");
+                    game.getAssetManager().unload("Audio/Sfx/wrongBuzzer.wav");
                     
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
@@ -105,6 +116,8 @@ public class AreaServico extends StandardRoom implements Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        minigameManager.minigameResize(width, height, 3);
+        minigameManager.minigameResize(width, height, 4);
     }
 
     @Override
@@ -125,5 +138,7 @@ public class AreaServico extends StandardRoom implements Screen {
     @Override
     public void dispose() {
         super.dispose();
+        minigameManager.minigameDispose(3);
+        minigameManager.minigameDispose(4);
     }
 }

@@ -26,8 +26,10 @@ public class Sala2 extends StandardRoom implements Screen {
         super(game, "Tilesets/sala2.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2891, 160,"doorDown2", 203, collisions.getPortaBit());
-        collisions.CreateCollisions(1750, 160, "fiosItem", 203, collisions.getITEM_BIT());
 
+        if (!game.getInventoryManager().getItemBackpack().contains("fiosItem", false)) {
+            collisions.CreateCollisions(1750, 160, "fiosItem", 203, collisions.getITEM_BIT());
+        }
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("porta1");

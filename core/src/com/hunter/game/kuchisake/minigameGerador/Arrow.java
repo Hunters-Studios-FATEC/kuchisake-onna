@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -22,8 +24,10 @@ public class Arrow extends Actor {
 
     MinigameGerador minigameGerador;
 
-    Texture texture;
-    Texture textureCorreto;
+    TextureAtlas textureAtlas;
+
+    TextureRegion texture;
+    TextureRegion textureCorreto;
 
     Random randomNum;
 
@@ -32,11 +36,13 @@ public class Arrow extends Actor {
     boolean rowCompleted = false;
 
 
-    public Arrow(float x_pos, float y_pos, MinigameGerador minigameGerador){
+    public Arrow(float x_pos, float y_pos, MinigameGerador minigameGerador, TextureAtlas textureAtlas){
         sequencia = new Array<Sprite>();
         corretos = new Array<Sprite>();
         rotationArray = new Array<Integer>();
         randomNum = new Random();
+
+        this.textureAtlas = textureAtlas;
 
         this.minigameGerador = minigameGerador;
 
@@ -122,8 +128,8 @@ public class Arrow extends Actor {
         int randomNumber = randomNum.nextInt(4) + 5;
 
         for (int i = 0; i < randomNumber; i++) {
-            texture = new Texture("arrow.png");
-            textureCorreto = new Texture("correto.png");
+            texture = textureAtlas.findRegion("red_arrow");
+            textureCorreto = textureAtlas.findRegion("correto");
             seta = new Sprite(texture);
             correto = new Sprite(textureCorreto);
             seta.setBounds(posI_x, posI_Y, seta_width, seta_height);

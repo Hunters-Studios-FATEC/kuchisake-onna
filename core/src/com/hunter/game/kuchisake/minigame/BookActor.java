@@ -3,6 +3,8 @@ package com.hunter.game.kuchisake.minigame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,7 +14,7 @@ import com.hunter.game.kuchisake.TerrorGame;
 
 public class BookActor extends Actor{
 	
-	Texture texture;
+	TextureRegion texture;
 	
 	Sprite sprite;
 	
@@ -24,9 +26,9 @@ public class BookActor extends Actor{
 	
 	int value;
 	
-	public BookActor(String img, float x, float y, int v) {
+	public BookActor(String img, float x, float y, int v, TextureAtlas textureAtlas) {
 		// TODO Auto-generated constructor stub	
-		texture = new Texture(img);
+		texture = textureAtlas.findRegion(img);
 		
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 5), sprite.getHeight() / (TerrorGame.SCALE * 5));

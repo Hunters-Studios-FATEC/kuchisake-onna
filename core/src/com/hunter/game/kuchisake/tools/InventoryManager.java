@@ -48,7 +48,7 @@ public class InventoryManager {
         viewport.apply();
 
         stage = new Stage(viewport, spriteBatch);
-        background = new Background(0, 0);
+        background = new Background(0, 0, textureAtlas);
 
         inventoryItem = new InventoryItem(viewport.getWorldWidth()  / 2, viewport.getWorldHeight() / 2, objectsAtlas, descriptionAtlas);
 

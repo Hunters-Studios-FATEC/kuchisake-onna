@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,7 +14,7 @@ import com.hunter.game.kuchisake.TerrorGame;
 
 public class KeyActor extends Actor{
 	
-	Texture texture;
+	TextureRegion texture;
 	Sprite sprite;
 
 	LockPickMinigame minigame;
@@ -24,12 +26,10 @@ public class KeyActor extends Actor{
 	
 	Array<Sprite> nearWallsArray;
 
-
-
-	public KeyActor(float x, float y, LockPickMinigame minigame) {
+	public KeyActor(float x, float y, LockPickMinigame minigame, TextureAtlas textureAtlas) {
 
 		this.minigame = minigame;
-		texture = new Texture("orange_square.png");
+		texture = textureAtlas.findRegion("orange_square");
 		
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);

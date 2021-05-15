@@ -1,5 +1,6 @@
 package com.hunter.game.kuchisake.tools;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,6 +22,10 @@ public class MinigameManager {
     MinigameGerador geradorMinigame;
     SpriteBatch spriteBatch;
 
+    Sound correctSound;
+    Sound wrongSound;
+    Sound geradorOn;
+
     boolean lockCompleted;
     boolean wireCompleted;
     boolean bookCompleted;
@@ -32,6 +37,7 @@ public class MinigameManager {
     float clearStageTimer = 0f;
     
     TextureAtlas textureAtlas;
+    TextureAtlas descriptionAtlas;
     
     TerrorGame game;
 
@@ -42,17 +48,23 @@ public class MinigameManager {
         this.game = game;
         
         textureAtlas = game.getAssetManager().get("MinigameAssets/MinigameObjects.atlas", TextureAtlas.class);
-        
+        descriptionAtlas = game.getAssetManager().get("MinigameAssets/MinigameDescription.atlas", TextureAtlas.class);
+
+//        correctSound = game.getAssetManager().get("Audio/Sfx/minigame complete 6.ogg");
+        wrongSound = game.getAssetManager().get("Audio/Sfx/wrongBuzzer.wav");
+//        geradorOn = game.getAssetManager().get("Audio/Sfx/gerador ligando.ogg");
+
         hideMinigame = new Hide(batch, game, textureAtlas);
-        /*lockPickMinigame = new LockPickMinigame(batch);
-        minigameBook = new MinigameBook(batch);
-        wireMinigame = new WireMinigame(batch);
-        geradorMinigame = new MinigameGerador(batch);*/
+        lockPickMinigame = new LockPickMinigame(batch, textureAtlas);
+        minigameBook = new MinigameBook(batch, textureAtlas);
+        wireMinigame = new WireMinigame(batch, textureAtlas, descriptionAtlas);
+        geradorMinigame = new MinigameGerador(batch, textureAtlas, descriptionAtlas);
 
 //        int hideMinigame_ID = 0;
 //        int lockPickMinigame_ID = 1;
 //        int minigameBook_ID = 2;
 //        int wireMinigame_ID = 3;
+//        int minigameGerador_ID = 4;
     }
 
     public void startMinigame (int id){
@@ -319,10 +331,39 @@ public class MinigameManager {
         return actors;
     }
 
-    public void minigameDispose(){
-        hideMinigame.stage.dispose();
-        lockPickMinigame.stage.dispose();
-        minigameBook.stage.dispose();
-        wireMinigame.stage.dispose();
+    public void minigameDispose(int id){
+        switch (id){
+            case 0:
+                hideMinigame.stage.dispose();
+                break;
+            case 1:
+                lockPickMinigame.stage.dispose();
+                break;
+            case 2:
+                minigameBook.stage.dispose();
+                break;
+            case 3:
+                wireMinigame.stage.dispose();
+                break;
+            case 4:
+                geradorMinigame.stage.dispose();
+                break;
+        }
+    }
+
+    public boolean getLockCompleted() {
+        return lockCompleted;
+    }
+
+    public boolean getWireCompleted() {
+        return wireCompleted;
+    }
+
+    public boolean getBookCompleted() {
+        return bookCompleted;
+    }
+
+    public boolean getGeradorCompleted() {
+        return geradorCompleted;
     }
 }

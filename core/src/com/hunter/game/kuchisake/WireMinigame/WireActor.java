@@ -3,6 +3,8 @@ package com.hunter.game.kuchisake.WireMinigame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,14 +13,14 @@ import com.hunter.game.kuchisake.TerrorGame;
 
 public class WireActor extends Actor{
 	
-	Texture texture;
+	TextureRegion texture;
 	int actor_number;
 	Sprite sprite;
 	boolean correct_position = false;
 	boolean accept_input = true;
 	
-	public WireActor(float x, float y, String texture_path, final int actor_num) {
-		texture = new Texture(texture_path);
+	public WireActor(float x, float y, String texture_path, final int actor_num, TextureAtlas textureAtlas) {
+		texture = textureAtlas.findRegion(texture_path);
 		actor_number = actor_num;
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);

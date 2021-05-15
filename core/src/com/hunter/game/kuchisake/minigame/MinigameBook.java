@@ -3,6 +3,7 @@ package com.hunter.game.kuchisake.minigame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
@@ -30,29 +31,33 @@ public class MinigameBook {
 	BookActor bookActor3;
 	
 	Correct correctActor;
+
+	TextureAtlas textureAtlas;
 	
-	public MinigameBook(SpriteBatch spriteBatch) {	
+	public MinigameBook(SpriteBatch spriteBatch, TextureAtlas textureAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE,
 								   new OrthographicCamera());
 		viewport.apply();
-		
+
+		this.textureAtlas = textureAtlas;
+
 		//camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 		//camera.update();
 		
 		stage = new Stage(viewport, spriteBatch);
 		
-		background = new Background(0, 0);
+		background = new Background(0, 0, textureAtlas);
 		
-		correctActor = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+		correctActor = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, textureAtlas);
 		correctActor.setVisible(false);
 		
-		slotActor1 = new SlotActor("espaco_vazio.png", viewport.getWorldWidth() / 2 - 3, viewport.getWorldHeight() / 2);
-		slotActor2 = new SlotActor("espaco_vazio.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-		slotActor3 = new SlotActor("espaco_vazio.png", viewport.getWorldWidth() / 2 + 3, viewport.getWorldHeight() / 2);
+		slotActor1 = new SlotActor("espaco_vazio", viewport.getWorldWidth() / 2 - 3, viewport.getWorldHeight() / 2, textureAtlas);
+		slotActor2 = new SlotActor("espaco_vazio", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, textureAtlas);
+		slotActor3 = new SlotActor("espaco_vazio", viewport.getWorldWidth() / 2 + 3, viewport.getWorldHeight() / 2, textureAtlas);
 		
-		bookActor1 = new BookActor("livro1.png", 0, 0, 1);
-		bookActor2 = new BookActor("livro2.png", 0, 2, 2);
-		bookActor3 = new BookActor("livro3.png", 0, 4, 3);
+		bookActor1 = new BookActor("livro1", 0, 0, 1, textureAtlas);
+		bookActor2 = new BookActor("livro2", 0, 2, 2, textureAtlas);
+		bookActor3 = new BookActor("livro3", 0, 4, 3, textureAtlas);
 		
 		/*stage.addActor(background);
 		
@@ -73,9 +78,9 @@ public class MinigameBook {
 
 		Gdx.input.setInputProcessor(stage);
 
-		bookActor1 = new BookActor("livro1.png", 0, 0, 1);
-		bookActor2 = new BookActor("livro2.png", 0, 2, 2);
-		bookActor3 = new BookActor("livro3.png", 0, 4, 3);
+		bookActor1 = new BookActor("livro1", 0, 0, 1, textureAtlas);
+		bookActor2 = new BookActor("livro2", 0, 2, 2, textureAtlas);
+		bookActor3 = new BookActor("livro3", 0, 4, 3, textureAtlas);
 
 		stage.addActor(background);
 		

@@ -3,16 +3,18 @@ package com.hunter.game.kuchisake.lockpick;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.hunter.game.kuchisake.TerrorGame;
 
 public class FinishChecker extends Actor{
 	
-	Texture texture;
+	TextureRegion texture;
 	Sprite sprite;
 	
-	public FinishChecker(float x, float y) {
-		texture = new Texture("lime_square.png");
+	public FinishChecker(float x, float y, TextureAtlas textureAtlas) {
+		texture = textureAtlas.findRegion("lime_square");
 		
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);

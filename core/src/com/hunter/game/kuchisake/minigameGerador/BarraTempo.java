@@ -3,11 +3,13 @@ package com.hunter.game.kuchisake.minigameGerador;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BarraTempo extends Actor {
     Sprite barra;
-    Texture textureBarra;
+    TextureRegion textureBarra;
     MinigameGerador minigameGerador;
     Arrow setas;
 
@@ -16,8 +18,8 @@ public class BarraTempo extends Actor {
 
     float initialWidth;
 
-    public BarraTempo(float x, float y, MinigameGerador minigameGerador, Arrow setas){
-        textureBarra = new Texture("red_square.png");
+    public BarraTempo(float x, float y, MinigameGerador minigameGerador, Arrow setas, TextureAtlas textureAtlas){
+        textureBarra = textureAtlas.findRegion("red_square");
         barra = new Sprite(textureBarra);
         this.minigameGerador = minigameGerador;
         this.setas = setas;

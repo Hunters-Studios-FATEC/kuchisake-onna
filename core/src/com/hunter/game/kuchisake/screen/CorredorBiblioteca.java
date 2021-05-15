@@ -42,7 +42,6 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         
         porta1.setSize(porta1.getWidth() / TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
         porta1.setPosition((3500 - 812) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
-        porta1.setAlpha(0.5f);
 
         porta2.setSize(porta2.getWidth() / TerrorGame.SCALE, porta2.getHeight() / TerrorGame.SCALE);
         porta2.setPosition(741 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
@@ -64,9 +63,9 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
         porta3.draw(game.batch);
         porta2.draw(game.batch);
+        porta1.draw(game.batch);
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
-        porta1.draw(game.batch);
 
         game.batch.end();
 
@@ -85,8 +84,8 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                 transitionScene.fadeIn();
                 
                 if(!canSwitchAssets) {
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Tilesets/salaEstar.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/salaEstar/SalaEstarObjects.atlas", TextureAtlas.class);
                     
                     canSwitchAssets = true;
                 }

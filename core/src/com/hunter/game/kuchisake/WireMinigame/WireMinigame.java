@@ -2,7 +2,12 @@ package com.hunter.game.kuchisake.WireMinigame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
@@ -15,7 +20,11 @@ public class WireMinigame {
 	FitViewport viewport;
 	
 	public Stage stage;
-	
+
+	TextureRegion descTexture;
+	Sprite descSprite;
+	Actor description;
+
 	Background background;
 	WireActor wireActor1;
 	WireActor wireActor2;
@@ -27,23 +36,39 @@ public class WireMinigame {
 
 	boolean isFinished = false;
 
-	public WireMinigame(SpriteBatch spriteBatch) {
+	TextureAtlas textureAtlas;
+	TextureAtlas descriptionAtlas;
+
+	public WireMinigame(SpriteBatch spriteBatch, TextureAtlas textureAtlas, final TextureAtlas descriptionAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
 								   new OrthographicCamera());
 		viewport.apply();
-		
+
+		this.textureAtlas = textureAtlas;
+		this.descriptionAtlas = descriptionAtlas;
+
 		stage = new Stage(viewport, spriteBatch);
-		
-		background = new Background(0, 0);
-		wireActor1 = new WireActor(1, 5, "red_square.png", 6);
-		wireActor2 = new WireActor(1, 3, "green_square.png", 4);
-		wireActor3 = new WireActor(1, 1, "blue_square.png", 5);
 
-		wireSlot1 = new SlotWire(18,5,"green_wire_slot.png");
-		wireSlot2 = new SlotWire(18,3,"blue_wire_slot.png");
-		wireSlot3 = new SlotWire(18,1,"red_wire_slot.png");
+		descTexture = descriptionAtlas.findRegion("fios");
+		descSprite = new Sprite(descTexture);
+		descSprite.setSize( 17.64f, 5.88f);
+		descSprite.setPosition((viewport.getWorldWidth() / 2) - (descSprite.getWidth() / 2), (viewport.getWorldHeight() / 2) - (descSprite.getHeight()/2) + 3);
+		description = new Actor(){
+			@Override
+			public void draw(Batch batch, float parentAlpha) {
+				descSprite.draw(batch);
+			}
+		};
+		background = new Background(0, 0, textureAtlas);
+		wireActor1 = new WireActor(1, 5, "red_square", 6, textureAtlas);
+		wireActor2 = new WireActor(1, 3, "green_square", 4, textureAtlas);
+		wireActor3 = new WireActor(1, 1, "blue_square", 5, textureAtlas);
 
-		correct = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+		wireSlot1 = new SlotWire(18,5,"green_wire_slot", textureAtlas);
+		wireSlot2 = new SlotWire(18,3,"blue_wire_slot", textureAtlas);
+		wireSlot3 = new SlotWire(18,1,"red_wire_slot", textureAtlas);
+
+		correct = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, textureAtlas);
 
 		correct.setVisible(false);
 	}
@@ -51,9 +76,9 @@ public class WireMinigame {
 	public void startMinigame(){
 		Gdx.input.setInputProcessor(stage);
 
-		wireActor1 = new WireActor(1, 5, "red_square.png", 6);
-		wireActor2 = new WireActor(1, 3, "green_square.png", 4);
-		wireActor3 = new WireActor(1, 1, "blue_square.png", 5);
+		wireActor1 = new WireActor(1, 5, "red_square", 6, textureAtlas);
+		wireActor2 = new WireActor(1, 3, "green_square", 4, textureAtlas);
+		wireActor3 = new WireActor(1, 1, "blue_square", 5, textureAtlas);
 
 		stage.addActor(background);
 		stage.addActor(wireActor1);
@@ -63,6 +88,7 @@ public class WireMinigame {
 		stage.addActor(wireSlot2);
 		stage.addActor(wireSlot3);
 		stage.addActor(correct);
+		stage.addActor(description);
 	}
 
 	public void verifyWires(){

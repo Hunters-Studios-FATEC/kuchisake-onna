@@ -3,6 +3,8 @@ package com.hunter.game.kuchisake.lockpick;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.hunter.game.kuchisake.TerrorGame;
@@ -11,9 +13,14 @@ public class WallActor extends Actor{
 	
 	Array<Sprite> spriteArray;
 	//Array<Array<Sprite>> adjWallsArray;
-	
-	public WallActor() {
+
+	TextureRegion textureRegion;
+
+	public WallActor(TextureAtlas textureAtlas) {
 		spriteArray = new Array<Sprite>();
+
+		textureRegion = textureAtlas.findRegion("dark_gray_square");
+
 		//adjWallsArray = new Array<Array<Sprite>>();
 		
 		createSprite(2.85f, 4.4f, 50, 50 * 3); // parede 0
@@ -46,9 +53,8 @@ public class WallActor extends Actor{
 	}
 	
 	void createSprite(float x, float y, float width, float height) {
-		Texture texture = new Texture("dark_gray_square.png");
-		
-		Sprite sprite = new Sprite(texture);
+
+		Sprite sprite = new Sprite(textureRegion);
 		sprite.setBounds(x, y, width / TerrorGame.SCALE, height / TerrorGame.SCALE);
 		
 		spriteArray.add(sprite);

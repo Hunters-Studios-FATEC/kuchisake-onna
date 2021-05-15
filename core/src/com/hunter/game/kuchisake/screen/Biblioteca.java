@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.tools.MinigameManager;
 
 public class Biblioteca extends StandardRoom implements Screen {
 
@@ -21,12 +22,20 @@ public class Biblioteca extends StandardRoom implements Screen {
     Sprite estante;
 
     boolean isSecondFloor = false;
+    MinigameManager minigameManager;
 
     public Biblioteca(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala1.tmx", playerDoorPosX);
 
+        minigameManager = game.getMinigameManager();
+
         collisions.CreateCollisions(971+230f, 160,"doorDown0", 230, collisions.getPortaBit());
         collisions.CreateCollisions(2487+230f, 160,"doorUp0", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(2487+230f, 160,"bookshelf", 203, collisions.getShelfBit());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("livro3", false)) {
+            collisions.CreateCollisions(875, 160, "livro3", 203, collisions.getITEM_BIT());
+        }
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -64,6 +73,7 @@ public class Biblioteca extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        minigameManager.minigameUpdate(delta, 2);
         transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
@@ -97,27 +107,29 @@ public class Biblioteca extends StandardRoom implements Screen {
                 }
 
             } else if (direction == "doorUp" && doorNum == 0){
-                doorAnimationTimer += delta;
-                transitionScene.fadeIn();
-                
-                if(!canSwitchAssets) {
-                    game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
-                    
-                    canSwitchAssets = true;
-                }
-                
-                if(doorAnimationTimer > 1.5f){
-                    dispose();
+                if (game.getMinigameManager().getBookCompleted()){
+                    doorAnimationTimer += delta;
+                    transitionScene.fadeIn();
 
-                    game.getAssetManager().unload("Tilesets/sala1.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
+                    if(!canSwitchAssets) {
+                        game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
 
-                    game.getAssetManager().finishLoading();
-                    game.incrementPlayerLine(1);
-                    game.setPlayerColumn(0);
-                    
-                    game.setScreen(new SalaSecreta(game, 2487+230));
+                        canSwitchAssets = true;
+                    }
+
+                    if(doorAnimationTimer > 1.5f){
+                        dispose();
+
+                        game.getAssetManager().unload("Tilesets/sala1.tmx");
+                        game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
+
+                        game.getAssetManager().finishLoading();
+                        game.incrementPlayerLine(1);
+                        game.setPlayerColumn(0);
+
+                        game.setScreen(new SalaSecreta(game, 2487+230));
+                    }
                 }
             }
         }
@@ -127,6 +139,7 @@ public class Biblioteca extends StandardRoom implements Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        minigameManager.minigameResize(width, height, 2);
     }
 
     @Override
@@ -147,5 +160,6 @@ public class Biblioteca extends StandardRoom implements Screen {
     @Override
     public void dispose() {
         super.dispose();
+        minigameManager.minigameDispose(2);
     }
 }

@@ -19,18 +19,23 @@ public class SalaEstar extends StandardRoom implements Screen {
     Sprite porta;
 
     public SalaEstar(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/sala1.tmx", playerDoorPosX);
+        super(game, "Tilesets/salaEstar.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(483, 160,"doorUp0", 203, collisions.getPortaBit());
-        
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
-        portaFechada = textureAtlas.findRegion("porta1");
-        portaAberta = textureAtlas.findRegion("porta2");
+
+        if (!game.getInventoryManager().getItemBackpack().contains("livro1", false)) {
+            collisions.CreateCollisions(2700, 160, "livro1", 203, collisions.getITEM_BIT());
+        }
+
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/salaEstar/SalaEstarObjects.atlas", TextureAtlas.class);
+        portaFechada = textureAtlas.findRegion("porta corredor 1");
+        portaAberta = textureAtlas.findRegion("porta corredor 2");
         
         porta = new Sprite(portaFechada);
         
-        porta.setSize(porta.getWidth() * 1.45f / TerrorGame.SCALE, porta.getHeight() * 1.45f / TerrorGame.SCALE);
+        porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition(280 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta.setAlpha(0.5f);
 
     }
 
@@ -43,11 +48,10 @@ public class SalaEstar extends StandardRoom implements Screen {
         player.playerUpdate(delta);
 
         game.batch.begin();
-        
-        porta.draw(game.batch);
+
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
-        
+        porta.draw(game.batch);
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -75,8 +79,8 @@ public class SalaEstar extends StandardRoom implements Screen {
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/sala1.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+                    game.getAssetManager().unload("Tilesets/salaEstar.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/salaEstar/SalaEstarObjects.atlas");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
@@ -101,8 +105,8 @@ public class SalaEstar extends StandardRoom implements Screen {
             if(doorAnimationTimer > 1.5f){
             	dispose();
 
-                game.getAssetManager().unload("Tilesets/sala1.tmx");
-                game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+                game.getAssetManager().unload("Tilesets/salaEstar.tmx");
+                game.getAssetManager().unload("ScenaryAssets/salaEstar/SalaEstarObjects.atlas");
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(1);

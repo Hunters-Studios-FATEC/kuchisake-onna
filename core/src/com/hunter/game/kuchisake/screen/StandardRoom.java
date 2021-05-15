@@ -197,7 +197,11 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		if((isPlayerInSaguao && isKuchisakeInSaguao) ||
 				game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() && game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()) {
 			game.getKuchisakeOnna().getSprite().setAlpha(1);
-			game.setHasEncountered(true);
+
+			if (game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() && game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()){
+				game.setHasEncountered(true);
+			}
+
 		}
 		else {
 			game.getKuchisakeOnna().getSprite().setAlpha(0);

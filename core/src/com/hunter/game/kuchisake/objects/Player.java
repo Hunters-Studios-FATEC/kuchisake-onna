@@ -2,6 +2,7 @@ package com.hunter.game.kuchisake.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -56,9 +57,11 @@ public class Player {
 
     Texture playerWalk;
     Texture playerStop;
+    Sound pickupSound;
 
     Animation<TextureRegion> animationStopped;
     Animation<TextureRegion> animationWalking;
+    TerrorGame game;
 
     public Array<TextureRegion> testeAnima;
 
@@ -68,7 +71,9 @@ public class Player {
         polygonShape = new PolygonShape();
 
         this.world = world;
+        this.game = game;
 
+        pickupSound = game.getAssetManager().get("Audio/Sfx/item pickup 7.ogg");
         playerWalk = game.getAssetManager().get("CharactersAssets/sprites_protag_right.png", Texture.class);
         playerStop = game.getAssetManager().get("CharactersAssets/sprite_stoped_right.png", Texture.class);
 
@@ -224,6 +229,7 @@ public class Player {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && inventoryManager.getCanCollectItem()){
             inventoryManager.addItem(itemName);
+            pickupSound.play(0.5f);
             Array<Body> bodies = new Array<Body>(world.getBodyCount());
             world.getBodies(bodies);
             for (Body body:bodies){

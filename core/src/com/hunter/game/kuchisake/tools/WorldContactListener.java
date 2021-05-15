@@ -39,21 +39,41 @@ public class WorldContactListener implements ContactListener{
 				System.out.println("ESCONDE");
 				player.setminigameID(0);
 			} else if (object.getUserData().equals("lockpick")) {
-				minigameManager.setCanStartMinigame(true);
-				System.out.println("LOCKPICK");
-				player.setminigameID(1);
+				if (inventoryManager.getItemBackpack().contains("gazua", false)){
+					minigameManager.setCanStartMinigame(true);
+					System.out.println("LOCKPICK");
+					player.setminigameID(1);
+				} else {
+					minigameManager.wrongSound.play(0.5f);
+				}
 			} else if (object.getUserData().equals("bookshelf")) {
-				minigameManager.setCanStartMinigame(true);
-				System.out.println("BOOKSHELF");
-				player.setminigameID(2);
-			} else if (object.getUserData().equals("fios")) {
-				minigameManager.setCanStartMinigame(true);
-				System.out.println("FIOS");
-				player.setminigameID(3);
+				if (inventoryManager.getItemBackpack().contains("livro1", false) &&
+				inventoryManager.getItemBackpack().contains("livro2", false) &&
+				inventoryManager.getItemBackpack().contains("livro3", false)){
+					minigameManager.setCanStartMinigame(true);
+					System.out.println("BOOKSHELF");
+					player.setminigameID(2);
+				} else {
+					minigameManager.wrongSound.play(0.5f);
+				}
+
+			} else if (object.getUserData().equals("fios") ) {
+				if (inventoryManager.getItemBackpack().contains("fiosItem", false)){
+					minigameManager.setCanStartMinigame(true);
+					System.out.println("FIOS");
+					player.setminigameID(3);
+				} else{
+					minigameManager.wrongSound.play(0.5f);
+				}
+
 			} else if (object.getUserData().equals("gerador")) {
-				minigameManager.setCanStartMinigame(true);
-				System.out.println("GERADOR");
-				player.setminigameID(4);
+				if (minigameManager.getWireCompleted()){
+					minigameManager.setCanStartMinigame(true);
+					System.out.println("GERADOR");
+					player.setminigameID(4);
+				} else {
+					minigameManager.wrongSound.play(0.5f);
+				}
 			} else if (object.getUserData().toString().contains("door")) {
 				player.setTouchingDoor(true);
 				if (object.getUserData().toString().contains("Up")){
@@ -67,10 +87,21 @@ public class WorldContactListener implements ContactListener{
 			} else if (object.getUserData().equals("fiosItem")){
 				inventoryManager.setCanCollectItem(true);
 				player.setItemName("fiosItem");
-
 			} else if (object.getUserData().equals("chaveServico")){
 				inventoryManager.setCanCollectItem(true);
 				player.setItemName("chaveServico");
+			} else if (object.getUserData().equals("gazua")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("gazua");
+			} else if (object.getUserData().equals("livro1")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("livro1");
+			} else if (object.getUserData().equals("livro2")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("livro2");
+			} else if (object.getUserData().equals("livro3")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("livro3");
 			}
 		}
 	}

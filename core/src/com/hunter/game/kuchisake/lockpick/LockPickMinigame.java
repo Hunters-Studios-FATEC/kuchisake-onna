@@ -3,6 +3,7 @@ package com.hunter.game.kuchisake.lockpick;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -24,19 +25,23 @@ public class LockPickMinigame {
 	Correct correctActor;
 
 	boolean isfinished = false;
+
+	TextureAtlas textureAtlas;
 	
-	public LockPickMinigame(SpriteBatch spriteBatch) {
+	public LockPickMinigame(SpriteBatch spriteBatch, TextureAtlas textureAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
 				   new OrthographicCamera());
 		viewport.apply();
-		
+
+		this.textureAtlas = textureAtlas;
+
 		stage = new Stage(viewport, spriteBatch);
 		
-		background = new Background(0, 0);
+		background = new Background(0, 0, textureAtlas);
 //		wallActor = new WallActor();
-		finishChecker = new FinishChecker(15.35f, 5.9f);
+		finishChecker = new FinishChecker(15.35f, 5.9f, textureAtlas);
 //		keyActor = new KeyActor(3.35f, 4.9f);
-		correctActor = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+		correctActor = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, textureAtlas);
 		
 //		keyActor.addWalls(wallActor);
 		
@@ -48,8 +53,8 @@ public class LockPickMinigame {
 	public void startMinigame(){
 		Gdx.input.setInputProcessor(stage);
 
-		wallActor = new WallActor();
-		keyActor = new KeyActor(3.35f, 4.9f, this);
+		wallActor = new WallActor(textureAtlas);
+		keyActor = new KeyActor(3.35f, 4.9f, this, textureAtlas);
 		keyActor.addWalls(wallActor);
 
 		stage.addActor(background);

@@ -3,16 +3,18 @@ package com.hunter.game.kuchisake.WireMinigame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.hunter.game.kuchisake.TerrorGame;
 
 public class Background extends Actor{
-	Texture texture;
+	TextureRegion texture;
 	
 	Sprite sprite;
 	
-	public Background(float x, float y) {
-		texture = new Texture("black_rectangle.png");
+	public Background(float x, float y, TextureAtlas textureAtlas) {
+		texture = textureAtlas.findRegion("black_rectangle");
 		
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);

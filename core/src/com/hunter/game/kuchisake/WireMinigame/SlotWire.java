@@ -3,18 +3,20 @@ package com.hunter.game.kuchisake.WireMinigame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.hunter.game.kuchisake.TerrorGame;
 
 public class SlotWire extends Actor{
 
-	Texture texture;
+	TextureRegion texture;
 
 	Sprite sprite;
 
 
-	public SlotWire(float x, float y, String img) {
-		texture = new Texture(img);
+	public SlotWire(float x, float y, String img, TextureAtlas textureAtlas) {
+		texture = textureAtlas.findRegion(img);
 
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 5), sprite.getHeight() / (TerrorGame.SCALE * 5));
