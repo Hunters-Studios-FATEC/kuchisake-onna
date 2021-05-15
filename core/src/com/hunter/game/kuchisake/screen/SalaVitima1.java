@@ -64,6 +64,7 @@ public class SalaVitima1 extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -73,14 +74,20 @@ public class SalaVitima1 extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 3){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala2.tmx");
                     game.getAssetManager().unload("ScenaryAssets/sala_2/Sala2Objects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

@@ -66,6 +66,7 @@ public class Cozinha extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -76,14 +77,20 @@ public class Cozinha extends StandardRoom implements Screen {
             if (direction == "doorUp" && doorNum == 4){
                 if (game.getInventoryManager().getItemBackpack().contains("chaveServico", false)) {
                     doorAnimationTimer += delta;
+                    transitionScene.fadeIn();
+                    
+                    if(!canSwitchAssets) {
+                    	game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+                        
+                        canSwitchAssets = true;
+                    }
+                    
                     if (doorAnimationTimer > 1.5f) {
                         dispose();
 
                         game.getAssetManager().unload("Tilesets/sala1.tmx");
                         game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
-
-                        game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-                        game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
 
                         game.getAssetManager().finishLoading();
                         game.incrementPlayerLine(1);
@@ -99,14 +106,20 @@ public class Cozinha extends StandardRoom implements Screen {
             }
             else if (direction == "doorUp" && doorNum == 5){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala1.tmx");
                     game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
@@ -120,18 +133,27 @@ public class Cozinha extends StandardRoom implements Screen {
         }
         
         if(player.getBody().getPosition().x < 0) {
-        	dispose();
-
-            game.getAssetManager().unload("Tilesets/sala1.tmx");
-            game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+        	doorAnimationTimer += delta;
+            transitionScene.fadeIn();
             
-            game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
-            game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
-
-            game.getAssetManager().finishLoading();
-            game.setPlayerColumn(1);
+            if(!canSwitchAssets) {
+            	game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
+                game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
+                
+                canSwitchAssets = true;
+            }
             
-            game.setScreen(new Saguao(game, 3500 - 128, false));
+            if(doorAnimationTimer > 1.5f){
+            	dispose();
+
+                game.getAssetManager().unload("Tilesets/sala1.tmx");
+                game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+
+                game.getAssetManager().finishLoading();
+                game.setPlayerColumn(1);
+                
+                game.setScreen(new Saguao(game, 3500 - 128, false));
+            }
         }
     }
 

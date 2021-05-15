@@ -72,6 +72,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -81,14 +82,20 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
                     game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
@@ -99,14 +106,20 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
             } else if (direction == "doorUp" && doorNum == 0){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
                     game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
-
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
@@ -116,14 +129,20 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                 }
             } else if (direction == "doorUp" && doorNum == -1){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                    game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
                     game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
-
-                    game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);

@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.screen.StandardRoom;
+import com.hunter.game.kuchisake.tools.InventoryManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -252,7 +253,7 @@ public class Kuchisake extends Thread{
         		}
 			}
         	
-        	if(!game.getHasEncountered()) {
+        	if(!game.getHasEncountered() && !game.getInventoryManager().getInventoryOpen()) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
         	else {
@@ -324,12 +325,12 @@ public class Kuchisake extends Thread{
         	int lastStepLine = path.get(path.size() - 1)[0];
         	int lastStepColumn = path.get(path.size() - 1)[1];
         	
-        	if(!game.getIsHiding() && (game.getPlayerLine() == lastStepLine && game.getPlayerColumn() == lastStepColumn)) {
+        	if(!game.getIsHiding() && !game.getInventoryManager().getInventoryOpen() && 
+        			(game.getPlayerLine() == lastStepLine && game.getPlayerColumn() == lastStepColumn)) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
         	else {
         		foundDoorXPos = false;
-        		moveTimer = 0;
         		isSearching = false;
             	pathStep = 0;
         	}
@@ -442,7 +443,7 @@ public class Kuchisake extends Thread{
     @Override
     public void run() {
     	while(true) {
-    		if(!game.getIsHiding()) {
+    		if(!game.getIsHiding() && !game.getInventoryManager().getInventoryOpen()) {
     			if(!game.getHasEncountered()) {
         			calculateRoute();
         		}

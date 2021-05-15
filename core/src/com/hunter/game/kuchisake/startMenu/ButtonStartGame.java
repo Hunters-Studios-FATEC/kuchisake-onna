@@ -70,8 +70,6 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().unload("ButtonAssets/Logo_rascunho.png");
     	game.getAssetManager().unload("ButtonAssets/start_rascunho.png");
     	
-    	game.createVillain();
-    	
     	game.getAssetManager().setLoader(TiledMap.class, new TmxMapLoader());
     	
     	game.getAssetManager().load("CharactersAssets/sprites_protag_right.png", Texture.class);
@@ -87,7 +85,6 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().load("Audio/Sfx/porta abrindo 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/porta fechando 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/Achei voce.ogg", Sound.class);
-
 
     	//game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
     	//game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
@@ -110,6 +107,8 @@ public class ButtonStartGame extends Actor {
         
         game.createMinigameManager();
         game.createInventoryManager();
+        
+        game.createVillain();
     	
         //game.setScreen(new Saguao(game, 1000));
     	game.setScreen(new Saguao(game, 1750,  false));

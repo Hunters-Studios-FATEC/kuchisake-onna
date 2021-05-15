@@ -59,6 +59,7 @@ public class Sala1 extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -69,14 +70,20 @@ public class Sala1 extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 2){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala1.tmx");
                     game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

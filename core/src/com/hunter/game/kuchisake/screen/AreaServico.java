@@ -64,6 +64,7 @@ public class AreaServico extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -73,6 +74,14 @@ public class AreaServico extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 2){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
                 
                 if(doorAnimationTimer > 1.5f){
                     dispose();
@@ -80,9 +89,6 @@ public class AreaServico extends StandardRoom implements Screen {
                     game.getAssetManager().unload("Tilesets/sala2.tmx");
                     game.getAssetManager().unload("ScenaryAssets/sala_2/Sala2Objects.atlas");
                     
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
-
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(2);

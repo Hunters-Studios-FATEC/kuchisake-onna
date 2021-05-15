@@ -66,6 +66,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -91,14 +92,20 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
         	if (direction == "doorUp" && doorNum == 1){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                    game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
                     game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
@@ -110,18 +117,27 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         }
         
         if(player.getBody().getPosition().x > mapWidth) {
-        	dispose();
-
-            game.getAssetManager().unload("Tilesets/corredor.tmx");
-            game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+        	doorAnimationTimer += delta;
+            transitionScene.fadeIn();
             
-            game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
-            game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
-
-            game.getAssetManager().finishLoading();
-            game.setPlayerColumn(2);
+            if(!canSwitchAssets) {
+                game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
+                game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
+                
+                canSwitchAssets = true;
+            }
             
-            game.setScreen(new Saguao(game, 128, true));
+        	if(doorAnimationTimer > 1.5f) {
+        		dispose();
+
+                game.getAssetManager().unload("Tilesets/corredor.tmx");
+                game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+
+                game.getAssetManager().finishLoading();
+                game.setPlayerColumn(2);
+                
+                game.setScreen(new Saguao(game, 128, true));
+        	}
         }
 
     }

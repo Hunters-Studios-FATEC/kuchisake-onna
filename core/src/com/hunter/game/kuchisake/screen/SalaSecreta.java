@@ -58,6 +58,7 @@ public class SalaSecreta extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -67,14 +68,20 @@ public class SalaSecreta extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala2.tmx");
                     game.getAssetManager().unload("ScenaryAssets/sala_2/Sala2Objects.atlas");
-
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

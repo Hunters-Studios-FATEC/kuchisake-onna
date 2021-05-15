@@ -64,6 +64,7 @@ public class Biblioteca extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -73,14 +74,20 @@ public class Biblioteca extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala1.tmx");
                     game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
-
-                    game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
@@ -91,14 +98,20 @@ public class Biblioteca extends StandardRoom implements Screen {
 
             } else if (direction == "doorUp" && doorNum == 0){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                    game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala1.tmx");
                     game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
-
-                    game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);

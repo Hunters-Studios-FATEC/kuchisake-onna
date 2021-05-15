@@ -30,7 +30,9 @@ public class CircleOverlay extends Actor{
 	SizeToAction sizeToAction;
 	MoveByAction moveByAction;
 	
-	public CircleOverlay(float x, float y, float time, TextureAtlas textureAtlas) {
+	Hide hideMinigame;
+	
+	public CircleOverlay(float x, float y, float time, TextureAtlas textureAtlas, Hide hideMinigame) {
 		startTime = time;
 		
 		texture = textureAtlas.findRegion("hitcircleoverlay");
@@ -46,6 +48,8 @@ public class CircleOverlay extends Actor{
 		previousHeight = getHeight();
 		
 		setColor(0, 0, 0, 0);
+		
+		this.hideMinigame = hideMinigame;
 	}
 	
 	void addInitialActions() {
@@ -87,6 +91,8 @@ public class CircleOverlay extends Actor{
 			addAction(sizeToAction);
 			
 			keyPressed = true;
+			
+			hideMinigame.incrementScore(1000 * (1.28f + 0.24f) / getWidth());
 		}
 	}
 	

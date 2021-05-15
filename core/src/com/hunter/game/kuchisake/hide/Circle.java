@@ -103,8 +103,6 @@ public class Circle extends Actor{
 			addAction(sizeToAction);
 			
 			keyPressed = true;
-			
-			hideMinigame.incrementHitCount();
 		}
 	}
 	

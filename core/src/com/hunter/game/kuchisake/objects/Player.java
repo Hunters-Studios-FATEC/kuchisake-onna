@@ -42,7 +42,6 @@ public class Player {
     int currentState;
     String itemName;
 
-
     EdgeShape collisionSensor;
 
     MinigameManager minigameManager;
@@ -60,8 +59,6 @@ public class Player {
 
     Animation<TextureRegion> animationStopped;
     Animation<TextureRegion> animationWalking;
-
-
 
     public Array<TextureRegion> testeAnima;
 
@@ -120,6 +117,8 @@ public class Player {
         //parametro minigameManager criado e atribuido a variavel global minigameManager.
         this.minigameManager = minigameManager;
         this.inventoryManager = inventoryManager;
+        
+        this.standardRoom = standardRoom;
     }
 
 
@@ -151,10 +150,6 @@ public class Player {
         }
         return spritesFrames;
     }
-
-    public void shrinkSize(){
-    }
-
 
     public TextureRegion changeFrame(float delta){
         currentState = checkState(isWalking);
@@ -192,7 +187,7 @@ public class Player {
 
     public void handleInput() {
         isWalking = 0;
-        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !canChangeRoom) {
+        if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !standardRoom.getCanSwitchAssets()) {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 //                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
                 isWalking = 20f;
@@ -203,6 +198,7 @@ public class Player {
                 isWalking = -20f;
             }
         }
+        
             // Vai abrir e fechar
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
             if (!inventoryManager.getInventoryOpen()) {

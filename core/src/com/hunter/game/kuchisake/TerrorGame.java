@@ -45,6 +45,8 @@ public class TerrorGame extends Game{
 	
 	private boolean isHiding = false;
 	
+	int level = 3;
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -89,6 +91,14 @@ public class TerrorGame extends Game{
 	
 	public float getTimeStep() {
 		return TIME_STEP;
+	}
+	
+	public int getVelocityIterations() {
+		return VELOCITY_ITERATIONS;
+	}
+	
+	public int getPositionIterations() {
+		return POSITION_ITERATIONS;
 	}
 	
 	public void incrementPlayerLine(int lnIncrement) {
@@ -175,5 +185,9 @@ public class TerrorGame extends Game{
 	
 	public boolean getIsHiding() {
 		return isHiding;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 }

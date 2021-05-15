@@ -60,6 +60,7 @@ public class Quarto extends StandardRoom implements Screen {
 
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
+        transitionScene.updateTransition();
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);
@@ -72,14 +73,20 @@ public class Quarto extends StandardRoom implements Screen {
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 1){
                 doorAnimationTimer += delta;
+                transitionScene.fadeIn();
+                
+                if(!canSwitchAssets) {
+                	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    
+                    canSwitchAssets = true;
+                }
+                
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/quarto.tmx");
                     game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
-                    
-                    game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

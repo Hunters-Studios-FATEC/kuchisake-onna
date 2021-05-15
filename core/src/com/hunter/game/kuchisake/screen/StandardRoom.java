@@ -60,8 +60,12 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 	Texture portaFechada;
 	Texture portaAberta;
-
-	float doorAnimationTimer = 0f;
+	
+	float doorAnimationTimer = 0;
+	
+	TransitionScene transitionScene;
+	
+	boolean canSwitchAssets = false;
 
 	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
 		this.game = game;
@@ -93,6 +97,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		tilesNumberX = mapProperties.get("width", Integer.class);
 		tileWidth = mapProperties.get("tilewidth", Integer.class) / TerrorGame.SCALE;
 		mapWidth = tilesNumberX * tileWidth;
+		
+		transitionScene = new TransitionScene(game);
 
 //		portaFechada = game.getAssetManager().get("PortasEEscadas/porta1.png", Texture.class);
 //		portaAberta = game.getAssetManager().get("PortasEEscadas/porta2.png", Texture.class);
@@ -102,6 +108,14 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 	void stepWorld(float dt) {
 		accumulator += (dt < 0.25f)? dt : 0.25f;
+		
+		if(canSwitchAssets && accumulator < game.getTimeStep()) {
+			player.handleInput();
+			
+			game.setPlayerXPos(player.getBody().getPosition().x);
+			
+			game.worldStep();
+		}
 		
 		while(accumulator >= game.getTimeStep()) {
 			player.handleInput();
@@ -114,8 +128,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 			}*/
 			game.worldStep();
 			
-			updateCamera();
-			
 			accumulator -= game.getTimeStep();
 		}
 	}
@@ -123,6 +135,10 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	public void setChangeRoom(String up_or_down, int room_num){
 		direction = up_or_down;
 		doorNum = room_num;
+	}
+	
+	public boolean getCanSwitchAssets() {
+		return canSwitchAssets;
 	}
 	
 	void updateCamera() {
@@ -142,10 +158,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		camera.update();
 	}
-	
-	float getMapWidth() {
-		return mapWidth;
-	}
 
 	@Override
 	public void show() {
@@ -156,7 +168,12 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
-		stepWorld(delta);
+		if(transitionScene.getActor().getColor().a == 0) {
+			stepWorld(delta);
+		}
+		
+		updateCamera();
+		
 		collisions.getMapRenderer().setView(camera);
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -243,6 +260,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 				world.destroyBody(body);
 			}
 		}
+		
+		transitionScene.dispose();
 		
 		//player.getPolygonShape().dispose();
 		//collisions.getPolygonShape().dispose();

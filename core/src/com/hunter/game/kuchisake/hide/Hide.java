@@ -34,7 +34,6 @@ public class Hide {
 	TextureAtlas textureAtlas;
 	
 	int count = 0;
-	int hitCount = 0;
 	
 	float playSoundTimer = 0;
 	
@@ -46,6 +45,13 @@ public class Hide {
 	
 	boolean playAudio2 = true;
 	boolean gotCaught = false;
+	
+	float minScore;
+	float score;
+	
+	float maxTime;
+	float scorePercent;
+	int minNumber;
 	
 	public Hide(SpriteBatch batch, TerrorGame game, TextureAtlas textureAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
@@ -72,8 +78,8 @@ public class Hide {
 		float randomX = 0;
 		float randomY = 0;
 		
-		for(int i = 0; i < (6 + random.nextInt(6)); i++) {
-			randomTime += 3f * random.nextFloat();
+		for(int i = 0; i < (minNumber + random.nextInt(6)); i++) {
+			randomTime += 0.2f + maxTime * random.nextFloat();
 			
 			Circle circle;
 			CircleOverlay circleOverlay;
@@ -87,16 +93,18 @@ public class Hide {
 			
 			circleArray.add(circle);
 			
-			circleOverlay = new CircleOverlay(randomX, randomY, randomTime, textureAtlas);
+			circleOverlay = new CircleOverlay(randomX, randomY, randomTime, textureAtlas, this);
 			
 			circleOverlayArray.add(circleOverlay);
 		}
+		
+		minScore = (1000 * circleArray.size) * scorePercent;
 	}
 
 	public void startMinigame(){
 		count = 0;
-		hitCount = 0;
 		playSoundTimer = 0;
+		score = 0;
 		
 		playAudio2 = true;
 		gotCaught = false;
@@ -189,6 +197,8 @@ public class Hide {
 	public void verifyConclusion() {
 		if(count == (stage.getActors().size - 1) / 2) {
 			isFinished = true;
+			
+			System.out.println(score + " - " + minScore + " - " + count);
 		}
 	}
 	
@@ -206,7 +216,7 @@ public class Hide {
 			if(playSoundTimer > 3f && playAudio2) {
 				playAudio2 = false;
 				
-				if(hitCount >= count / 2) {
+				if(score >= minScore) {
 					closeDoor.setVolume(closeDoor.play(), 0.5f);
 				}
 				else {
@@ -232,12 +242,35 @@ public class Hide {
 		return false;
 	}
 	
+	public void setLevel(int level) {
+		switch(level) {
+			case 1: {
+				maxTime = 3f;
+				minNumber = 6;
+				scorePercent = 0.35f;
+				break;
+			}
+			case 2: {
+				maxTime = 2f;
+				minNumber = 12;
+				scorePercent = 0.6f;
+				break;
+			}
+			case 3: {
+				maxTime = 1f;
+				minNumber = 18;
+				scorePercent = 0.8f;
+				break;
+			}
+		}
+	}
+	
 	public void incrementCount() {
 		count++;
 	}
 	
-	public void incrementHitCount() {
-		hitCount++;
+	public void incrementScore(float points) {
+		score += points;
 	}
 
 

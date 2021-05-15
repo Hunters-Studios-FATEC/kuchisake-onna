@@ -58,6 +58,7 @@ public class MinigameManager {
     public void startMinigame (int id){
         switch (id){
             case 0:
+            	hideMinigame.setLevel(game.getLevel());
                 hideMinigame.startMinigame();
                 game.setIsHiding(true);
                 game.setHasEncountered(false);
