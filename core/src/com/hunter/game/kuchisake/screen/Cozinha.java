@@ -113,6 +113,7 @@ public class Cozinha extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
                     
                     canSwitchAssets = true;
                 }

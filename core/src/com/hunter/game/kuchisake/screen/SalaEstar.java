@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,13 +19,22 @@ public class SalaEstar extends StandardRoom implements Screen {
 
     Sprite porta;
 
+    boolean isLareiraAcessa = true;
+
     public SalaEstar(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/salaEstar.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(483, 160,"doorUp0", 203, collisions.getPortaBit());
 
+        //colisao da lareira
+        collisions.CreateCollisions(1750, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
+
         if (!game.getInventoryManager().getItemBackpack().contains("livro1", false)) {
             collisions.CreateCollisions(2700, 160, "livro1", 203, collisions.getITEM_BIT());
+        }
+
+        if (!game.getInventoryManager().getItemBackpack().contains("mask1", false) && !isLareiraAcessa) {
+            collisions.CreateCollisions(1750, 160, "mask1", 203, collisions.getITEM_BIT());
         }
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/salaEstar/SalaEstarObjects.atlas", TextureAtlas.class);
@@ -63,7 +73,12 @@ public class SalaEstar extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
-        
+
+        if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("extintor", false) && !game.getInventoryManager().getItemBackpack().contains("mask1", false)){
+            isLareiraAcessa = false;
+            collisions.CreateCollisions(1750, 160, "mask1", 203, collisions.getITEM_BIT());
+        }
+
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 0){
                 doorAnimationTimer += delta;
@@ -72,6 +87,7 @@ public class SalaEstar extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
                     
                     canSwitchAssets = true;
                 }

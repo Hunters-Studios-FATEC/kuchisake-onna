@@ -17,11 +17,28 @@ public class SalaSecreta extends StandardRoom implements Screen {
     Sprite porta;
 
     boolean isSecondFloor = false;
+    boolean hasTodasPecasMascara = false;
 
     public SalaSecreta(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala2.tmx", playerDoorPosX);
 
         collisions.CreateCollisions(2487+230f, 160,"doorDown0", 203, collisions.getPortaBit());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("chavePorao", false)){
+            collisions.CreateCollisions(450, 160, "chavePorao", 203, collisions.getITEM_BIT());
+        }
+
+        if (!game.getInventoryManager().getItemBackpack().contains("mask2", false)){
+            collisions.CreateCollisions(2030, 160, "mask2", 203, collisions.getITEM_BIT());
+        }
+
+        //colisao da caixa ornamentada de mascara
+        collisions.CreateCollisions(1750, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false) && hasTodasPecasMascara) {
+            collisions.CreateCollisions(1750, 160, "chavePrincipal", 203, collisions.getITEM_BIT());
+        }
+
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("porta1");
@@ -59,6 +76,15 @@ public class SalaSecreta extends StandardRoom implements Screen {
         debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+
+        if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("mask1", false) &&
+                inventoryManager.getItemBackpack().contains("mask2", false) &&
+                inventoryManager.getItemBackpack().contains("mask3", false) &&
+                inventoryManager.getItemBackpack().contains("mask4", false) &&
+                !game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false)){
+            hasTodasPecasMascara = true;
+            collisions.CreateCollisions(1750, 160, "chavePrincipal", 203, collisions.getITEM_BIT());
+        }
 
 		/*for (int i = 0; i < maxMinigameID; i++) {
 				minigameManager.minigameUpdate(delta, i);

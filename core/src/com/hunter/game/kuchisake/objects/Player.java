@@ -49,6 +49,8 @@ public class Player {
     InventoryManager inventoryManager;
     StandardRoom standardRoom;
 
+    boolean changeObjectVisual = false;
+    boolean canInteractWorld = false;
     boolean canChangeRoom = false;
     boolean isTouchingDoor = false;
     boolean isLookingRight = true;
@@ -109,7 +111,7 @@ public class Player {
         fixtureDef.filter.categoryBits = game.getPlayerBit();
 
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
-        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit() + collisions.getITEM_BIT());
+        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit() + collisions.getITEM_BIT() + collisions.getINTERACTIBLE_BIT());
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
         
@@ -244,6 +246,11 @@ public class Player {
             }
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && getCanInteractWorld()){
+            setChangeObjectVisual(true);
+            System.out.println("mudar Sprite Lareira");
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor){
             setCanChangeRoom(true);
             System.out.println("mudou");
@@ -283,6 +290,22 @@ public class Player {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public boolean getChangeObjectVisual() {
+        return changeObjectVisual;
+    }
+
+    public void setChangeObjectVisual(boolean changeObjectVisual) {
+        this.changeObjectVisual = changeObjectVisual;
+    }
+
+    public boolean getCanInteractWorld() {
+        return canInteractWorld;
+    }
+
+    public void setCanInteractWorld(boolean canInteractWorld) {
+        this.canInteractWorld = canInteractWorld;
     }
 
     public Body getBody() {
