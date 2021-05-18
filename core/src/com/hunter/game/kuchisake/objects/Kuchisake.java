@@ -253,7 +253,7 @@ public class Kuchisake extends Thread{
         		}
 			}
         	
-        	if(!game.getHasEncountered() && !game.getInventoryManager().getInventoryOpen()) {
+        	if(!game.getHasEncountered() && !game.getInventoryManager().getInventoryOpen() && !game.getMinigameManager().getIsMinigameActive()) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
         	else if(game.getHasEncountered()) {
@@ -328,7 +328,7 @@ public class Kuchisake extends Thread{
         	int lastStepLine = path.get(path.size() - 1)[0];
         	int lastStepColumn = path.get(path.size() - 1)[1];
         	
-        	if(!game.getIsHiding() && !game.getInventoryManager().getInventoryOpen() && 
+        	if(!game.getIsHiding() && !game.getInventoryManager().getInventoryOpen() && !game.getMinigameManager().getIsMinigameActive() &&
         			(game.getPlayerLine() == lastStepLine && game.getPlayerColumn() == lastStepColumn)) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
@@ -449,7 +449,7 @@ public class Kuchisake extends Thread{
     @Override
     public void run() {
     	while(true) {
-    		if(!game.getIsHiding() && !game.getInventoryManager().getInventoryOpen()) {
+    		if(!game.getIsHiding() && !game.getInventoryManager().getInventoryOpen() && !game.getMinigameManager().getIsMinigameActive()) {
     			if(!game.getHasEncountered()) {
         			calculateRoute();
         		}

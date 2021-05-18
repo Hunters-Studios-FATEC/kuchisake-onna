@@ -84,6 +84,8 @@ public class WorldContactListener implements ContactListener{
 					int roomN = Integer.parseInt(object.getUserData().toString().substring("doorDown".length()));
 					standardRoom.setChangeRoom("doorDown", roomN);
 				}
+			} else if (object.getUserData().equals("objetoMundo")){
+				player.setCanInteractWorld(true);
 			} else if (object.getUserData().equals("fiosItem")){
 				inventoryManager.setCanCollectItem(true);
 				player.setItemName("fiosItem");
@@ -102,6 +104,33 @@ public class WorldContactListener implements ContactListener{
 			} else if (object.getUserData().equals("livro3")){
 				inventoryManager.setCanCollectItem(true);
 				player.setItemName("livro3");
+			} else if (object.getUserData().equals("extintor")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("extintor");
+			} else if (object.getUserData().equals("mask1")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("mask1");
+			} else if (object.getUserData().equals("mask2")) {
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("mask2");
+			} else if (object.getUserData().equals("mask3")) {
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("mask3");
+			} else if (object.getUserData().equals("mask4")) {
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("mask4");
+			} else if (object.getUserData().equals("chaveBiblio")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("chaveBiblio");
+			} else if (object.getUserData().equals("cachorro")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("cachorro");
+			} else if (object.getUserData().equals("chavePrincipal")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("chavePrincipal");
+			} else if (object.getUserData().equals("chavePorao")){
+				inventoryManager.setCanCollectItem(true);
+				player.setItemName("chavePorao");
 			}
 		}
 	}
@@ -118,7 +147,9 @@ public class WorldContactListener implements ContactListener{
 			
 			minigameManager.setCanStartMinigame(false);
 			player.setTouchingDoor(false);
+			player.setCanInteractWorld(false);
 			inventoryManager.setCanCollectItem(false);
+
 		}
 	}
 

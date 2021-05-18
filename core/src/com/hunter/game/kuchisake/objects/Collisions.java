@@ -28,6 +28,7 @@ public class Collisions {
     final short GERADOR_BIT = 128;
     final short PORTA_BIT = 256;
     final short ITEM_BIT = 512;
+    final short INTERACTIBLE_BIT = 1024;
 
     //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
@@ -196,5 +197,9 @@ public class Collisions {
 
     public short getITEM_BIT() {
         return ITEM_BIT;
+    }
+
+    public short getINTERACTIBLE_BIT() {
+        return INTERACTIBLE_BIT;
     }
 }

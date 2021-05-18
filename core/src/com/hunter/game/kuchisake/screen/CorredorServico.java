@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,11 +23,17 @@ public class CorredorServico extends StandardRoom implements Screen {
     Sprite porta1;
     Sprite porta2;
 
+    Sound portraTrancada;
+
     public CorredorServico(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(460, 160,"doorDown2", 230, collisions.getPortaBit());
         collisions.CreateCollisions(3040, 160,"doorUp6", 230, collisions.getPortaBit());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("extintor", false)) {
+            collisions.CreateCollisions(1750, 160, "extintor", 203, collisions.getITEM_BIT());
+        }
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -49,6 +56,8 @@ public class CorredorServico extends StandardRoom implements Screen {
         
         porta2.setSize(porta2.getWidth() / TerrorGame.SCALE, porta2.getHeight() / TerrorGame.SCALE);
         porta2.setPosition((3500 - 690) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+
+        portraTrancada = game.getAssetManager().get("Audio/Sfx/porta trancada.ogg");
     }
 
     @Override
@@ -113,6 +122,7 @@ public class CorredorServico extends StandardRoom implements Screen {
 		
 		            game.getAssetManager().unload("Tilesets/corredor.tmx");
 		            game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+		            game.getAssetManager().unload("Audio/Sfx/porta trancada.ogg");
 		
 		            game.getAssetManager().finishLoading();
 		            game.incrementPlayerLine(-1);
@@ -122,27 +132,33 @@ public class CorredorServico extends StandardRoom implements Screen {
                 }
             }
 	        else if (direction == "doorUp" && doorNum == 6) {
-	        	doorAnimationTimer += delta;
-	        	transitionScene.fadeIn();
-                
-                if(!canSwitchAssets) {
-                	game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
-		            game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
-                    
-                    canSwitchAssets = true;
-                }
-	        	
-                if(doorAnimationTimer > 1.5f){
-		        	dispose();
-		
-		            game.getAssetManager().unload("Tilesets/corredor.tmx");
-		            game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
-		
-		            game.getAssetManager().finishLoading();
-                    game.incrementPlayerLine(1);
-                    game.setPlayerColumn(6);
-                    
-		            game.setScreen(new Porao(game, 2810));
+	            if (inventoryManager.getItemBackpack().contains("chavePorao", false)) {
+                    doorAnimationTimer += delta;
+                    transitionScene.fadeIn();
+
+                    if (!canSwitchAssets) {
+                        game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+
+                        canSwitchAssets = true;
+                    }
+
+                    if (doorAnimationTimer > 1.5f) {
+                        dispose();
+
+                        game.getAssetManager().unload("Tilesets/corredor.tmx");
+                        game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+                        game.getAssetManager().unload("Audio/Sfx/porta trancada.ogg");
+
+                        game.getAssetManager().finishLoading();
+                        game.incrementPlayerLine(1);
+                        game.setPlayerColumn(6);
+
+                        game.setScreen(new Porao(game, 2810));
+                    }
+                } else {
+                    portraTrancada.setVolume(portraTrancada.play(), 0.5f);
+                    player.setCanChangeRoom(false);
                 }
 	        }
         }

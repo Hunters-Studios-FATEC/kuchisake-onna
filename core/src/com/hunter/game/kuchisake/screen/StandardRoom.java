@@ -144,7 +144,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	public boolean getCanSwitchAssets() {
 		return canSwitchAssets;
 	}
-	
+
 	void updateCamera() {
 		float playerXPos = player.getBody().getPosition().x;
 		

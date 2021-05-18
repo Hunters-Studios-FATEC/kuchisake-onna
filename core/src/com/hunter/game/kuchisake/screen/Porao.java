@@ -24,6 +24,14 @@ public class Porao extends StandardRoom implements Screen {
         super(game, "Tilesets/quarto.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2810, 160,"doorDown5", 230, collisions.getPortaBit());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("mask3", false)){
+            collisions.CreateCollisions(430, 160, "mask3", 230, collisions.getITEM_BIT());
+        }
+
+        if (!game.getInventoryManager().getItemBackpack().contains("cachorro", false)){
+            collisions.CreateCollisions(1750, 160, "cachorro", 230, collisions.getITEM_BIT());
+        }
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");

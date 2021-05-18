@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -67,6 +68,7 @@ public class SalaSegura extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
                     
                     canSwitchAssets = true;
                 }

@@ -20,10 +20,23 @@ public class Quarto extends StandardRoom implements Screen {
 
     boolean isSecondFloor = false;
 
+    boolean isQuadroSemCachorro = true;
+
     public Quarto(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/quarto.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2810, 160,"doorDown1", 230, collisions.getPortaBit());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("chaveBiblio", false)) {
+            collisions.CreateCollisions(430, 160, "chaveBiblio", 230, collisions.getITEM_BIT());
+        }
+
+        //Colisao do quadro da cabeca de cachorro faltando
+        collisions.CreateCollisions(1750, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
+
+        if (!game.getInventoryManager().getItemBackpack().contains("mask4", false) && !isQuadroSemCachorro) {
+            collisions.CreateCollisions(1750, 160, "mask4", 203, collisions.getITEM_BIT());
+        }
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -69,6 +82,11 @@ public class Quarto extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         
         game.getMinigameManager().minigameUpdate(delta, 0);
+
+        if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("cachorro", false) && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
+            isQuadroSemCachorro = false;
+            collisions.CreateCollisions(1750, 160, "mask4", 203, collisions.getITEM_BIT());
+        }
         
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 1){

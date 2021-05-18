@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,6 +24,8 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
     Sprite porta3;
 
     boolean isSecondFloor = false;
+
+    Sound portraTrancada;
 
     public CorredorBiblioteca(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
@@ -48,6 +51,8 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
         porta3.setSize(porta3.getWidth() / TerrorGame.SCALE, porta3.getHeight() / TerrorGame.SCALE);
         porta3.setPosition(1900 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+
+        portraTrancada = game.getAssetManager().get("Audio/Sfx/porta trancada.ogg");
 
     }
 
@@ -95,6 +100,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
                     game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+                    game.getAssetManager().unload("Audio/Sfx/porta trancada.ogg");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);
@@ -104,27 +110,33 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                 }
 
             } else if (direction == "doorUp" && doorNum == 0){
-                doorAnimationTimer += delta;
-                transitionScene.fadeIn();
-                
-                if(!canSwitchAssets) {
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
-                    
-                    canSwitchAssets = true;
-                }
-                
-                if(doorAnimationTimer > 1.5f){
-                    dispose();
+                if (inventoryManager.getItemBackpack().contains("chaveBiblio", false)){
+                    doorAnimationTimer += delta;
+                    transitionScene.fadeIn();
 
-                    game.getAssetManager().unload("Tilesets/corredor.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+                    if(!canSwitchAssets) {
+                        game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
-                    game.getAssetManager().finishLoading();
-                    game.incrementPlayerLine(1);
-                    game.setPlayerColumn(0);
-                    
-                    game.setScreen(new Biblioteca(game, 971+230));
+                        canSwitchAssets = true;
+                    }
+
+                    if(doorAnimationTimer > 1.5f) {
+                        dispose();
+
+                        game.getAssetManager().unload("Tilesets/corredor.tmx");
+                        game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+                        game.getAssetManager().unload("Audio/Sfx/porta trancada.ogg");
+
+                        game.getAssetManager().finishLoading();
+                        game.incrementPlayerLine(1);
+                        game.setPlayerColumn(0);
+
+                        game.setScreen(new Biblioteca(game, 971 + 230));
+                    }
+                } else {
+                    portraTrancada.setVolume(portraTrancada.play(), 0.5f);
+                    player.setCanChangeRoom(false);
                 }
             } else if (direction == "doorUp" && doorNum == -1){
                 doorAnimationTimer += delta;
@@ -142,6 +154,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
                     game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
+                    game.getAssetManager().unload("Audio/Sfx/porta trancada.ogg");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
