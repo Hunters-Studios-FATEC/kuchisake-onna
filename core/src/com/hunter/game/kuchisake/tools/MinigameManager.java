@@ -54,7 +54,7 @@ public class MinigameManager {
         wrongSound = game.getAssetManager().get("Audio/Sfx/wrongBuzzer.wav");
 //        geradorOn = game.getAssetManager().get("Audio/Sfx/gerador ligando.ogg");
 
-        hideMinigame = new Hide(batch, game, textureAtlas);
+        hideMinigame = new Hide(batch, game, textureAtlas, descriptionAtlas);
         lockPickMinigame = new LockPickMinigame(batch, textureAtlas);
         minigameBook = new MinigameBook(batch, textureAtlas);
         wireMinigame = new WireMinigame(batch, textureAtlas, descriptionAtlas);
@@ -110,33 +110,57 @@ public class MinigameManager {
                 break;
         }
     }
+    
+    public void showDescription(int id) {
+    	switch (id) {
+    		case 0:
+    			hideMinigame.setLevel(game.getLevel());
+                hideMinigame.showDescription();
+                game.setIsHiding(true);
+                game.setHasEncountered(false);
+                break;
+    	}
+    }
 
     public void minigameUpdate(float dt, int id) {
         switch (id) {
             case 0: {
                 if (hideMinigame.stage.getActors().size > 0) {
                     spriteBatch.setProjectionMatrix(hideMinigame.stage.getCamera().combined);
-                    hideMinigame.verifyConclusion();
-                    hideMinigame.stage.act(dt);
-                    hideMinigame.stage.draw();
-
-                    if (hideMinigame.getIsFinished()) {
-                    	boolean clearStage = hideMinigame.showResults(dt);
+                    
+                    if(hideMinigame.stage.getActors().size > 2) {
+                    	hideMinigame.verifyConclusion();
                     	
-                    	if(clearStage) {
-                    		/*clearStageTimer += dt;
+                    	hideMinigame.stage.act(dt);
+                        hideMinigame.stage.draw();
 
-                            if (clearStageTimer > 1.5) {
-                                clearStageTimer = 0;
-                                hideCompleted = true;
+                        if (hideMinigame.getIsFinished()) {
+                        	boolean clearStage = hideMinigame.showResults(dt);
+                        	
+                        	if(clearStage) {
+                        		/*clearStageTimer += dt;
+
+                                if (clearStageTimer > 1.5) {
+                                    clearStageTimer = 0;
+                                    hideCompleted = true;
+                                    closeMinigame(0);
+                                    canStartMinigame = false;
+                                }*/
+
                                 closeMinigame(0);
+                                game.setIsHiding(false);
                                 canStartMinigame = false;
-                            }*/
-
-                            closeMinigame(0);
-                            game.setIsHiding(false);
-                            canStartMinigame = false;
-                    	}	
+                        	}	
+                        }
+                    }
+                    else {
+                    	hideMinigame.stage.act(dt);
+                        hideMinigame.stage.draw();
+                        
+                        if(hideMinigame.stage.getActors().get(1).getColor().a == 0) {
+                        	hideMinigame.stage.getActors().get(1).remove();
+                        	startMinigame(0);
+                        }
                     }
                 }
                 break;

@@ -37,7 +37,7 @@ public class Quarto extends StandardRoom implements Screen {
         
         if(game.getHasEncountered()) {
         	game.getMinigameManager().setMinigameActive(true);
-        	game.getMinigameManager().startMinigame(0);
+        	game.getMinigameManager().showDescription(0);
         }
 
     }

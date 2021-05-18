@@ -6,11 +6,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
@@ -53,7 +57,12 @@ public class Hide {
 	float scorePercent;
 	int minNumber;
 	
-	public Hide(SpriteBatch batch, TerrorGame game, TextureAtlas textureAtlas) {
+	Sprite descSprite;
+	Actor description;
+	
+	AlphaAction alphaAction;
+	
+	public Hide(SpriteBatch batch, TerrorGame game, TextureAtlas textureAtlas, TextureAtlas descriptionAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, 
 								   new OrthographicCamera());
 
@@ -69,6 +78,10 @@ public class Hide {
 		closeDoor = game.getAssetManager().get("Audio/Sfx/porta fechando 3.ogg", Sound.class);
 		foundPlayer = game.getAssetManager().get("Audio/Sfx/Achei voce.ogg", Sound.class);
 		
+		descSprite = new Sprite(descriptionAtlas.findRegion("esconde"));
+		descSprite.setSize(17.64f, 5.88f);
+		descSprite.setPosition(viewport.getWorldWidth() / 2 - descSprite.getWidth() / 2, 
+				viewport.getWorldHeight() / 2 - descSprite.getHeight() / 2);
 	}
 	
 	void createHitCircles() {
@@ -100,8 +113,35 @@ public class Hide {
 		
 		minScore = (1000 * circleArray.size) * scorePercent;
 	}
+	
+	public void showDescription() {
+		stage = new Stage(viewport, hideBatch);
 
-	public void startMinigame(){
+		background = new Background(0, 0, textureAtlas);
+
+		Gdx.input.setInputProcessor(stage);
+		
+		description = new Actor() {
+			@Override
+			public void draw(Batch batch, float parentAlpha) {
+				descSprite.setAlpha(getColor().a);
+				descSprite.draw(batch);
+			}
+		};
+		
+		description.setColor(0, 0, 0, 1f);
+		
+		alphaAction = new AlphaAction();
+		alphaAction.setAlpha(0);
+		alphaAction.setDuration(5f);
+		
+		description.addAction(alphaAction);
+
+		stage.addActor(background);
+		stage.addActor(description);
+	}
+
+	public void startMinigame() {
 		count = 0;
 		playSoundTimer = 0;
 		score = 0;
@@ -111,14 +151,6 @@ public class Hide {
 		
 		isFinished = false;
 		canShowResults = false;
-
-		stage = new Stage(viewport, hideBatch);
-
-		background = new Background(0, 0, textureAtlas);
-
-		Gdx.input.setInputProcessor(stage);
-
-		stage.addActor(background);
 
 		circleArray = new Array<Circle>();
 		circleOverlayArray = new Array<CircleOverlay>();

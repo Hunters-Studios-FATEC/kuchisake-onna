@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 public class Saguao extends StandardRoom implements Screen {
 
@@ -15,12 +16,19 @@ public class Saguao extends StandardRoom implements Screen {
     TextureRegion corrimao;
     TextureRegion portaFechada;
     TextureRegion portaAberta;
+    TextureRegion lustre1;
+    TextureRegion lustre2;
+    TextureRegion lustre3;
+    TextureRegion lustre4;
 
     Sprite corri;
     Sprite porta1;
     Sprite porta2;
+    Sprite lustre;
 
     boolean isSecondFloor = false;
+    
+    ObjectAnimation lustreAnimation;
 
     public Saguao(TerrorGame game, float playerDoorPosX, boolean secondFloor) {
         super(game, "Tilesets/saguao_segundo.tmx", playerDoorPosX);
@@ -33,10 +41,15 @@ public class Saguao extends StandardRoom implements Screen {
         corrimao = textureAtlas.findRegion("corrimao");
         portaFechada = textureAtlas.findRegion("porta1");
         portaAberta = textureAtlas.findRegion("porta2");
+        lustre1 = textureAtlas.findRegion("lustre1");
+        lustre2 = textureAtlas.findRegion("lustre2");
+        lustre3 = textureAtlas.findRegion("lustre3");
+        lustre4 = textureAtlas.findRegion("lustre4");
 
         corri = new Sprite(corrimao);
         porta1 = new Sprite(portaFechada);
         porta2 = new Sprite(portaFechada);
+        lustre = new Sprite(lustre1);
 
         corri.setSize(corri.getWidth() / TerrorGame.SCALE, corri.getHeight() / TerrorGame.SCALE);
         corri.setPosition(0, 10.46f - corri.getHeight());
@@ -47,12 +60,16 @@ public class Saguao extends StandardRoom implements Screen {
         porta2.setSize(porta2.getWidth() / TerrorGame.SCALE, porta2.getHeight() / TerrorGame.SCALE);
         porta2.setPosition((3500 - 140 * 3) / TerrorGame.SCALE - porta2.getWidth(), 585 / TerrorGame.SCALE);
         
+        lustre.setSize(lustre.getWidth() / TerrorGame.SCALE, lustre.getHeight() / TerrorGame.SCALE);
+        lustre.setPosition(1750 / TerrorGame.SCALE - lustre.getWidth() / 2, viewport.getWorldHeight() - lustre.getHeight());
+        
         isSecondFloor = secondFloor;
         
         if(isSecondFloor) {
         	player.setSizeAndPosition(3.25f, 4.25f);
         }
-
+        
+        lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
     }
 
     @Override
@@ -94,6 +111,9 @@ public class Saguao extends StandardRoom implements Screen {
 
             player.draw(game.batch);
         }
+        
+        lustre.setRegion(lustreAnimation.changeFrame(delta));
+        lustre.draw(game.batch);
         
         game.batch.end();
 

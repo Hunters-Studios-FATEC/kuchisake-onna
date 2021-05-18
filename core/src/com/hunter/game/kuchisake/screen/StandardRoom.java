@@ -110,7 +110,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		accumulator += (dt < 0.25f)? dt : 0.25f;
 		
 		if(canSwitchAssets && accumulator < game.getTimeStep()) {
-			player.handleInput();
+			player.walkInput();
 			
 			game.setPlayerXPos(player.getBody().getPosition().x);
 			
@@ -118,7 +118,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		}
 		
 		while(accumulator >= game.getTimeStep()) {
-			player.handleInput();
+			player.walkInput();
 			
 			game.setPlayerXPos(player.getBody().getPosition().x);
 			
@@ -129,6 +129,10 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 			game.worldStep();
 			
 			accumulator -= game.getTimeStep();
+		}
+		
+		if(!canSwitchAssets) {
+			player.handleInput();
 		}
 	}
 

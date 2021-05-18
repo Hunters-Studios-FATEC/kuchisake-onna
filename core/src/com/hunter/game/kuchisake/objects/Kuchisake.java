@@ -256,11 +256,14 @@ public class Kuchisake extends Thread{
         	if(!game.getHasEncountered() && !game.getInventoryManager().getInventoryOpen()) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
-        	else {
+        	else if(game.getHasEncountered()) {
         		foundDoorXPos = false;
         		moveTimer = 0;
         		isSearching = false;
             	pathStep = 0;
+        	}
+        	else {
+        		kuchisake.setLinearVelocity(0, 0);
         	}
     	}
     }
@@ -329,10 +332,13 @@ public class Kuchisake extends Thread{
         			(game.getPlayerLine() == lastStepLine && game.getPlayerColumn() == lastStepColumn)) {
         		walkToXPos(nextLine, nextColumn, path);
         	}
-        	else {
+        	else if(game.getIsHiding() || !(game.getPlayerLine() == lastStepLine && game.getPlayerColumn() == lastStepColumn)) {
         		foundDoorXPos = false;
         		isSearching = false;
             	pathStep = 0;
+        	}
+        	else {
+        		kuchisake.setLinearVelocity(0, 0);
         	}
     	}
     }

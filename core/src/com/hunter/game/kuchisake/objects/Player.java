@@ -189,9 +189,9 @@ public class Player {
         
         return textureRegion;
     }
-
-    public void handleInput() {
-        isWalking = 0;
+    
+    public void walkInput() {
+    	isWalking = 0;
         if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !standardRoom.getCanSwitchAssets()) {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 //                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
@@ -203,9 +203,11 @@ public class Player {
                 isWalking = -20f;
             }
         }
-        
-            // Vai abrir e fechar
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+    }
+
+    public void handleInput() {
+        // Vai abrir e fechar
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !minigameManager.getIsMinigameActive()){
             if (!inventoryManager.getInventoryOpen()) {
                 inventoryManager.openInventory();
                 inventoryManager.setInventoryOpen(true);
@@ -218,7 +220,8 @@ public class Player {
 
         player.setLinearVelocity(new Vector2(isWalking, 0));
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && minigameManager.getCanStartMinigame()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && minigameManager.getCanStartMinigame() && 
+        		!inventoryManager.getInventoryOpen()) {
             if (minigameManager.getActors(minigameID).size == 0) {
                 minigameManager.setMinigameActive(true);
                 minigameManager.startMinigame(minigameID);
@@ -227,7 +230,8 @@ public class Player {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && inventoryManager.getCanCollectItem()){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && inventoryManager.getCanCollectItem() && 
+        		!inventoryManager.getInventoryOpen()){
             inventoryManager.addItem(itemName);
             pickupSound.play(0.5f);
             Array<Body> bodies = new Array<Body>(world.getBodyCount());
@@ -244,7 +248,8 @@ public class Player {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor && 
+        		!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
             setCanChangeRoom(true);
             System.out.println("mudou");
         }
