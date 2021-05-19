@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,12 +20,12 @@ import com.hunter.game.kuchisake.tools.InventoryManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Random;
 
 public class Kuchisake extends Thread{
 
     KuchisakeThread kuchisakeThread;
+    KuchisakeThread kuchisakeThread2;
     
     Body kuchisake;
     BodyDef bodyDef;
@@ -68,6 +69,18 @@ public class Kuchisake extends Thread{
     boolean isChangingRoom = false;
 
     boolean isSecondFloor = false;
+    
+    Sound teAchei;
+    Sound portaAbrindo;
+    Sound madeiraRangendo2;
+    Sound madeiraRangendo6;
+    Sound madeiraRangendo7;
+    
+    float volume;
+    
+    int previousFrameIndex = 0;
+    
+    Random random;
 
     public Kuchisake(float initialX, TerrorGame game) {
     	this.game = game;
@@ -106,7 +119,19 @@ public class Kuchisake extends Thread{
         kuchisakeSprite.setSize(128 * 5.5f / TerrorGame.SCALE, 128 * 5.5f / TerrorGame.SCALE);
         kuchisakeSprite.setPosition(1750/100f - kuchisakeSprite.getWidth() / 2, (kuchisakeSprite.getY() - kuchisakeSprite.getHeight()) / 2 + (300 / TerrorGame.SCALE));
         kuchisakeSprite.setAlpha(0);
+        
         kuchisakeThread = new KuchisakeThread();
+        kuchisakeThread2 = new KuchisakeThread();
+        
+        setAudioVolume();
+        
+        teAchei = game.getAssetManager().get("Audio/Sfx/Te achei.ogg");
+        portaAbrindo = game.getAssetManager().get("Audio/Sfx/porta abrindo 3.ogg");
+        madeiraRangendo2 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 2.ogg");
+        madeiraRangendo6 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 6.ogg");
+        madeiraRangendo7 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 7.ogg");
+        
+        random = new Random();
     }
 
     Array<TextureRegion> setFrameAnimation(Texture texture, int framesLinha, int framesColuna, int framesTotal){
@@ -144,6 +169,34 @@ public class Kuchisake extends Thread{
         
         if(frameChangeTimer >= transitionTime * 30) {
         	frameChangeTimer -= transitionTime * 30;
+        }
+        
+        if(animationWalking.getKeyFrameIndex(frameChangeTimer) == 2 || 
+        		animationWalking.getKeyFrameIndex(frameChangeTimer) == 15) {
+        	if(previousFrameIndex == 1 || previousFrameIndex == 15) {
+        		if(random.nextInt(2) == 0 && kuchisake.getLinearVelocity().x != 0) {
+        			int soundID = random.nextInt(3);
+        			
+        			switch(soundID) {
+	        			case 0:
+	        				madeiraRangendo2.play(volume);
+	        				break;
+	        			case 1:
+	        				madeiraRangendo6.play(volume);
+	        				break;
+	        			case 2:
+	        				madeiraRangendo7.play(volume);
+	        				break;
+        			}
+        		}
+        	}
+        }
+        
+        if(previousFrameIndex < animationWalking.getKeyFrameIndex(frameChangeTimer)) {
+        	previousFrameIndex = animationWalking.getKeyFrameIndex(frameChangeTimer);
+        }
+        else if(previousFrameIndex > animationWalking.getKeyFrameIndex(frameChangeTimer)) {
+        	previousFrameIndex = 0;
         }
         
         return textureRegion;
@@ -404,6 +457,10 @@ public class Kuchisake extends Thread{
                 	
                 	currentLine = nextLine;
                     currentColumn = nextColumn;
+                    
+                    setAudioVolume();
+                	
+                	portaAbrindo.play(volume);
                 	
                 	if((currentLine == 1 && currentColumn == 2)) {
                         isSecondFloor = true;
@@ -498,6 +555,27 @@ public class Kuchisake extends Thread{
     	}
     }
     
+    void setAudioVolume() {
+    	if((currentLine != game.getPlayerLine() || currentColumn != game.getPlayerColumn()) && 
+    			(game.getPlayerLine() == 1 && game.getPlayerColumn() == -1)) {
+        	kuchisakeThread2.runThread(currentLine, currentColumn, game.getPlayerLine(), game.getPlayerColumn());
+        	
+        	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
+        	
+        	volume = 0.5f - playerDistance.size() * 0.1f;
+    	}
+    	else if((game.getPlayerLine() == 1 && game.getPlayerColumn() == -1) && (currentLine != 1 && currentLine != 0)) {
+        	kuchisakeThread2.runThread(currentLine, currentColumn, 1, 0);
+        	
+        	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
+        	
+        	volume = 0.5f - playerDistance.size() * 0.1f;
+    	}
+    	else {
+    		volume = 0.5f;
+    	}
+    }
+    
     public Body getBody() {
     	return kuchisake;
     }
@@ -512,5 +590,9 @@ public class Kuchisake extends Thread{
 
     public Sprite getSprite() {
         return kuchisakeSprite;
+    }
+    
+    public void playFoundAudio() {
+    	teAchei.play(0.5f);
     }
 }

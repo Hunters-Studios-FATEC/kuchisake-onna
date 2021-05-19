@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -15,37 +16,55 @@ public class SalaVitima1 extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
-    TextureRegion caixaEnergia;
+    TextureRegion livro;
+    TextureRegion lampada1;
+    TextureRegion lampada2;
+    TextureRegion lampada3;
+    TextureRegion lampada4;
 
     Sprite porta;
-    Sprite quadroEnergia;
+    Sprite livroSprite;
+    Sprite lampada;
 
     boolean isSecondFloor = false;
+    
+    ObjectAnimation lampadaAnimation;
 
     public SalaVitima1(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/sala2.tmx", playerDoorPosX);
+        super(game, "Tilesets/salaVitima1.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2891, 160,"doorDown3", 203, collisions.getPortaBit());
+        
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/salaVitima1/SalaVitima1Objects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("livro2", false)) {
-            collisions.CreateCollisions(1750, 160, "livro2", 203, collisions.getITEM_BIT());
+            collisions.CreateCollisions(978, 160, "livro2", 203, collisions.getITEM_BIT());
+            
+            livro = textureAtlas.findRegion("livro2");
+            
+            livroSprite = new Sprite(livro);
+            livroSprite.setSize(livroSprite.getWidth() / (TerrorGame.SCALE * 2), livroSprite.getHeight() / (TerrorGame.SCALE * 2));
+            livroSprite.setPosition(978 / TerrorGame.SCALE - livroSprite.getWidth() / 2 + 0.5f, 365 / TerrorGame.SCALE);
         }
 
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
-        portaFechada = textureAtlas.findRegion("porta1");
-        portaAberta = textureAtlas.findRegion("porta2");
-        caixaEnergia = textureAtlas.findRegion("quadro_forca");
+        portaFechada = textureAtlas.findRegion("portaCorredor1");
+        portaAberta = textureAtlas.findRegion("portaCorredor2");
+        lampada1 = textureAtlas.findRegion("lampada1");
+        lampada2 = textureAtlas.findRegion("lampada2");
+        lampada3 = textureAtlas.findRegion("lampada3");
+        lampada4 = textureAtlas.findRegion("lampada4");
         
         porta = new Sprite(portaFechada);
-        quadroEnergia = new Sprite(caixaEnergia);
+        lampada = new Sprite(lampada1);
         
-        porta.setSize(porta.getWidth() * 1.45f / TerrorGame.SCALE, porta.getHeight() * 1.45f / TerrorGame.SCALE);
+        porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition((3500 - 812) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta.setAlpha(0.5f);
         
-        quadroEnergia.setSize(quadroEnergia.getWidth() / TerrorGame.SCALE, quadroEnergia.getHeight() / TerrorGame.SCALE);
-        quadroEnergia.setPosition(51 / TerrorGame.SCALE, 476 / TerrorGame.SCALE);
-
+        lampada.setSize(lampada.getWidth() / TerrorGame.SCALE, lampada.getHeight() / TerrorGame.SCALE);
+        lampada.setPosition(1750 / TerrorGame.SCALE - lampada.getWidth() / 2, viewport.getWorldHeight() - lampada.getHeight());
+        
+        lampadaAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lampada1, lampada2, lampada3, lampada4});
     }
 
     @Override
@@ -59,7 +78,16 @@ public class SalaVitima1 extends StandardRoom implements Screen {
 
         game.batch.begin();
         
-        quadroEnergia.draw(game.batch);
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lampada.setRegion(lampadaAnimation.changeFrame(delta));
+        }
+        
+        lampada.draw(game.batch);
+        
+        if (!game.getInventoryManager().getItemBackpack().contains("livro2", false)) {
+        	livroSprite.draw(game.batch);
+        }
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta.draw(game.batch);
@@ -90,8 +118,8 @@ public class SalaVitima1 extends StandardRoom implements Screen {
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/sala2.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/sala_2/Sala2Objects.atlas");
+                    game.getAssetManager().unload("Tilesets/salaVitima1.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/salaVitima1/SalaVitima1Objects.atlas");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

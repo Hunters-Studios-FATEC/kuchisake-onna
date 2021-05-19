@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 public class SalaSegura extends StandardRoom implements Screen {
 
@@ -14,25 +15,42 @@ public class SalaSegura extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
+    TextureRegion lustre1;
+    TextureRegion lustre2;
+    TextureRegion lustre3;
+    TextureRegion lustre4;
 
     Sprite porta;
+    Sprite lustre;
 
     boolean isSecondFloor = false;
+    
+    ObjectAnimation lustreAnimation;
 
     public SalaSegura(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/quarto.tmx", playerDoorPosX);
+        super(game, "Tilesets/sala_descanso.tmx", playerDoorPosX);
 
         collisions.CreateCollisions(1900+230, 160,"doorDown0", 203, collisions.getPortaBit());
 
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/salaDescanso/SalaDescansoObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
+        lustre1 = textureAtlas.findRegion("lustre1");
+        lustre2 = textureAtlas.findRegion("lustre2");
+        lustre3 = textureAtlas.findRegion("lustre3");
+        lustre4 = textureAtlas.findRegion("lustre4");
 
         porta = new Sprite(portaFechada);
+        lustre = new Sprite(lustre1);
 
         porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition(1900 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta.setAlpha(0.5f);
+        
+        lustre.setSize(lustre.getWidth() / TerrorGame.SCALE, lustre.getHeight() / TerrorGame.SCALE);
+        lustre.setPosition(1750 / TerrorGame.SCALE - lustre.getWidth() / 2, viewport.getWorldHeight() - lustre.getHeight());
+        
+        lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
     }
 
 
@@ -45,9 +63,16 @@ public class SalaSegura extends StandardRoom implements Screen {
         player.playerUpdate(delta);
 
         game.batch.begin();
-
+        
         player.draw(game.batch);
+        
         porta.draw(game.batch);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustre.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        lustre.draw(game.batch);
 
         game.batch.end();
 
@@ -76,8 +101,8 @@ public class SalaSegura extends StandardRoom implements Screen {
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/quarto.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
+                    game.getAssetManager().unload("Tilesets/sala_descanso.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/salaDescanso/SalaDescansoObjects.atlas");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

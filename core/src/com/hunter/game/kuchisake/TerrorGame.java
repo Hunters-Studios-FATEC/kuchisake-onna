@@ -2,6 +2,7 @@ package com.hunter.game.kuchisake;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,10 @@ public class TerrorGame extends Game{
 	private boolean isHiding = false;
 	
 	int level = 3;
+	
+	boolean canPlayMusic = true;
+	Music mansionTheme;
+	Music runTheme;
 	
 	@Override
 	public void create () {
@@ -189,5 +194,26 @@ public class TerrorGame extends Game{
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public void setCanPlayMusic(boolean value) {
+		canPlayMusic = value;
+	}
+	
+	public boolean getCanPlayMusic() {
+		return canPlayMusic;
+	}
+	
+	public void addMusic() {
+		mansionTheme = assetManager.get("Audio/Music/mansion.ogg");
+		runTheme = assetManager.get("Audio/Music/Run.ogg");
+	}
+	
+	public Music getMansionTheme() {
+		return mansionTheme;
+	}
+	
+	public Music getRunTheme() {
+		return runTheme;
 	}
 }

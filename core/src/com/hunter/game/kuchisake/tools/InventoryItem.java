@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.hunter.game.kuchisake.TerrorGame;
 
 public class InventoryItem extends Actor{
     Sprite Item;
@@ -50,7 +51,6 @@ public class InventoryItem extends Actor{
         //changedSprite = new Sprite(itemSprite.get(0));
         //changedDescription = new Sprite(itemDescription.get(0));
         //addInventoryItem("green_square.png", "A green square");
-
     }
 
     public void addInventoryItem(String itemRegion){
@@ -60,7 +60,7 @@ public class InventoryItem extends Actor{
         itemDescription.add(new Sprite(opath));
 
         itemSprite.get(maxItem).setBounds(positionX, positionY, ITEMBOX_WIDTH, ITEMBOX_HEIGHT);
-        itemSprite.get(maxItem).setPosition(positionX - ITEMBOX_WIDTH / 2, (positionY - ITEMBOX_HEIGHT / 2) + 2.5f);
+        itemSprite.get(maxItem).setPosition(positionX - ITEMBOX_WIDTH / 2, positionY - ITEMBOX_HEIGHT / 2 + 2.5f);
 
         itemDescription.get(maxItem).setBounds(positionX, positionY - 2, DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT);
         itemDescription.get(maxItem).setPosition(positionX - DESCRIPTION_WIDTH / 2, (positionY - DESCRIPTION_HEIGHT / 2) - 1);

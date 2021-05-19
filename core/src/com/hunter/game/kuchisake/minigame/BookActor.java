@@ -31,7 +31,7 @@ public class BookActor extends Actor{
 		texture = textureAtlas.findRegion(img);
 		
 		sprite = new Sprite(texture);
-		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 5), sprite.getHeight() / (TerrorGame.SCALE * 5));
+		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 2), sprite.getHeight() / (TerrorGame.SCALE * 2));
 		
 		setBounds(x, y, sprite.getWidth(), sprite.getHeight());
 		

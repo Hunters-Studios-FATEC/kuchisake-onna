@@ -64,9 +64,9 @@ public class WireMinigame {
 		wireActor2 = new WireActor(1, 3, "green_square", 4, textureAtlas);
 		wireActor3 = new WireActor(1, 1, "blue_square", 5, textureAtlas);
 
-		wireSlot1 = new SlotWire(18,5,"green_wire_slot", textureAtlas);
-		wireSlot2 = new SlotWire(18,3,"blue_wire_slot", textureAtlas);
-		wireSlot3 = new SlotWire(18,1,"red_wire_slot", textureAtlas);
+		wireSlot1 = new SlotWire(18,5,"green_square", textureAtlas);
+		wireSlot2 = new SlotWire(18,3,"blue_square", textureAtlas);
+		wireSlot3 = new SlotWire(18,1,"red_square", textureAtlas);
 
 		correct = new Correct(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, textureAtlas);
 

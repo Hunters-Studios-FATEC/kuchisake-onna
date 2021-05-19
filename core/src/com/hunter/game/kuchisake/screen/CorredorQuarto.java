@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -18,13 +19,21 @@ public class CorredorQuarto extends StandardRoom implements Screen {
     TextureRegion portaFechada;
     TextureRegion portaAberta;
     TextureRegion estatua;
+    TextureRegion lustreCorredor1;
+    TextureRegion lustreCorredor2;
+    TextureRegion lustreCorredor3;
+    TextureRegion lustreCorredor4;
 
     Sprite porta;
     Sprite estatua1;
     Sprite estatua2;
+    Sprite lustreSprite1;
+    Sprite lustreSprite2;
 
     Sound portraTrancada;
     MinigameManager minigameManager;
+    
+    ObjectAnimation lustreAnimation;
 
     public CorredorQuarto(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
@@ -38,10 +47,16 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
         estatua = textureAtlas.findRegion("estatua");
+        lustreCorredor1 = textureAtlas.findRegion("lustre corredor1");
+        lustreCorredor2 = textureAtlas.findRegion("lustre corredor2");
+        lustreCorredor3 = textureAtlas.findRegion("lustre corredor3");
+        lustreCorredor4 = textureAtlas.findRegion("lustre corredor4");
         
         porta = new Sprite(portaFechada);
         estatua1 = new Sprite(estatua);
         estatua2 = new Sprite(estatua);
+        lustreSprite1 = new Sprite(lustreCorredor1);
+        lustreSprite2 = new Sprite(lustreCorredor1);
         
         porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition(1750 / TerrorGame.SCALE - porta.getWidth() / 2, 160 / TerrorGame.SCALE);
@@ -51,6 +66,15 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         
         estatua2.setSize(estatua2.getWidth() / TerrorGame.SCALE, estatua2.getHeight() / TerrorGame.SCALE);
         estatua2.setPosition((3500 - 782) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        
+        lustreSprite1.setSize(lustreSprite1.getWidth() / TerrorGame.SCALE, lustreSprite1.getHeight() / TerrorGame.SCALE);
+        lustreSprite1.setPosition(1147 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreSprite2.setSize(lustreSprite2.getWidth() / TerrorGame.SCALE, lustreSprite2.getHeight() / TerrorGame.SCALE);
+        lustreSprite2.setPosition(2177 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreAnimation = new ObjectAnimation(0.2f, 
+        		new TextureRegion[] {lustreCorredor1, lustreCorredor2, lustreCorredor3, lustreCorredor4});
 
         portraTrancada = game.getAssetManager().get("Audio/Sfx/porta trancada.ogg");
     }
@@ -63,12 +87,25 @@ public class CorredorQuarto extends StandardRoom implements Screen {
 
         player.playerUpdate(delta);
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustreSprite1.setRegion(lustreAnimation.changeFrame(delta));
+        	lustreSprite2.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        if(!lustreSprite2.isFlipX()) {
+        	lustreSprite2.flip(true, false);
+        }
 
         game.batch.begin();
         
         estatua1.draw(game.batch);
         estatua2.draw(game.batch);
         porta.draw(game.batch);
+        
+        lustreSprite1.draw(game.batch);
+        lustreSprite2.draw(game.batch);
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         

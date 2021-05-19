@@ -1,5 +1,7 @@
 package com.hunter.game.kuchisake.objects;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -59,13 +61,22 @@ public class Player {
 
     Texture playerWalk;
     Texture playerStop;
+    
     Sound pickupSound;
+    Sound madeiraRangendo2;
+    Sound madeiraRangendo6;
+    Sound madeiraRangendo7;
+    Sound passo;
+    
+    int previousFrameIndex = 0;
 
     Animation<TextureRegion> animationStopped;
     Animation<TextureRegion> animationWalking;
     TerrorGame game;
 
     public Array<TextureRegion> testeAnima;
+    
+    Random random;
 
     public Player(World world, MinigameManager minigameManager, InventoryManager inventoryManager, Collisions collisions, StandardRoom standardRoom, float initialX, TerrorGame game) {
         bodyDef = new BodyDef();
@@ -76,6 +87,11 @@ public class Player {
         this.game = game;
 
         pickupSound = game.getAssetManager().get("Audio/Sfx/item pickup 7.ogg");
+        madeiraRangendo2 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 2.ogg");
+        madeiraRangendo6 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 6.ogg");
+        madeiraRangendo7 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 7.ogg");
+        passo = game.getAssetManager().get("Audio/Sfx/passo.ogg");
+        
         playerWalk = game.getAssetManager().get("CharactersAssets/sprites_protag_right.png", Texture.class);
         playerStop = game.getAssetManager().get("CharactersAssets/sprite_stoped_right.png", Texture.class);
 
@@ -126,6 +142,8 @@ public class Player {
         this.inventoryManager = inventoryManager;
         
         this.standardRoom = standardRoom;
+        
+        random = new Random();
     }
 
 
@@ -166,6 +184,35 @@ public class Player {
             textureRegion = animationStopped.getKeyFrame(frameChangeTimer, true);
         } else {
             textureRegion = animationWalking.getKeyFrame(frameChangeTimer, true);
+            
+            if(animationStopped.getKeyFrameIndex(frameChangeTimer) == 1 || 
+            		animationStopped.getKeyFrameIndex(frameChangeTimer) == 5) {
+            	if(previousFrameIndex == 0 || previousFrameIndex == 4) {
+            		passo.play(0.15f);
+            		
+            		if(random.nextInt(4) == 0) {
+                		int soundID = random.nextInt(3);
+                		switch(soundID) {
+                			case 0:
+                				madeiraRangendo2.play(0.4f);
+                				break;
+                			case 1:
+                				madeiraRangendo6.play(0.4f);
+                				break;
+                			case 2:
+                				madeiraRangendo7.play(0.4f);
+                				break;
+                		}
+                	}
+            	}
+        	}
+            
+            if(animationWalking.getKeyFrameIndex(frameChangeTimer) > previousFrameIndex) {
+            	previousFrameIndex = animationWalking.getKeyFrameIndex(frameChangeTimer);
+            }
+            else if(animationWalking.getKeyFrameIndex(frameChangeTimer) < previousFrameIndex) {
+            	previousFrameIndex = 0;
+            }
         }
 
         if ((isWalking < 0 || !isLookingRight) && !textureRegion.isFlipX()){

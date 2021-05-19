@@ -1,0 +1,41 @@
+
+PoraoObjects.png
+size: 1725,674
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+escada
+  rotate: false
+  xy: 2, 2
+  size: 1055, 670
+  orig: 1055, 670
+  offset: 0, 0
+  index: -1
+lampada1
+  rotate: false
+  xy: 1059, 177
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+lampada2
+  rotate: false
+  xy: 1281, 177
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+lampada4
+  rotate: false
+  xy: 1281, 177
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+lampada3
+  rotate: false
+  xy: 1503, 177
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1

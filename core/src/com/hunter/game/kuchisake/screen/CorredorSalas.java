@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -16,14 +17,24 @@ public class CorredorSalas extends StandardRoom implements Screen {
     TextureRegion portaFechada;
     TextureRegion portaAberta;
     TextureRegion estatua;
+    TextureRegion lustreCorredor1;
+    TextureRegion lustreCorredor2;
+    TextureRegion lustreCorredor3;
+    TextureRegion lustreCorredor4;
 
     Sprite porta1;
     Sprite porta2;
     Sprite estatua1;
     Sprite estatua2;
     Sprite estatua3;
+    Sprite lustreSprite1;
+    Sprite lustreSprite2;
+    Sprite lustreSprite3;
+    Sprite lustreSprite4;
 
     //boolean isSecondFloor = false;
+    
+    ObjectAnimation lustreAnimation;
 
     public CorredorSalas(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
@@ -35,12 +46,20 @@ public class CorredorSalas extends StandardRoom implements Screen {
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
         estatua = textureAtlas.findRegion("estatua");
+        lustreCorredor1 = textureAtlas.findRegion("lustre corredor1");
+        lustreCorredor2 = textureAtlas.findRegion("lustre corredor2");
+        lustreCorredor3 = textureAtlas.findRegion("lustre corredor3");
+        lustreCorredor4 = textureAtlas.findRegion("lustre corredor4");
         
         porta1 = new Sprite(portaFechada);
         porta2 = new Sprite(portaFechada);
         estatua1 = new Sprite(estatua);
         estatua2 = new Sprite(estatua);
         estatua3 = new Sprite(estatua);
+        lustreSprite1 = new Sprite(lustreCorredor1);
+        lustreSprite2 = new Sprite(lustreCorredor1);
+        lustreSprite3 = new Sprite(lustreCorredor1);
+        lustreSprite4 = new Sprite(lustreCorredor1);
         
         porta1.setSize(porta1.getWidth() / TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
         porta1.setPosition(741 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
@@ -56,6 +75,21 @@ public class CorredorSalas extends StandardRoom implements Screen {
         
         estatua3.setSize(estatua3.getWidth() / TerrorGame.SCALE, estatua3.getHeight() / TerrorGame.SCALE);
         estatua3.setPosition(3128 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        
+        lustreSprite1.setSize(lustreSprite1.getWidth() / TerrorGame.SCALE, lustreSprite1.getHeight() / TerrorGame.SCALE);
+        lustreSprite1.setPosition(441 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreSprite2.setSize(lustreSprite2.getWidth() / TerrorGame.SCALE, lustreSprite2.getHeight() / TerrorGame.SCALE);
+        lustreSprite2.setPosition(1301 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreSprite3.setSize(lustreSprite3.getWidth() / TerrorGame.SCALE, lustreSprite3.getHeight() / TerrorGame.SCALE);
+        lustreSprite3.setPosition(1957 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreSprite4.setSize(lustreSprite4.getWidth() / TerrorGame.SCALE, lustreSprite4.getHeight() / TerrorGame.SCALE);
+        lustreSprite4.setPosition(2817 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreAnimation = new ObjectAnimation(0.2f, 
+        		new TextureRegion[] {lustreCorredor1, lustreCorredor2, lustreCorredor3, lustreCorredor4});
     }
 
     @Override
@@ -66,6 +100,21 @@ public class CorredorSalas extends StandardRoom implements Screen {
 
         player.playerUpdate(delta);
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustreSprite1.setRegion(lustreAnimation.changeFrame(delta));
+        	lustreSprite2.setRegion(lustreAnimation.changeFrame(delta));
+        	lustreSprite3.setRegion(lustreAnimation.changeFrame(delta));
+        	lustreSprite4.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        if(!lustreSprite2.isFlipX()) {
+        	lustreSprite2.flip(true, false);
+        }
+        
+        if(!lustreSprite4.isFlipX()) {
+        	lustreSprite4.flip(true, false);
+        }
 
         game.batch.begin();
         
@@ -74,6 +123,12 @@ public class CorredorSalas extends StandardRoom implements Screen {
         estatua3.draw(game.batch);
         porta1.draw(game.batch);
         porta2.draw(game.batch);
+        
+        lustreSprite1.draw(game.batch);
+        lustreSprite2.draw(game.batch);
+        lustreSprite3.draw(game.batch);
+        lustreSprite4.draw(game.batch);
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         
@@ -110,8 +165,8 @@ public class CorredorSalas extends StandardRoom implements Screen {
                 transitionScene.fadeIn();
                 
                 if(!canSwitchAssets) {
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Tilesets/sala3.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/sala_3/Sala3Objects.atlas", TextureAtlas.class);
                     
                     canSwitchAssets = true;
                 }
@@ -134,8 +189,8 @@ public class CorredorSalas extends StandardRoom implements Screen {
                 transitionScene.fadeIn();
                 
                 if(!canSwitchAssets) {
-                    game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Tilesets/salaVitima1.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/salaVitima1/SalaVitima1Objects.atlas", TextureAtlas.class);
                     
                     canSwitchAssets = true;
                 }

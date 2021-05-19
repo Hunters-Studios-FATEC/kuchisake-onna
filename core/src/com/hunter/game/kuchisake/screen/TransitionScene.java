@@ -46,7 +46,13 @@ public class TransitionScene {
 		
 		stage.addActor(transitionActor);
 		
-		alphaAction.setAlpha(0);
+		if(game.getMinigameManager().getGeradorCompleted()) {
+			alphaAction.setAlpha(0);
+		}
+		else {
+			alphaAction.setAlpha(0.5f);
+		}
+		
 		alphaAction.setDuration(0.2f);
 		
 		transitionActor.addAction(alphaAction);

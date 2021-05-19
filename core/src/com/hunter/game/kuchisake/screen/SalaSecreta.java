@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 public class SalaSecreta extends StandardRoom implements Screen {
 
@@ -13,14 +14,22 @@ public class SalaSecreta extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
+    TextureRegion braseiroAceso1;
+    TextureRegion braseiroAceso2;
+    TextureRegion braseiroAceso3;
+    TextureRegion braseiroApagado;
 
     Sprite porta;
+    Sprite braseiro1;
+    Sprite braseiro2;
 
     boolean isSecondFloor = false;
     boolean hasTodasPecasMascara = false;
+    
+    ObjectAnimation braseiroAnimation;
 
     public SalaSecreta(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/sala2.tmx", playerDoorPosX);
+        super(game, "Tilesets/sala_secreta.tmx", playerDoorPosX);
 
         collisions.CreateCollisions(2487+230f, 160,"doorDown0", 203, collisions.getPortaBit());
 
@@ -40,15 +49,29 @@ public class SalaSecreta extends StandardRoom implements Screen {
         }
 
 
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
-        portaFechada = textureAtlas.findRegion("porta1");
-        portaAberta = textureAtlas.findRegion("porta2");
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas", TextureAtlas.class);
+        portaFechada = textureAtlas.findRegion("portaCorredor1");
+        portaAberta = textureAtlas.findRegion("portaCorredor2");
+        braseiroAceso1 = textureAtlas.findRegion("braseiro aceso1");
+        braseiroAceso2 = textureAtlas.findRegion("braseiro aceso2");
+        braseiroAceso3 = textureAtlas.findRegion("braseiro aceso3");
+        braseiroApagado = textureAtlas.findRegion("braseiro apagado");
 
         porta = new Sprite(portaFechada);
+        braseiro1 = new Sprite(braseiroApagado);
+        braseiro2 = new Sprite(braseiroApagado);
 
         porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition(2487 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta.setAlpha(0.5f);
+        
+        braseiro1.setSize(braseiro1.getWidth() / TerrorGame.SCALE, braseiro1.getHeight() / TerrorGame.SCALE);
+        braseiro1.setPosition(1155 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        
+        braseiro2.setSize(braseiro2.getWidth() / TerrorGame.SCALE, braseiro2.getHeight() / TerrorGame.SCALE);
+        braseiro2.setPosition(2095 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        
+        braseiroAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {braseiroAceso1, braseiroAceso2, braseiroAceso3});
     }
 
     @Override
@@ -66,7 +89,13 @@ public class SalaSecreta extends StandardRoom implements Screen {
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
-
+        
+        braseiro1.setRegion(braseiroAnimation.changeFrame(delta));
+        braseiro1.draw(game.batch);
+        
+        braseiro2.setRegion(braseiroAnimation.changeFrame(delta));
+        braseiro2.draw(game.batch);
+        
         porta.draw(game.batch);
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
@@ -97,8 +126,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
                 transitionScene.fadeIn();
                 
                 if(!canSwitchAssets) {
-                	game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+                	game.getAssetManager().load("Tilesets/biblioteca.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/biblioteca/BibliotecaObjects.atlas", TextureAtlas.class);
                     
                     canSwitchAssets = true;
                 }
@@ -106,8 +135,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/sala2.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/sala_2/Sala2Objects.atlas");
+                    game.getAssetManager().unload("Tilesets/sala_secreta.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

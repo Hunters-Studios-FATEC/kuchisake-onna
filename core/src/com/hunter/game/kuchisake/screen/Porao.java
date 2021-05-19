@@ -6,24 +6,31 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
 public class Porao extends StandardRoom implements Screen {
 
     TextureAtlas textureAtlas;
-
-    TextureRegion portaFechada;
-    TextureRegion portaAberta;
-
-    Sprite porta;
+    
+    TextureRegion lampada1;
+    TextureRegion lampada2;
+    TextureRegion lampada3;
+    TextureRegion lampada4;
+    TextureRegion escada;
+    
+    Sprite lampada;
+    Sprite escadaSprite;
 
     boolean isSecondFloor = false;
+    
+    ObjectAnimation lampadaAnimation;
 
     public Porao(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/quarto.tmx", playerDoorPosX);
+        super(game, "Tilesets/porao.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(2810, 160,"doorDown5", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(600, 160,"doorDown5", 300, collisions.getPortaBit());
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask3", false)){
             collisions.CreateCollisions(430, 160, "mask3", 230, collisions.getITEM_BIT());
@@ -33,16 +40,24 @@ public class Porao extends StandardRoom implements Screen {
             collisions.CreateCollisions(1750, 160, "cachorro", 230, collisions.getITEM_BIT());
         }
         
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
-        portaFechada = textureAtlas.findRegion("portaCorredor1");
-        portaAberta = textureAtlas.findRegion("portaCorredor2");
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
         
-        porta = new Sprite(portaFechada);
+        lampada1 = textureAtlas.findRegion("lampada1");
+        lampada2 = textureAtlas.findRegion("lampada2");
+        lampada3 = textureAtlas.findRegion("lampada3");
+        lampada4 = textureAtlas.findRegion("lampada4");
+        escada = textureAtlas.findRegion("escada");
         
-        porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
-        porta.setPosition((3500 - 460 * 2) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
-        porta.setAlpha(0.5f);
-
+        lampada = new Sprite(lampada1);
+        escadaSprite = new Sprite(escada);
+        
+        lampada.setSize(lampada.getWidth() / TerrorGame.SCALE, lampada.getHeight() / TerrorGame.SCALE);
+        lampada.setPosition(2685 / TerrorGame.SCALE - lampada.getWidth() / 2, 1050 / TerrorGame.SCALE - lampada.getHeight());
+        
+        escadaSprite.setSize(escadaSprite.getWidth() / TerrorGame.SCALE, escadaSprite.getHeight() / TerrorGame.SCALE);
+        escadaSprite.setPosition(0, 160 / TerrorGame.SCALE);
+        
+        lampadaAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lampada1, lampada2, lampada3, lampada4});
     }
 
     @Override
@@ -55,9 +70,17 @@ public class Porao extends StandardRoom implements Screen {
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
+        
+        escadaSprite.draw(game.batch);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lampada.setRegion(lampadaAnimation.changeFrame(delta));
+        }
+        
+        lampada.draw(game.batch);
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
-        porta.draw(game.batch);
         
         game.batch.end();
 
@@ -85,8 +108,8 @@ public class Porao extends StandardRoom implements Screen {
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/quarto.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/quarto/QuartoObjects.atlas");
+                    game.getAssetManager().unload("Tilesets/porao.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/porao/PoraoObjects.atlas");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(-1);

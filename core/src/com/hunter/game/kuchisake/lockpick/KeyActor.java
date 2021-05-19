@@ -29,10 +29,10 @@ public class KeyActor extends Actor{
 	public KeyActor(float x, float y, LockPickMinigame minigame, TextureAtlas textureAtlas) {
 
 		this.minigame = minigame;
-		texture = textureAtlas.findRegion("orange_square");
+		texture = textureAtlas.findRegion("gazua");
 		
 		sprite = new Sprite(texture);
-		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);
+		sprite.setBounds(x, y, 36 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
 		sprite.setPosition(x + 0.5f / 2 - sprite.getWidth() / 2, y + 0.5f / 2 - sprite.getHeight() / 2);
 		
 		setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
@@ -142,11 +142,11 @@ public class KeyActor extends Actor{
 	}
 	
 	void verifyFinishCheckerPos() {
-		if((getX() + getWidth() > getStage().getActors().get(2).getX() && 
-		   getX() < getStage().getActors().get(2).getX() + getStage().getActors().get(2).getWidth()) &&
-		   (getY() + getHeight() > getStage().getActors().get(2).getY() && 
-		   getY() < getStage().getActors().get(2).getY() + getStage().getActors().get(2).getHeight())) {
-			getStage().getActors().get(4).setVisible(true);
+		if((getX() + getWidth() > getStage().getActors().get(3).getX() && 
+		   getX() < getStage().getActors().get(3).getX() + getStage().getActors().get(3).getWidth()) &&
+		   (getY() + getHeight() > getStage().getActors().get(3).getY() && 
+		   getY() < getStage().getActors().get(3).getY() + getStage().getActors().get(3).getHeight())) {
+			getStage().getActors().get(5).setVisible(true);
 			minigame.setIsfinished(true);
 		}
 	}

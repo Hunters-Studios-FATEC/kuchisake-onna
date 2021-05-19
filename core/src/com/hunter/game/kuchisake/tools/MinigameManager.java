@@ -55,8 +55,8 @@ public class MinigameManager {
 //        geradorOn = game.getAssetManager().get("Audio/Sfx/gerador ligando.ogg");
 
         hideMinigame = new Hide(batch, game, textureAtlas, descriptionAtlas);
-        lockPickMinigame = new LockPickMinigame(batch, textureAtlas);
-        minigameBook = new MinigameBook(batch, textureAtlas);
+        lockPickMinigame = new LockPickMinigame(batch, textureAtlas, descriptionAtlas);
+        minigameBook = new MinigameBook(batch, textureAtlas, descriptionAtlas);
         wireMinigame = new WireMinigame(batch, textureAtlas, descriptionAtlas);
         geradorMinigame = new MinigameGerador(batch, textureAtlas, descriptionAtlas);
 
@@ -138,18 +138,10 @@ public class MinigameManager {
                         	boolean clearStage = hideMinigame.showResults(dt);
                         	
                         	if(clearStage) {
-                        		/*clearStageTimer += dt;
-
-                                if (clearStageTimer > 1.5) {
-                                    clearStageTimer = 0;
-                                    hideCompleted = true;
-                                    closeMinigame(0);
-                                    canStartMinigame = false;
-                                }*/
-
                                 closeMinigame(0);
                                 game.setIsHiding(false);
-                                canStartMinigame = false;
+                                game.setCanPlayMusic(true);
+                                canStartMinigame = false;       
                         	}	
                         }
                     }
@@ -389,5 +381,9 @@ public class MinigameManager {
 
     public boolean getGeradorCompleted() {
         return geradorCompleted;
+    }
+    
+    public boolean getHideIsFinished() {
+    	return hideMinigame.getIsFinished();
     }
 }

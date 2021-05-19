@@ -2,8 +2,11 @@ package com.hunter.game.kuchisake.minigame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
@@ -34,7 +37,10 @@ public class MinigameBook {
 
 	TextureAtlas textureAtlas;
 	
-	public MinigameBook(SpriteBatch spriteBatch, TextureAtlas textureAtlas) {
+	Actor description;
+	Sprite descSprite;
+	
+	public MinigameBook(SpriteBatch spriteBatch, TextureAtlas textureAtlas, TextureAtlas descriptionAtlas) {
 		viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE,
 								   new OrthographicCamera());
 		viewport.apply();
@@ -58,6 +64,18 @@ public class MinigameBook {
 		bookActor1 = new BookActor("livro1", 0, 0, 1, textureAtlas);
 		bookActor2 = new BookActor("livro2", 0, 2, 2, textureAtlas);
 		bookActor3 = new BookActor("livro3", 0, 4, 3, textureAtlas);
+		
+		descSprite = new Sprite(descriptionAtlas.findRegion("estante"));
+		descSprite.setSize(17.64f, 5.88f);
+		descSprite.setPosition(viewport.getWorldWidth() / 2 - descSprite.getWidth() / 2, 
+				viewport.getWorldHeight() / 2 - descSprite.getHeight() / 2 - 3);
+		
+		description = new Actor() {
+			@Override
+			public void draw(Batch batch, float parentAlpha) {
+				descSprite.draw(batch);
+			}
+		};
 		
 		/*stage.addActor(background);
 		
@@ -83,6 +101,8 @@ public class MinigameBook {
 		bookActor3 = new BookActor("livro3", 0, 4, 3, textureAtlas);
 
 		stage.addActor(background);
+		
+		stage.addActor(description);
 		
 		stage.addActor(correctActor);
 		
@@ -132,7 +152,7 @@ public class MinigameBook {
 	
 	public void verifyActorPos() {
 		if(!isFinished) {
-			BookActor actor = (BookActor) stage.getActors().get(7);
+			BookActor actor = (BookActor) stage.getActors().get(8);
 			
 			if(actor.getStoppedDragging()) {
 				actor.setStoppedDragging(false);
@@ -140,7 +160,7 @@ public class MinigameBook {
 				float posX = actor.getX() + actor.getWidth() / 2;
 				float posY = actor.getY() + actor.getHeight() / 2;
 				
-				for(int i = 2; i < 5; i++) {
+				for(int i = 3; i < 6; i++) {
 					SlotActor sltActor = (SlotActor) stage.getActors().get(i);
 					
 					// 215 / 100 = 2
@@ -150,33 +170,35 @@ public class MinigameBook {
 					
 					//530
 					
+					int slotIndex = i - 1;
+					
 					if((posX > sltActor.getX() && posX < (sltActor.getX() + sltActor.getWidth())) &&
 					   (posY > sltActor.getY() && posY < (sltActor.getY() + sltActor.getHeight()))) {
-						int passwordSlice = slicePassword(i);
+						int passwordSlice = slicePassword(slotIndex);
 						
-						if(passwordSlice / (Math.pow(10, 2 + (2 - i))) != actor.getValue() && passwordSlice > 0){
-							int bookActorValue = (int) (passwordSlice / (Math.pow(10, 2 + (2 - i))));
+						if(passwordSlice / (Math.pow(10, 2 + (2 - slotIndex))) != actor.getValue() && passwordSlice > 0){
+							int bookActorValue = (int) (passwordSlice / (Math.pow(10, 2 + (2 - slotIndex))));
 							
 							password -= passwordSlice;
 							
-							int bookActorIndex = (((BookActor) stage.getActors().get(5)).getValue() == bookActorValue)? 5 : 6;
+							int bookActorIndex = (((BookActor) stage.getActors().get(6)).getValue() == bookActorValue)? 6 : 7;
 							
 							((BookActor) stage.getActors().get(bookActorIndex)).setPos(
 									((BookActor) stage.getActors().get(bookActorIndex)).getInitialPos()[0], 
 									((BookActor) stage.getActors().get(bookActorIndex)).getInitialPos()[1]);
 							
 						}
-						else if(passwordSlice / (Math.pow(10, 2 + (2 - i))) == actor.getValue()) {
+						else if(passwordSlice / (Math.pow(10, 2 + (2 - slotIndex))) == actor.getValue()) {
 							password -= passwordSlice;
 						}
 						
 						actor.setPos(sltActor.getX(), sltActor.getY());
-						password += actor.getValue() * (Math.pow(10, 2 + (2 - i)));
+						password += actor.getValue() * (Math.pow(10, 2 + (2 - slotIndex)));
 						//System.out.println(password);
 					}
 					else {
-						if(slicePassword(i) / (Math.pow(10, 2 + (2 - i))) == actor.getValue()){				
-							password -= slicePassword(i);
+						if(slicePassword(slotIndex) / (Math.pow(10, 2 + (2 - slotIndex))) == actor.getValue()){				
+							password -= slicePassword(slotIndex);
 							//System.out.println(password);
 						}
 					}

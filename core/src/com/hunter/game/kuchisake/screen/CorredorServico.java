@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -17,45 +18,77 @@ public class CorredorServico extends StandardRoom implements Screen {
     TextureRegion portaFechada;
     TextureRegion portaAberta;
     TextureRegion estatua;
+    TextureRegion extintor;
+    TextureRegion lustreCorredor1;
+    TextureRegion lustreCorredor2;
+    TextureRegion lustreCorredor3;
+    TextureRegion lustreCorredor4;
 
     Sprite estatua1;
     Sprite estatua2;
     Sprite porta1;
     Sprite porta2;
+    Sprite extintorSprite;
+    Sprite lustreSprite1;
+    Sprite lustreSprite2;
 
     Sound portraTrancada;
+    
+    ObjectAnimation lustreAnimation;
 
     public CorredorServico(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(460, 160,"doorDown2", 230, collisions.getPortaBit());
-        collisions.CreateCollisions(3040, 160,"doorUp6", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(600, 160,"doorDown2", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(2900, 160,"doorUp6", 230, collisions.getPortaBit());
+        
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("extintor", false)) {
             collisions.CreateCollisions(1750, 160, "extintor", 203, collisions.getITEM_BIT());
+            
+            extintor = textureAtlas.findRegion("extintor");
+            
+            extintorSprite = new Sprite(extintor);
+            extintorSprite.setSize(extintorSprite.getWidth() / (TerrorGame.SCALE * 1.4f), extintorSprite.getHeight() / (TerrorGame.SCALE * 1.4f));
+            extintorSprite.setPosition(1750 / TerrorGame.SCALE - extintorSprite.getWidth() / 2, 160 / TerrorGame.SCALE);
         }
         
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
         estatua = textureAtlas.findRegion("estatua");
+        lustreCorredor1 = textureAtlas.findRegion("lustre corredor1");
+        lustreCorredor2 = textureAtlas.findRegion("lustre corredor2");
+        lustreCorredor3 = textureAtlas.findRegion("lustre corredor3");
+        lustreCorredor4 = textureAtlas.findRegion("lustre corredor4");
         
         estatua1 = new Sprite(estatua);
         estatua2 = new Sprite(estatua);
         porta1 = new Sprite(portaFechada);
         porta2 = new Sprite(portaFechada);
+        lustreSprite1 = new Sprite(lustreCorredor1);
+        lustreSprite2 = new Sprite(lustreCorredor1);
         
         estatua1.setSize(estatua1.getWidth() / TerrorGame.SCALE, estatua1.getHeight() / TerrorGame.SCALE);
-        estatua1.setPosition(492 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        estatua1.setPosition(1030 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         
         estatua2.setSize(estatua2.getWidth() / TerrorGame.SCALE, estatua2.getHeight() / TerrorGame.SCALE);
-        estatua2.setPosition((3500 - 782) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        estatua2.setPosition(2145 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         
         porta1.setSize(porta1.getWidth() / TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
-        porta1.setPosition(230 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta1.setPosition(370 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         
         porta2.setSize(porta2.getWidth() / TerrorGame.SCALE, porta2.getHeight() / TerrorGame.SCALE);
-        porta2.setPosition((3500 - 690) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta2.setPosition(2670 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        
+        lustreSprite1.setSize(lustreSprite1.getWidth() / TerrorGame.SCALE, lustreSprite1.getHeight() / TerrorGame.SCALE);
+        lustreSprite1.setPosition(70 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreSprite2.setSize(lustreSprite2.getWidth() / TerrorGame.SCALE, lustreSprite2.getHeight() / TerrorGame.SCALE);
+        lustreSprite2.setPosition(3230 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
+        
+        lustreAnimation = new ObjectAnimation(0.2f, 
+        		new TextureRegion[] {lustreCorredor1, lustreCorredor2, lustreCorredor3, lustreCorredor4});
 
         portraTrancada = game.getAssetManager().get("Audio/Sfx/porta trancada.ogg");
     }
@@ -68,13 +101,30 @@ public class CorredorServico extends StandardRoom implements Screen {
 
         player.playerUpdate(delta);
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustreSprite1.setRegion(lustreAnimation.changeFrame(delta));
+        	lustreSprite2.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        if(!lustreSprite2.isFlipX()) {
+        	lustreSprite2.flip(true, false);
+        }
 
         game.batch.begin();
+        
+        if (!game.getInventoryManager().getItemBackpack().contains("extintor", false)) {
+        	extintorSprite.draw(game.batch);
+        }
         
         estatua1.draw(game.batch);
         estatua2.draw(game.batch);
         porta1.draw(game.batch);
         porta2.draw(game.batch);
+        
+        lustreSprite1.draw(game.batch);
+        lustreSprite2.draw(game.batch);
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         
@@ -111,8 +161,8 @@ public class CorredorServico extends StandardRoom implements Screen {
             	transitionScene.fadeIn();
                 
                 if(!canSwitchAssets) {
-                	game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-		            game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                	game.getAssetManager().load("Tilesets/cozinha.tmx", TiledMap.class);
+		            game.getAssetManager().load("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
                     
                     canSwitchAssets = true;
                 }
@@ -137,8 +187,8 @@ public class CorredorServico extends StandardRoom implements Screen {
                     transitionScene.fadeIn();
 
                     if (!canSwitchAssets) {
-                        game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
-                        game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
+                        game.getAssetManager().load("Tilesets/porao.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
 
                         canSwitchAssets = true;
                     }

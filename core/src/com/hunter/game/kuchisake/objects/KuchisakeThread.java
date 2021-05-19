@@ -808,7 +808,7 @@ public class KuchisakeThread {
         }
         System.out.println("///////////////////////////////////////////////////////");*/
 
-		String caminho = "";
+		/*String caminho = "";
 		for(Integer[] posicao : path) {
 			String pos  = "(";
 			for(Integer num : posicao) {
@@ -821,7 +821,7 @@ public class KuchisakeThread {
 			caminho += " -> ";
 		}
 
-		System.out.println(caminho);
+		System.out.println(caminho);*/
     }
 
     public ArrayList<Integer[]> getPath(){

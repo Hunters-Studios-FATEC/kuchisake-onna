@@ -18,7 +18,7 @@ public class SlotActor extends Actor{
 		texture = textureAtlas.findRegion(img);
 		
 		sprite = new Sprite(texture);
-		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 5), sprite.getHeight() / (TerrorGame.SCALE * 5));
+		sprite.setBounds(x, y, sprite.getWidth() / (TerrorGame.SCALE * 2), sprite.getHeight() / (TerrorGame.SCALE * 2));
 		
 		setBounds(sprite.getX() - sprite.getWidth() / 2, sprite.getY() - sprite.getHeight() / 2, 
 				  sprite.getWidth(), sprite.getHeight());

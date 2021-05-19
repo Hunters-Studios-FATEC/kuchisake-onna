@@ -1,0 +1,62 @@
+
+CozinhaObjects.png
+size: 1728,1416
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+lustre1
+  rotate: false
+  xy: 2, 367
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre2
+  rotate: false
+  xy: 2, 210
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre4
+  rotate: false
+  xy: 2, 210
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre3
+  rotate: false
+  xy: 384, 367
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+portaCorredor1
+  rotate: false
+  xy: 1266, 709
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+portaCorredor2
+  rotate: false
+  xy: 1266, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+saida1
+  rotate: false
+  xy: 2, 524
+  size: 630, 890
+  orig: 630, 890
+  offset: 0, 0
+  index: -1
+saida2
+  rotate: false
+  xy: 634, 524
+  size: 630, 890
+  orig: 630, 890
+  offset: 0, 0
+  index: -1

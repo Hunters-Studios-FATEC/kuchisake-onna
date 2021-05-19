@@ -1,75 +1,89 @@
 
 QuartoObjects.png
-size: 1580,723
+size: 1742,718
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 abajur1
   rotate: false
-  xy: 1308, 441
+  xy: 926, 122
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
   index: -1
 abajur2
   rotate: false
-  xy: 926, 284
+  xy: 1198, 2
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
   index: -1
 abajur4
   rotate: false
-  xy: 926, 284
+  xy: 1198, 2
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
   index: -1
 abajur3
   rotate: false
-  xy: 926, 2
+  xy: 1470, 2
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
   index: -1
+caixa cachorro
+  rotate: false
+  xy: 1308, 441
+  size: 275, 275
+  orig: 275, 275
+  offset: 0, 0
+  index: -1
+chaveBiblio
+  rotate: false
+  xy: 1585, 654
+  size: 130, 62
+  orig: 130, 62
+  offset: 0, 0
+  index: -1
 lustre1
   rotate: false
-  xy: 926, 566
+  xy: 926, 561
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre2
   rotate: false
-  xy: 1198, 284
+  xy: 926, 404
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre4
   rotate: false
-  xy: 1198, 284
+  xy: 926, 404
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre3
   rotate: false
-  xy: 1198, 127
+  xy: 1308, 284
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 portaCorredor1
   rotate: false
-  xy: 2, 16
+  xy: 2, 11
   size: 460, 705
   orig: 460, 705
   offset: 0, 0
   index: -1
 portaCorredor2
   rotate: false
-  xy: 464, 16
+  xy: 464, 11
   size: 460, 705
   orig: 460, 705
   offset: 0, 0

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -15,44 +16,91 @@ public class Quarto extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
+    TextureRegion chave;
+    TextureRegion abajur1;
+    TextureRegion abajur2;
+    TextureRegion abajur3;
+    TextureRegion abajur4;
+    TextureRegion lustre1;
+    TextureRegion lustre2;
+    TextureRegion lustre3;
+    TextureRegion lustre4;
+    TextureRegion quadro;
 
     Sprite porta;
+    Sprite chaveSprite;
+    Sprite abajur;
+    Sprite lustre;
+    Sprite quadroSprite;
 
     boolean isSecondFloor = false;
 
     boolean isQuadroSemCachorro = true;
+    
+    ObjectAnimation abajurAnimation;
+    ObjectAnimation lustreAnimation;
 
     public Quarto(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/quarto.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2810, 160,"doorDown1", 230, collisions.getPortaBit());
+        
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("chaveBiblio", false)) {
-            collisions.CreateCollisions(430, 160, "chaveBiblio", 230, collisions.getITEM_BIT());
+            collisions.CreateCollisions(2177, 160, "chaveBiblio", 230, collisions.getITEM_BIT());
+            
+            chave = textureAtlas.findRegion("chaveBiblio");
+            
+            chaveSprite = new Sprite(chave);
+            chaveSprite.setSize(chaveSprite.getWidth() / (TerrorGame.SCALE * 2), chaveSprite.getHeight() / (TerrorGame.SCALE * 2));
+            chaveSprite.setPosition(2177 / TerrorGame.SCALE - chaveSprite.getWidth() / 2, 470 / TerrorGame.SCALE);
         }
 
         //Colisao do quadro da cabeca de cachorro faltando
-        collisions.CreateCollisions(1750, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
+        collisions.CreateCollisions(300, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask4", false) && !isQuadroSemCachorro) {
             collisions.CreateCollisions(1750, 160, "mask4", 203, collisions.getITEM_BIT());
         }
         
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
+        abajur1 = textureAtlas.findRegion("abajur1");
+        abajur2 = textureAtlas.findRegion("abajur2");
+        abajur3 = textureAtlas.findRegion("abajur3");
+        abajur4 = textureAtlas.findRegion("abajur4");
+        lustre1 = textureAtlas.findRegion("lustre1");
+        lustre2 = textureAtlas.findRegion("lustre2");
+        lustre3 = textureAtlas.findRegion("lustre3");
+        lustre4 = textureAtlas.findRegion("lustre4");
+        quadro = textureAtlas.findRegion("caixa cachorro");
         
         porta = new Sprite(portaFechada);
+        abajur = new Sprite(abajur1);
+        lustre = new Sprite(lustre1);
+        quadroSprite = new Sprite(quadro);
         
         porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition((3500 - 460 * 2) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta.setAlpha(0.5f);
         
+        abajur.setSize(abajur.getWidth() / TerrorGame.SCALE, abajur.getHeight() / TerrorGame.SCALE);
+        abajur.setPosition(2177 / TerrorGame.SCALE - abajur.getWidth() / 2, 470 / TerrorGame.SCALE);
+        
+        lustre.setSize(lustre.getWidth() / TerrorGame.SCALE, lustre.getHeight() / TerrorGame.SCALE);
+        lustre.setPosition(1750 / TerrorGame.SCALE - lustre.getWidth() / 2, viewport.getWorldHeight() - lustre.getHeight());
+        
+        quadroSprite.setSize(quadroSprite.getWidth() / TerrorGame.SCALE, quadroSprite.getHeight() / TerrorGame.SCALE);
+        quadroSprite.setPosition(162.5f / TerrorGame.SCALE, 500 / TerrorGame.SCALE);
+        
         if(game.getHasEncountered()) {
         	game.getMinigameManager().setMinigameActive(true);
         	game.getMinigameManager().showDescription(0);
         }
-
+        
+        abajurAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {abajur1, abajur2, abajur3, abajur4});
+        lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
     }
 
     @Override
@@ -65,9 +113,25 @@ public class Quarto extends StandardRoom implements Screen {
         game.getKuchisakeOnna().KuchisakeUpdate(delta);
 
         game.batch.begin();
+        
+        quadroSprite.draw(game.batch);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	abajur.setRegion(abajurAnimation.changeFrame(delta));
+        	lustre.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        abajur.draw(game.batch);
+        
+        if (!game.getInventoryManager().getItemBackpack().contains("chaveBiblio", false)) {
+        	chaveSprite.draw(game.batch);
+        }
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta.draw(game.batch);
+        
+        lustre.draw(game.batch);
         
         game.batch.end();
 
@@ -82,7 +146,7 @@ public class Quarto extends StandardRoom implements Screen {
         //inventoryManager.inventoryUpdate(delta);
         
         game.getMinigameManager().minigameUpdate(delta, 0);
-
+        
         if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("cachorro", false) && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
             isQuadroSemCachorro = false;
             collisions.CreateCollisions(1750, 160, "mask4", 203, collisions.getITEM_BIT());

@@ -238,6 +238,8 @@ public class Hide {
 		if(!canShowResults) {
 			canShowResults = true;
 			
+			game.getRunTheme().stop();
+			
 			background.setSolidColor();
 			
 			openDoor.setVolume(openDoor.play(), 0.5f);

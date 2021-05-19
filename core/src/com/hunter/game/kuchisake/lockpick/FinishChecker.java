@@ -14,10 +14,10 @@ public class FinishChecker extends Actor{
 	Sprite sprite;
 	
 	public FinishChecker(float x, float y, TextureAtlas textureAtlas) {
-		texture = textureAtlas.findRegion("lime_square");
+		texture = textureAtlas.findRegion("fechadura");
 		
 		sprite = new Sprite(texture);
-		sprite.setBounds(x, y, sprite.getWidth() / TerrorGame.SCALE, sprite.getHeight() / TerrorGame.SCALE);
+		sprite.setBounds(x, y, 36 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
 		sprite.setPosition(x + 0.5f / 2 - sprite.getWidth() / 2, y + 0.5f / 2 - sprite.getHeight() / 2);
 		
 		setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());

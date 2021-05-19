@@ -112,7 +112,10 @@ public class Saguao extends StandardRoom implements Screen {
             player.draw(game.batch);
         }
         
-        lustre.setRegion(lustreAnimation.changeFrame(delta));
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustre.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
         lustre.draw(game.batch);
         
         game.batch.end();
@@ -232,8 +235,8 @@ public class Saguao extends StandardRoom implements Screen {
                 transitionScene.fadeIn();
                 
                 if(!canSwitchAssets) {
-                    game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-                    game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
+                    game.getAssetManager().load("Tilesets/cozinha.tmx", TiledMap.class);
+                    game.getAssetManager().load("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
                     game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
                     
                     canSwitchAssets = true;

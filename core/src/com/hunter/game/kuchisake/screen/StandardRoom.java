@@ -3,6 +3,7 @@ package com.hunter.game.kuchisake.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -66,6 +67,9 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	TransitionScene transitionScene;
 	
 	boolean canSwitchAssets = false;
+	
+	Music mansionTheme;
+	Music runTheme;
 
 	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
 		this.game = game;
@@ -104,6 +108,16 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 //		portaAberta = game.getAssetManager().get("PortasEEscadas/porta2.png", Texture.class);
 		
 		//game.getKuchisakeOnna().setStandardRoom(this);
+		
+		mansionTheme = game.getMansionTheme();
+		runTheme = game.getRunTheme();
+		
+		mansionTheme.setVolume(0.5f);
+		mansionTheme.setLooping(true);
+		
+		runTheme.setVolume(0.5f);
+		runTheme.setLooping(true);
+		
 	}
 
 	void stepWorld(float dt) {
@@ -162,6 +176,38 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		camera.update();
 	}
+	
+	void playMusic(int id) {
+		if(game.getCanPlayMusic()) {
+			switch(id) {
+				case 0:
+					System.out.println("ENTROU NO CASE DO TEMA DA MANSAO");
+					if(runTheme.isPlaying()) {
+						runTheme.stop();
+					}
+					
+					if(!mansionTheme.isPlaying()) {
+						System.out.println("TOCANDO TEMA DA MANSAO...");
+						mansionTheme.play();	
+					}
+					
+					break;
+				case 1: 
+					if(mansionTheme.isPlaying()) {
+						mansionTheme.stop();
+					}
+					
+					if(!runTheme.isPlaying()) {
+						runTheme.play();
+						game.getKuchisakeOnna().playFoundAudio();
+					}
+					
+					break;
+			}
+			
+			game.setCanPlayMusic(false);
+		}
+	}
 
 	@Override
 	public void show() {
@@ -172,7 +218,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
-		if(transitionScene.getActor().getColor().a == 0) {
+		if((game.getMinigameManager().getGeradorCompleted() && transitionScene.getActor().getColor().a == 0) || 
+				(!game.getMinigameManager().getGeradorCompleted() && transitionScene.getActor().getColor().a == 0.5f)) {
 			stepWorld(delta);
 		}
 		
@@ -204,11 +251,22 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 			if (game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() && game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()){
 				game.setHasEncountered(true);
+				
+				game.setCanPlayMusic(true);
+				
+				playMusic(1);
 			}
 
 		}
 		else {
 			game.getKuchisakeOnna().getSprite().setAlpha(0);
+		}
+		
+		playMusic(0);
+		
+		if(game.getMinigameManager().getGeradorCompleted() && 
+				(transitionScene.getActor().getActions().size == 0 && !canSwitchAssets)) {
+			transitionScene.getActor().setColor(0, 0, 0, 0);
 		}
 
 //		game.batch.setProjectionMatrix(camera.combined);

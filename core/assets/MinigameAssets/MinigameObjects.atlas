@@ -1,9 +1,16 @@
 
 MinigameObjects.png
-size: 3692,1598
+size: 3048,1598
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+arrow
+  rotate: false
+  xy: 1215, 258
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
 black_rectangle
   rotate: false
   xy: 2, 516
@@ -13,7 +20,7 @@ black_rectangle
   index: -1
 blue_square
   rotate: false
-  xy: 3380, 702
+  xy: 2938, 1049
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -27,7 +34,7 @@ blue_wire_slot
   index: -1
 circle
   rotate: false
-  xy: 516, 149
+  xy: 1215, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -41,91 +48,105 @@ correto
   index: -1
 dark_gray_square
   rotate: false
-  xy: 646, 227
+  xy: 2366, 51
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 espaco_vazio
   rotate: false
-  xy: 2366, 10
-  size: 440, 792
-  orig: 440, 792
+  xy: 982, 69
+  size: 231, 445
+  orig: 231, 445
+  offset: 0, 0
+  index: -1
+fechadura
+  rotate: false
+  xy: 2707, 103
+  size: 339, 699
+  orig: 339, 699
+  offset: 0, 0
+  index: -1
+gazua
+  rotate: false
+  xy: 2366, 103
+  size: 339, 699
+  orig: 339, 699
   offset: 0, 0
   index: -1
 gray_square
   rotate: false
-  xy: 516, 47
+  xy: 1345, 156
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 green_square
   rotate: false
-  xy: 3250, 572
+  xy: 2808, 919
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 green_wire_slot
   rotate: false
-  xy: 2808, 10
+  xy: 1924, 10
   size: 440, 792
   orig: 440, 792
   offset: 0, 0
   index: -1
 hitcircleoverlay
   rotate: false
-  xy: 3250, 674
+  xy: 2808, 1021
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 lime_square
   rotate: false
-  xy: 753, 376
+  xy: 516, 31
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 livro1
   rotate: false
-  xy: 2808, 804
-  size: 440, 792
-  orig: 440, 792
+  xy: 516, 69
+  size: 231, 445
+  orig: 231, 445
   offset: 0, 0
   index: -1
 livro2
   rotate: false
-  xy: 3250, 804
-  size: 440, 792
-  orig: 440, 792
+  xy: 2808, 1151
+  size: 231, 445
+  orig: 231, 445
   offset: 0, 0
   index: -1
 livro3
   rotate: false
-  xy: 1924, 10
-  size: 440, 792
-  orig: 440, 792
+  xy: 749, 69
+  size: 231, 445
+  orig: 231, 445
   offset: 0, 0
   index: -1
 orange_square
   rotate: false
-  xy: 855, 478
+  xy: 1215, 90
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 red_arrow
   rotate: false
-  xy: 516, 279
+  xy: 1473, 279
   size: 235, 235
   orig: 235, 235
   offset: 0, 0
   index: -1
 red_square
   rotate: false
-  xy: 753, 414
+  xy: 1710, 414
   size: 100, 100
   orig: 100, 100
   offset: 0, 0

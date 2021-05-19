@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -15,37 +16,54 @@ public class Sala2 extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
-    TextureRegion caixaEnergia;
+    TextureRegion fios;
+    TextureRegion lustre1;
+    TextureRegion lustre2;
+    TextureRegion lustre3;
+    TextureRegion lustre4;
 
     Sprite porta;
-    Sprite quadroEnergia;
+    Sprite fiosSprite;
+    Sprite lustre;
 
     boolean isSecondFloor = false;
+    
+    ObjectAnimation lustreAnimation;
 
     public Sala2(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala2.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2891, 160,"doorDown2", 203, collisions.getPortaBit());
+        
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("fiosItem", false)) {
-            collisions.CreateCollisions(1750, 160, "fiosItem", 203, collisions.getITEM_BIT());
+            collisions.CreateCollisions(1720, 160, "fiosItem", 203, collisions.getITEM_BIT());
+            
+            fios = textureAtlas.findRegion("fiosItem");
+            fiosSprite = new Sprite(fios);
+            fiosSprite.setSize(fiosSprite.getWidth() / (TerrorGame.SCALE * 2), fiosSprite.getHeight() / (TerrorGame.SCALE * 2));
+            fiosSprite.setPosition(1720 / TerrorGame.SCALE - fiosSprite.getWidth() / 2, 155 / TerrorGame.SCALE);
         }
 
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("porta1");
         portaAberta = textureAtlas.findRegion("porta2");
-        caixaEnergia = textureAtlas.findRegion("quadro_forca");
+        lustre1 = textureAtlas.findRegion("lustre1");
+        lustre2 = textureAtlas.findRegion("lustre2");
+        lustre3 = textureAtlas.findRegion("lustre3");
+        lustre4 = textureAtlas.findRegion("lustre4");
         
         porta = new Sprite(portaFechada);
-        quadroEnergia = new Sprite(caixaEnergia);
+        lustre = new Sprite(lustre1);
         
         porta.setSize(porta.getWidth() * 1.45f / TerrorGame.SCALE, porta.getHeight() * 1.45f / TerrorGame.SCALE);
         porta.setPosition((3500 - 812) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta.setAlpha(0.5f);
         
-        quadroEnergia.setSize(quadroEnergia.getWidth() / TerrorGame.SCALE, quadroEnergia.getHeight() / TerrorGame.SCALE);
-        quadroEnergia.setPosition(51 / TerrorGame.SCALE, 476 / TerrorGame.SCALE);
-
+        lustre.setSize(lustre.getWidth() / TerrorGame.SCALE, lustre.getHeight() / TerrorGame.SCALE);
+        lustre.setPosition(1750 / TerrorGame.SCALE - lustre.getWidth() / 2, viewport.getWorldHeight() - lustre.getHeight());
+        
+        lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
     }
 
     @Override
@@ -59,10 +77,19 @@ public class Sala2 extends StandardRoom implements Screen {
 
         game.batch.begin();
         
-        quadroEnergia.draw(game.batch);
+        if (!game.getInventoryManager().getItemBackpack().contains("fiosItem", false)) {
+        	fiosSprite.draw(game.batch);
+        }
+        
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta.draw(game.batch);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustre.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        lustre.draw(game.batch);
         
         game.batch.end();
 

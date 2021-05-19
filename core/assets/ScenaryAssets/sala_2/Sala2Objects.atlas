@@ -1,55 +1,55 @@
 
 Sala2Objects.png
-size: 1330,414
+size: 948,571
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+fiosItem
+  rotate: false
+  xy: 566, 332
+  size: 320, 80
+  orig: 320, 80
+  offset: 0, 0
+  index: -1
 lustre1
   rotate: false
-  xy: 566, 257
+  xy: 2, 2
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre2
   rotate: false
-  xy: 566, 100
+  xy: 384, 2
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre4
   rotate: false
-  xy: 566, 100
+  xy: 384, 2
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre3
   rotate: false
-  xy: 948, 257
+  xy: 566, 414
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 porta1
   rotate: false
-  xy: 2, 2
+  xy: 2, 159
   size: 280, 410
   orig: 280, 410
   offset: 0, 0
   index: -1
 porta2
   rotate: false
-  xy: 284, 2
+  xy: 284, 159
   size: 280, 410
   orig: 280, 410
-  offset: 0, 0
-  index: -1
-quadro_forca
-  rotate: false
-  xy: 948, 20
-  size: 255, 235
-  orig: 255, 235
   offset: 0, 0
   index: -1

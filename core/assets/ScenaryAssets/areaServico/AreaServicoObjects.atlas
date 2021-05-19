@@ -1,0 +1,62 @@
+
+AreaServicoObjects.png
+size: 1789,709
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gerador
+  rotate: false
+  xy: 2, 247
+  size: 760, 460
+  orig: 760, 460
+  offset: 0, 0
+  index: -1
+lustre corredor1
+  rotate: false
+  xy: 259, 35
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+lustre corredor2
+  rotate: false
+  xy: 461, 35
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+lustre corredor4
+  rotate: false
+  xy: 461, 35
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+lustre corredor3
+  rotate: false
+  xy: 663, 35
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+portaCorredor1
+  rotate: false
+  xy: 865, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+portaCorredor2
+  rotate: false
+  xy: 1327, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+quadro_forca
+  rotate: false
+  xy: 2, 10
+  size: 255, 235
+  orig: 255, 235
+  offset: 0, 0
+  index: -1

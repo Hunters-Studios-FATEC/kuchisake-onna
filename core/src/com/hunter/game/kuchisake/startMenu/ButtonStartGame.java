@@ -1,5 +1,6 @@
 package com.hunter.game.kuchisake.startMenu;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -91,6 +92,14 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().load("Audio/Sfx/porta abrindo 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/porta fechando 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/Achei voce.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/Te achei.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/madeira rangendo 2.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/madeira rangendo 6.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/madeira rangendo 7.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/passo.ogg", Sound.class);
+    	
+    	game.getAssetManager().load("Audio/Music/mansion.ogg", Music.class);
+    	game.getAssetManager().load("Audio/Music/Run.ogg", Music.class);
 
     	//game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
     	//game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
@@ -115,6 +124,8 @@ public class ButtonStartGame extends Actor {
         game.createInventoryManager();
         
         game.createVillain();
+        
+        game.addMusic();
     	
         //game.setScreen(new Saguao(game, 1000));
     	game.setScreen(new Saguao(game, 1750,  false));

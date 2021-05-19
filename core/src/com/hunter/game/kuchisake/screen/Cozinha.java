@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -16,32 +17,50 @@ public class Cozinha extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
+    TextureRegion lustre1;
+    TextureRegion lustre2;
+    TextureRegion lustre3;
+    TextureRegion lustre4;
 
     Sprite porta1;
     Sprite porta2;
+    Sprite lustre;
 
     boolean isSecondFloor = false;
 
     Sound portraTrancada;
+    
+    ObjectAnimation lustreAnimation;
 
     public Cozinha(TerrorGame game, float playerDoorPosX) {
-        super(game, "Tilesets/sala1.tmx", playerDoorPosX);
+        super(game, "Tilesets/cozinha.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(483, 160,"doorUp4", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(600, 160,"doorUp4", 203, collisions.getPortaBit());
         collisions.CreateCollisions(3143, 160,"doorUp5", 203, collisions.getPortaBit());
         
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
-        portaFechada = textureAtlas.findRegion("porta1");
-        portaAberta = textureAtlas.findRegion("porta2");
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
+        portaFechada = textureAtlas.findRegion("portaCorredor1");
+        portaAberta = textureAtlas.findRegion("portaCorredor2");
+        lustre1 = textureAtlas.findRegion("lustre1");
+        lustre2 = textureAtlas.findRegion("lustre2");
+        lustre3 = textureAtlas.findRegion("lustre3");
+        lustre4 = textureAtlas.findRegion("lustre4");
         
         porta1 = new Sprite(portaFechada);
         porta2 = new Sprite(portaFechada);
+        lustre = new Sprite(lustre1);
         
-        porta1.setSize(porta1.getWidth() * 1.45f / TerrorGame.SCALE, porta1.getHeight() * 1.45f / TerrorGame.SCALE);
-        porta1.setPosition(280 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta1.setSize(porta1.getWidth()/ TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
+        porta1.setPosition(397 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta1.setAlpha(0.5f);
         
-        porta2.setSize(porta2.getWidth() * 1.45f / TerrorGame.SCALE, porta2.getHeight() * 1.45f / TerrorGame.SCALE);
-        porta2.setPosition(2940 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta2.setSize(porta2.getWidth()/ TerrorGame.SCALE, porta2.getHeight() / TerrorGame.SCALE);
+        porta2.setPosition(2940 / TerrorGame.SCALE, 175 / TerrorGame.SCALE);
+        
+        lustre.setSize(lustre.getWidth() / TerrorGame.SCALE, lustre.getHeight() / TerrorGame.SCALE);
+        lustre.setPosition(1750 / TerrorGame.SCALE - lustre.getWidth() / 2, viewport.getWorldHeight() - lustre.getHeight());
+        
+        lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
 
         portraTrancada = game.getAssetManager().get("Audio/Sfx/porta trancada.ogg");
     }
@@ -57,10 +76,17 @@ public class Cozinha extends StandardRoom implements Screen {
 
         game.batch.begin();
         
-        porta1.draw(game.batch);
         porta2.draw(game.batch);
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
+        
+        if(game.getMinigameManager().getGeradorCompleted()) {
+        	lustre.setRegion(lustreAnimation.changeFrame(delta));
+        }
+        
+        lustre.draw(game.batch);
+        
+        porta1.draw(game.batch);
         
         game.batch.end();
 
@@ -80,8 +106,8 @@ public class Cozinha extends StandardRoom implements Screen {
                     transitionScene.fadeIn();
                     
                     if(!canSwitchAssets) {
-                    	game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-                        game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
+                    	game.getAssetManager().load("Tilesets/area_servico.tmx", TiledMap.class);
+                        game.getAssetManager().load("ScenaryAssets/areaServico/AreaServicoObjects.atlas", TextureAtlas.class);
                         game.getAssetManager().load("Audio/Sfx/minigame complete 6.ogg", Sound.class);
                         game.getAssetManager().load("Audio/Sfx/wrongBuzzer.wav", Sound.class);
 
@@ -91,8 +117,8 @@ public class Cozinha extends StandardRoom implements Screen {
                     if (doorAnimationTimer > 1.5f) {
                         dispose();
 
-                        game.getAssetManager().unload("Tilesets/sala1.tmx");
-                        game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+                        game.getAssetManager().unload("Tilesets/cozinha.tmx");
+                        game.getAssetManager().unload("ScenaryAssets/cozinha/CozinhaObjects.atlas");
 
                         game.getAssetManager().finishLoading();
                         game.incrementPlayerLine(1);
@@ -121,8 +147,8 @@ public class Cozinha extends StandardRoom implements Screen {
                 if(doorAnimationTimer > 1.5f){
                     dispose();
 
-                    game.getAssetManager().unload("Tilesets/sala1.tmx");
-                    game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+                    game.getAssetManager().unload("Tilesets/cozinha.tmx");
+                    game.getAssetManager().unload("ScenaryAssets/cozinha/CozinhaObjects.atlas");
 
                     game.getAssetManager().finishLoading();
                     game.incrementPlayerLine(1);
@@ -149,8 +175,8 @@ public class Cozinha extends StandardRoom implements Screen {
             if(doorAnimationTimer > 1.5f){
             	dispose();
 
-                game.getAssetManager().unload("Tilesets/sala1.tmx");
-                game.getAssetManager().unload("ScenaryAssets/sala_1/Sala1Objects.atlas");
+                game.getAssetManager().unload("Tilesets/cozinha.tmx");
+                game.getAssetManager().unload("ScenaryAssets/cozinha/CozinhaObjects.atlas");
 
                 game.getAssetManager().finishLoading();
                 game.setPlayerColumn(1);

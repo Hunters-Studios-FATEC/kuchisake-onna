@@ -4,6 +4,13 @@ size: 948,473
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+chaveServico
+  rotate: false
+  xy: 2, 5
+  size: 126, 54
+  orig: 126, 54
+  offset: 0, 0
+  index: -1
 lustre1
   rotate: false
   xy: 566, 316
