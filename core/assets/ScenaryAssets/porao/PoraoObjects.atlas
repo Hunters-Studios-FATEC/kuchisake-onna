@@ -1,9 +1,16 @@
 
 PoraoObjects.png
-size: 1725,674
+size: 2002, 674
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Nearest, Nearest
 repeat: none
+cachorro
+  rotate: false
+  xy: 1725, 397
+  size: 275, 275
+  orig: 275, 275
+  offset: 0, 0
+  index: -1
 escada
   rotate: false
   xy: 2, 2
@@ -13,21 +20,21 @@ escada
   index: -1
 lampada1
   rotate: false
-  xy: 1059, 177
+  xy: 1281, 177
   size: 220, 495
   orig: 220, 495
   offset: 0, 0
   index: -1
 lampada2
   rotate: false
-  xy: 1281, 177
+  xy: 1059, 177
   size: 220, 495
   orig: 220, 495
   offset: 0, 0
   index: -1
 lampada4
   rotate: false
-  xy: 1281, 177
+  xy: 1059, 177
   size: 220, 495
   orig: 220, 495
   offset: 0, 0
@@ -37,5 +44,12 @@ lampada3
   xy: 1503, 177
   size: 220, 495
   orig: 220, 495
+  offset: 0, 0
+  index: -1
+mask3
+  rotate: false
+  xy: 1059, 46
+  size: 120, 129
+  orig: 120, 129
   offset: 0, 0
   index: -1

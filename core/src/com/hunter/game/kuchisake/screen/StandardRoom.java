@@ -219,7 +219,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		if((game.getMinigameManager().getGeradorCompleted() && transitionScene.getActor().getColor().a == 0) || 
-				(!game.getMinigameManager().getGeradorCompleted() && transitionScene.getActor().getColor().a == 0.5f)) {
+				(!game.getMinigameManager().getGeradorCompleted() && transitionScene.getActor().getColor().a == 0.8f)) {
 			stepWorld(delta);
 		}
 		

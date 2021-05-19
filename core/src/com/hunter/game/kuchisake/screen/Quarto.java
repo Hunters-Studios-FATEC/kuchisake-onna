@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
-import javax.xml.stream.FactoryConfigurationError;
 
 public class Quarto extends StandardRoom implements Screen {
 
@@ -26,7 +25,9 @@ public class Quarto extends StandardRoom implements Screen {
     TextureRegion lustre3;
     TextureRegion lustre4;
     TextureRegion quadro;
+    TextureRegion maskara4;
 
+    Sprite mask4;
     Sprite porta;
     Sprite chaveSprite;
     Sprite abajur;
@@ -60,9 +61,10 @@ public class Quarto extends StandardRoom implements Screen {
         //Colisao do quadro da cabeca de cachorro faltando
         collisions.CreateCollisions(300, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
 
-        if (!game.getInventoryManager().getItemBackpack().contains("mask4", false) && !isQuadroSemCachorro) {
-            collisions.CreateCollisions(1750, 160, "mask4", 203, collisions.getITEM_BIT());
-        }
+        maskara4 = textureAtlas.findRegion("mask4");
+        mask4 = new Sprite(maskara4);
+        mask4.setSize(mask4.getWidth() / TerrorGame.SCALE, mask4.getHeight() / TerrorGame.SCALE);
+        mask4.setPosition(300 / TerrorGame.SCALE - (mask4.getWidth() / 2), 500 / TerrorGame.SCALE);
         
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
@@ -114,8 +116,6 @@ public class Quarto extends StandardRoom implements Screen {
 
         game.batch.begin();
         
-        quadroSprite.draw(game.batch);
-        
         if(game.getMinigameManager().getGeradorCompleted()) {
         	abajur.setRegion(abajurAnimation.changeFrame(delta));
         	lustre.setRegion(lustreAnimation.changeFrame(delta));
@@ -125,6 +125,12 @@ public class Quarto extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("chaveBiblio", false)) {
         	chaveSprite.draw(game.batch);
+        }
+
+        if (isQuadroSemCachorro && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
+            quadroSprite.draw(game.batch);
+        } else if (!isQuadroSemCachorro && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
+            mask4.draw(game.batch);
         }
         
         game.getKuchisakeOnna().draw(game.batch);
@@ -147,9 +153,11 @@ public class Quarto extends StandardRoom implements Screen {
         
         game.getMinigameManager().minigameUpdate(delta, 0);
         
-        if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("cachorro", false) && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
+        if (player.getChangeObjectVisual() &&
+                inventoryManager.getItemBackpack().contains("cachorro", false) &&
+                !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
             isQuadroSemCachorro = false;
-            collisions.CreateCollisions(1750, 160, "mask4", 203, collisions.getITEM_BIT());
+            collisions.CreateCollisions(300, 160, "mask4", 203, collisions.getITEM_BIT());
         }
         
         if (player.getCanChangeRoom()){

@@ -19,7 +19,11 @@ public class Porao extends StandardRoom implements Screen {
     TextureRegion lampada3;
     TextureRegion lampada4;
     TextureRegion escada;
-    
+    TextureRegion cach;
+    TextureRegion maskara3;
+
+    Sprite cachorro;
+    Sprite mask3;
     Sprite lampada;
     Sprite escadaSprite;
 
@@ -30,17 +34,26 @@ public class Porao extends StandardRoom implements Screen {
     public Porao(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/porao.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(600, 160,"doorDown5", 300, collisions.getPortaBit());
+        collisions.CreateCollisions(500, 160,"doorDown5", 230, collisions.getPortaBit());
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask3", false)){
-            collisions.CreateCollisions(430, 160, "mask3", 230, collisions.getITEM_BIT());
+            collisions.CreateCollisions(2700, 160, "mask3", 230, collisions.getITEM_BIT());
+
+            maskara3 = textureAtlas.findRegion("mask3");
+            mask3 = new Sprite(maskara3);
+            mask3.setSize(mask3.getWidth() / TerrorGame.SCALE, mask3.getHeight() / TerrorGame.SCALE);
+            mask3.setPosition(2700 / TerrorGame.SCALE - (mask3.getWidth() / 2), 160 / TerrorGame.SCALE);
         }
 
         if (!game.getInventoryManager().getItemBackpack().contains("cachorro", false)){
             collisions.CreateCollisions(1750, 160, "cachorro", 230, collisions.getITEM_BIT());
+
+            cach = textureAtlas.findRegion("cachorro");
+            cachorro = new Sprite(cach);
+            cachorro.setSize(cachorro.getWidth() / TerrorGame.SCALE, cachorro.getHeight() / TerrorGame.SCALE);
+            cachorro.setPosition(1750 / TerrorGame.SCALE - (cachorro.getWidth() / 2), 160 / TerrorGame.SCALE);
         }
-        
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
         
         lampada1 = textureAtlas.findRegion("lampada1");
         lampada2 = textureAtlas.findRegion("lampada2");
@@ -78,7 +91,14 @@ public class Porao extends StandardRoom implements Screen {
         }
         
         lampada.draw(game.batch);
-        
+        if (!game.getInventoryManager().getItemBackpack().contains("mask3", false)){
+            mask3.draw(game.batch);
+        }
+
+        if (!game.getInventoryManager().getItemBackpack().contains("cachorro", false)){
+            cachorro.draw(game.batch);
+        }
+
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         

@@ -1,33 +1,33 @@
 
 SalaEstarObjects.png
-size: 1990,1583
+size: 1990, 1583
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Nearest, Nearest
 repeat: none
 lareira acesa1
   rotate: false
-  xy: 2, 1056
+  xy: 2, 2
   size: 945, 525
   orig: 945, 525
   offset: 0, 0
   index: -1
 lareira acesa2
   rotate: false
-  xy: 2, 529
+  xy: 949, 1056
   size: 945, 525
   orig: 945, 525
   offset: 0, 0
   index: -1
 lareira acesa3
   rotate: false
-  xy: 949, 1056
+  xy: 2, 529
   size: 945, 525
   orig: 945, 525
   offset: 0, 0
   index: -1
 lareira apagada
   rotate: false
-  xy: 2, 2
+  xy: 2, 1056
   size: 945, 525
   orig: 945, 525
   offset: 0, 0
@@ -48,35 +48,42 @@ lustre1
   index: -1
 lustre2
   rotate: false
-  xy: 1226, 35
+  xy: 1608, 192
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre4
   rotate: false
-  xy: 1226, 35
+  xy: 1608, 192
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre3
   rotate: false
-  xy: 1608, 192
+  xy: 1226, 35
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
+mask1
+  rotate: false
+  xy: 1608, 18
+  size: 120, 172
+  orig: 120, 172
+  offset: 0, 0
+  index: -1
 portaCorredor1
   rotate: false
-  xy: 949, 349
+  xy: 1411, 349
   size: 460, 705
   orig: 460, 705
   offset: 0, 0
   index: -1
 portaCorredor2
   rotate: false
-  xy: 1411, 349
+  xy: 949, 349
   size: 460, 705
   orig: 460, 705
   offset: 0, 0

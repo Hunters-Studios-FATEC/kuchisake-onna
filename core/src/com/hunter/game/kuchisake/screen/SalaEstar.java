@@ -26,7 +26,9 @@ public class SalaEstar extends StandardRoom implements Screen {
     TextureRegion lareiraAcesa2;
     TextureRegion lareiraAcesa3;
     TextureRegion lareiraApagada;
+    TextureRegion maskara1;
 
+    Sprite mask1;
     Sprite porta;
     Sprite livroSprite;
     Sprite lustre;
@@ -57,9 +59,11 @@ public class SalaEstar extends StandardRoom implements Screen {
             livroSprite.setPosition(2710 / TerrorGame.SCALE - livroSprite.getWidth() / 2, 346 / TerrorGame.SCALE);
         }
 
-        if (!game.getInventoryManager().getItemBackpack().contains("mask1", false) && !isLareiraAcessa) {
-            collisions.CreateCollisions(1750, 160, "mask1", 203, collisions.getITEM_BIT());
-        }
+        maskara1 = textureAtlas.findRegion("mask1");
+
+        mask1 = new Sprite(maskara1);
+        mask1.setSize(mask1.getWidth() / TerrorGame.SCALE, mask1.getHeight() / TerrorGame.SCALE);
+        mask1.setPosition(1750 / TerrorGame.SCALE - mask1.getWidth() / 2, 160 / TerrorGame.SCALE);
 
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
@@ -99,12 +103,20 @@ public class SalaEstar extends StandardRoom implements Screen {
         player.playerUpdate(delta);
 
         game.batch.begin();
-        
-        lareira.setRegion(lareiraAnimation.changeFrame(delta));
-        lareira.draw(game.batch);
+
+
         
         if (!game.getInventoryManager().getItemBackpack().contains("livro1", false)) {
         	livroSprite.draw(game.batch);
+        }
+
+        lareira.draw(game.batch);
+
+        if (isLareiraAcessa && !game.getInventoryManager().getItemBackpack().contains("mask1", false)){
+            lareira.setRegion(lareiraAnimation.changeFrame(delta));
+        } else if (!isLareiraAcessa && !game.getInventoryManager().getItemBackpack().contains("mask1", false)){
+            lareira.setRegion(lareiraApagada);
+            mask1.draw(game.batch);
         }
 
         game.getKuchisakeOnna().draw(game.batch);

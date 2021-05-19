@@ -1,26 +1,26 @@
 
 QuartoObjects.png
-size: 1742,718
+size: 1742, 718
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Nearest, Nearest
 repeat: none
 abajur1
   rotate: false
-  xy: 926, 122
+  xy: 1198, 2
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
   index: -1
 abajur2
   rotate: false
-  xy: 1198, 2
+  xy: 926, 122
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
   index: -1
 abajur4
   rotate: false
-  xy: 1198, 2
+  xy: 926, 122
   size: 270, 280
   orig: 270, 280
   offset: 0, 0
@@ -55,35 +55,42 @@ lustre1
   index: -1
 lustre2
   rotate: false
-  xy: 926, 404
+  xy: 1308, 284
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre4
   rotate: false
-  xy: 926, 404
+  xy: 1308, 284
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre3
   rotate: false
-  xy: 1308, 284
+  xy: 926, 404
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
+mask4
+  rotate: false
+  xy: 1585, 535
+  size: 111, 117
+  orig: 111, 117
+  offset: 0, 0
+  index: -1
 portaCorredor1
   rotate: false
-  xy: 2, 11
+  xy: 464, 11
   size: 460, 705
   orig: 460, 705
   offset: 0, 0
   index: -1
 portaCorredor2
   rotate: false
-  xy: 464, 11
+  xy: 2, 11
   size: 460, 705
   orig: 460, 705
   offset: 0, 0

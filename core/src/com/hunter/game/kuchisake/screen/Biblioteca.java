@@ -1,6 +1,7 @@
 package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,7 +22,9 @@ public class Biblioteca extends StandardRoom implements Screen {
     TextureRegion lustre3;
     TextureRegion lustre4;
     TextureRegion estante;
+    TextureRegion livro;
 
+    Sprite livro3;
     Sprite porta1;
     Sprite porta2;
     Sprite estanteSprite1;
@@ -45,7 +48,11 @@ public class Biblioteca extends StandardRoom implements Screen {
         textureAtlas = game.getAssetManager().get("ScenaryAssets/biblioteca/BibliotecaObjects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("livro3", false)) {
-            collisions.CreateCollisions(875, 160, "livro3", 203, collisions.getITEM_BIT());
+            collisions.CreateCollisions(750, 160, "livro3", 203, collisions.getITEM_BIT());
+            livro = textureAtlas.findRegion("livro3");
+            livro3 = new Sprite(livro);
+            livro3.setSize(livro3.getWidth() / (TerrorGame.SCALE * 2), livro3.getHeight() / (TerrorGame.SCALE * 2));
+            livro3.setPosition((750 / TerrorGame.SCALE) - (livro3.getWidth() / 2), 160 / TerrorGame.SCALE);
         }
 
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -102,6 +109,11 @@ public class Biblioteca extends StandardRoom implements Screen {
         porta2.draw(game.batch);
         estanteSprite1.draw(game.batch);
         estanteSprite2.draw(game.batch);
+
+        if (!game.getInventoryManager().getItemBackpack().contains("livro3", false)) {
+            livro3.draw(game.batch);
+        }
+
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
         porta1.draw(game.batch);
@@ -132,7 +144,7 @@ public class Biblioteca extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
-                    
+                    game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
                     canSwitchAssets = true;
                 }
                 
@@ -157,7 +169,6 @@ public class Biblioteca extends StandardRoom implements Screen {
                     if(!canSwitchAssets) {
                         game.getAssetManager().load("Tilesets/sala_secreta.tmx", TiledMap.class);
                         game.getAssetManager().load("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas", TextureAtlas.class);
-
                         canSwitchAssets = true;
                     }
 

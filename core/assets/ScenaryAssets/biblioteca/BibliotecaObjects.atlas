@@ -1,54 +1,61 @@
 
 BibliotecaObjects.png
-size: 1993,1023
+size: 1993, 1046
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Nearest, Nearest
 repeat: none
+livro3
+  rotate: false
+  xy: 1451, 62
+  size: 275, 275
+  orig: 275, 275
+  offset: 0, 0
+  index: -1
 lustre1
   rotate: false
-  xy: 1069, 159
+  xy: 2, 2
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre2
   rotate: false
-  xy: 1451, 159
+  xy: 384, 2
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre4
   rotate: false
-  xy: 1451, 159
+  xy: 384, 2
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 lustre3
   rotate: false
-  xy: 1069, 2
+  xy: 1069, 182
   size: 380, 155
   orig: 380, 155
   offset: 0, 0
   index: -1
 portaCorredor1
   rotate: false
-  xy: 1069, 316
+  xy: 1531, 339
   size: 460, 705
   orig: 460, 705
   offset: 0, 0
   index: -1
 portaCorredor2
   rotate: false
-  xy: 1531, 316
+  xy: 1069, 339
   size: 460, 705
   orig: 460, 705
   offset: 0, 0
   index: -1
 sprite estante
   rotate: false
-  xy: 2, 136
+  xy: 2, 159
   size: 1065, 885
   orig: 1065, 885
   offset: 0, 0

@@ -18,10 +18,18 @@ public class SalaSecreta extends StandardRoom implements Screen {
     TextureRegion braseiroAceso2;
     TextureRegion braseiroAceso3;
     TextureRegion braseiroApagado;
+    TextureRegion caixaMascara;
+    TextureRegion chavePrinc;
+    TextureRegion maskara2;
+    TextureRegion chavePorao;
 
     Sprite porta;
     Sprite braseiro1;
     Sprite braseiro2;
+    Sprite caixaMask;
+    Sprite chavePrincipal;
+    Sprite mask2;
+    Sprite chavePor;
 
     boolean isSecondFloor = false;
     boolean hasTodasPecasMascara = false;
@@ -32,12 +40,22 @@ public class SalaSecreta extends StandardRoom implements Screen {
         super(game, "Tilesets/sala_secreta.tmx", playerDoorPosX);
 
         collisions.CreateCollisions(2487+230f, 160,"doorDown0", 203, collisions.getPortaBit());
+        textureAtlas = game.getAssetManager().get("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("chavePorao", false)){
+            chavePorao = textureAtlas.findRegion("chavePorao");
+            chavePor = new Sprite(chavePorao);
+            chavePor.setPosition(450 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+            chavePor.setSize(chavePor.getWidth() / TerrorGame.SCALE, chavePor.getHeight() / TerrorGame.SCALE);
             collisions.CreateCollisions(450, 160, "chavePorao", 203, collisions.getITEM_BIT());
+
         }
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask2", false)){
+            maskara2 = textureAtlas.findRegion("mask2");
+            mask2 = new Sprite(maskara2);
+            mask2.setPosition(2030 / TerrorGame.SCALE, 160/ TerrorGame.SCALE);
+            mask2.setSize(mask2.getWidth() / TerrorGame.SCALE, mask2.getHeight() / TerrorGame.SCALE);
             collisions.CreateCollisions(2030, 160, "mask2", 203, collisions.getITEM_BIT());
         }
 
@@ -48,18 +66,20 @@ public class SalaSecreta extends StandardRoom implements Screen {
             collisions.CreateCollisions(1750, 160, "chavePrincipal", 203, collisions.getITEM_BIT());
         }
 
-
-        textureAtlas = game.getAssetManager().get("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
         braseiroAceso1 = textureAtlas.findRegion("braseiro aceso1");
         braseiroAceso2 = textureAtlas.findRegion("braseiro aceso2");
         braseiroAceso3 = textureAtlas.findRegion("braseiro aceso3");
         braseiroApagado = textureAtlas.findRegion("braseiro apagado");
+        caixaMascara = textureAtlas.findRegion("caixa mascara");
+        chavePrinc = textureAtlas.findRegion("chavePrincipal");
 
         porta = new Sprite(portaFechada);
         braseiro1 = new Sprite(braseiroApagado);
         braseiro2 = new Sprite(braseiroApagado);
+        caixaMask = new Sprite(caixaMascara);
+        chavePrincipal = new Sprite(chavePrinc);
 
         porta.setSize(porta.getWidth() / TerrorGame.SCALE, porta.getHeight() / TerrorGame.SCALE);
         porta.setPosition(2487 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
@@ -70,7 +90,13 @@ public class SalaSecreta extends StandardRoom implements Screen {
         
         braseiro2.setSize(braseiro2.getWidth() / TerrorGame.SCALE, braseiro2.getHeight() / TerrorGame.SCALE);
         braseiro2.setPosition(2095 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
-        
+
+        caixaMask.setSize(caixaMask.getWidth() / TerrorGame.SCALE, caixaMask.getHeight() / TerrorGame.SCALE);
+        caixaMask.setPosition((1594 / TerrorGame.SCALE) + (caixaMask.getWidth() / 14), (160+415) / TerrorGame.SCALE);
+
+        chavePrincipal.setSize(chavePrincipal.getWidth() / (TerrorGame.SCALE * 2), chavePrincipal.getHeight() / (TerrorGame.SCALE * 2));
+        chavePrincipal.setPosition(1750 / TerrorGame.SCALE - (chavePrincipal.getWidth() / 2), (160 + 415) / TerrorGame.SCALE );
+
         braseiroAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {braseiroAceso1, braseiroAceso2, braseiroAceso3});
     }
 
@@ -95,11 +121,25 @@ public class SalaSecreta extends StandardRoom implements Screen {
         
         braseiro2.setRegion(braseiroAnimation.changeFrame(delta));
         braseiro2.draw(game.batch);
-        
-        porta.draw(game.batch);
+
+        if (!game.getInventoryManager().getItemBackpack().contains("chavePorao", false)){
+            chavePor.draw(game.batch);
+        }
+
+        if (!game.getInventoryManager().getItemBackpack().contains("mask2", false)){
+            mask2.draw(game.batch);
+        }
+
+        if (hasTodasPecasMascara && !game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false)){
+            chavePrincipal.draw(game.batch);
+        } else if (!game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false)){
+            caixaMask.draw(game.batch);
+        }
+
         game.getKuchisakeOnna().draw(game.batch);
         player.draw(game.batch);
 
+        porta.draw(game.batch);
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);

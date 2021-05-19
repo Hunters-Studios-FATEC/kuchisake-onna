@@ -172,7 +172,7 @@ public class CorredorServico extends StandardRoom implements Screen {
 		
 		            game.getAssetManager().unload("Tilesets/corredor.tmx");
 		            game.getAssetManager().unload("ScenaryAssets/corredor/CorredorObjects.atlas");
-		            game.getAssetManager().unload("Audio/Sfx/porta trancada.ogg");
+
 		
 		            game.getAssetManager().finishLoading();
 		            game.incrementPlayerLine(-1);

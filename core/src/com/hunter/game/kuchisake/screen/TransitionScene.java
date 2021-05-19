@@ -50,7 +50,7 @@ public class TransitionScene {
 			alphaAction.setAlpha(0);
 		}
 		else {
-			alphaAction.setAlpha(0.5f);
+			alphaAction.setAlpha(0.8f);
 		}
 		
 		alphaAction.setDuration(0.2f);
