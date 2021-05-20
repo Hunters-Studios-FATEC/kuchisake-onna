@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -26,6 +27,7 @@ public class Sala3 extends StandardRoom implements Screen {
     Sprite gazuaSprite;
     Sprite lustre;
 
+    SpriteItem gazuaItem;
     boolean isSecondFloor = false;
     
     ObjectAnimation lustreAnimation;
@@ -46,6 +48,7 @@ public class Sala3 extends StandardRoom implements Screen {
             gazuaSprite.setSize(gazuaSprite.getWidth() / (TerrorGame.SCALE * 5), gazuaSprite.getHeight() / (TerrorGame.SCALE * 5));
             gazuaSprite.setPosition(1530 / TerrorGame.SCALE - gazuaSprite.getWidth() / 2, 
             		355 / TerrorGame.SCALE - gazuaSprite.getHeight() *  (48f / 699f));
+            gazuaItem = new SpriteItem(50f, gazuaSprite);
         }
         
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -81,6 +84,7 @@ public class Sala3 extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("gazua", false)) {
         	gazuaSprite.draw(game.batch);
+        	gazuaItem.flutar(delta);
         }
         
         game.getKuchisakeOnna().draw(game.batch);
@@ -112,11 +116,11 @@ public class Sala3 extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala3.tmx");

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 
 public class Quarto extends StandardRoom implements Screen {
@@ -34,6 +35,9 @@ public class Quarto extends StandardRoom implements Screen {
     Sprite lustre;
     Sprite quadroSprite;
 
+    SpriteItem chaveFlutuar;
+    SpriteItem maskFlutuar;
+
     boolean isSecondFloor = false;
 
     boolean isQuadroSemCachorro = true;
@@ -56,6 +60,8 @@ public class Quarto extends StandardRoom implements Screen {
             chaveSprite = new Sprite(chave);
             chaveSprite.setSize(chaveSprite.getWidth() / (TerrorGame.SCALE * 2), chaveSprite.getHeight() / (TerrorGame.SCALE * 2));
             chaveSprite.setPosition(2177 / TerrorGame.SCALE - chaveSprite.getWidth() / 2, 470 / TerrorGame.SCALE);
+
+            chaveFlutuar = new SpriteItem(50f, chaveSprite);
         }
 
         //Colisao do quadro da cabeca de cachorro faltando
@@ -65,6 +71,8 @@ public class Quarto extends StandardRoom implements Screen {
         mask4 = new Sprite(maskara4);
         mask4.setSize(mask4.getWidth() / TerrorGame.SCALE, mask4.getHeight() / TerrorGame.SCALE);
         mask4.setPosition(300 / TerrorGame.SCALE - (mask4.getWidth() / 2), 500 / TerrorGame.SCALE);
+
+        maskFlutuar = new SpriteItem(50f, mask4);
         
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
@@ -125,12 +133,14 @@ public class Quarto extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("chaveBiblio", false)) {
         	chaveSprite.draw(game.batch);
+        	chaveFlutuar.flutar(delta);
         }
 
         if (isQuadroSemCachorro && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
             quadroSprite.draw(game.batch);
         } else if (!isQuadroSemCachorro && !game.getInventoryManager().getItemBackpack().contains("mask4", false)){
             mask4.draw(game.batch);
+            maskFlutuar.flutar(delta);
         }
         
         game.getKuchisakeOnna().draw(game.batch);
@@ -168,11 +178,11 @@ public class Quarto extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/quarto.tmx");

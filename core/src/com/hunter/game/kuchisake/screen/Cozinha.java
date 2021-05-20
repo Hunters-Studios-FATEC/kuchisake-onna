@@ -17,11 +17,13 @@ public class Cozinha extends StandardRoom implements Screen {
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
+    TextureRegion portaPrincipal;
     TextureRegion lustre1;
     TextureRegion lustre2;
     TextureRegion lustre3;
     TextureRegion lustre4;
 
+    Sprite portaPrinc;
     Sprite porta1;
     Sprite porta2;
     Sprite lustre;
@@ -37,19 +39,26 @@ public class Cozinha extends StandardRoom implements Screen {
         
         collisions.CreateCollisions(600, 160,"doorUp4", 203, collisions.getPortaBit());
         collisions.CreateCollisions(3143, 160,"doorUp5", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(1750, 160, "doorDown-2", 203, collisions.getPortaBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
+        portaPrincipal = textureAtlas.findRegion("saida1");
         lustre1 = textureAtlas.findRegion("lustre1");
         lustre2 = textureAtlas.findRegion("lustre2");
         lustre3 = textureAtlas.findRegion("lustre3");
         lustre4 = textureAtlas.findRegion("lustre4");
-        
+
+        portaPrinc = new Sprite(portaPrincipal);
         porta1 = new Sprite(portaFechada);
         porta2 = new Sprite(portaFechada);
         lustre = new Sprite(lustre1);
-        
+
+        portaPrinc.setSize(portaPrinc.getWidth() / TerrorGame.SCALE, portaPrinc.getHeight() / TerrorGame.SCALE);
+        portaPrinc.setPosition((1750 / TerrorGame.SCALE) - (portaPrinc.getWidth() / 2), 160 / TerrorGame.SCALE);
+        portaPrinc.setAlpha(0.5f);
+
         porta1.setSize(porta1.getWidth()/ TerrorGame.SCALE, porta1.getHeight() / TerrorGame.SCALE);
         porta1.setPosition(397 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         porta1.setAlpha(0.5f);
@@ -85,7 +94,7 @@ public class Cozinha extends StandardRoom implements Screen {
         }
         
         lustre.draw(game.batch);
-        
+        portaPrinc.draw(game.batch);
         porta1.draw(game.batch);
         
         game.batch.end();
@@ -110,11 +119,11 @@ public class Cozinha extends StandardRoom implements Screen {
                         game.getAssetManager().load("ScenaryAssets/areaServico/AreaServicoObjects.atlas", TextureAtlas.class);
                         game.getAssetManager().load("Audio/Sfx/minigame complete 6.ogg", Sound.class);
                         game.getAssetManager().load("Audio/Sfx/wrongBuzzer.wav", Sound.class);
-
+                        portaSound.play(0.5f);
                         canSwitchAssets = true;
                     }
                     
-                    if (doorAnimationTimer > 1.5f) {
+                    if (doorAnimationTimer > 2f) {
                         dispose();
 
                         game.getAssetManager().unload("Tilesets/cozinha.tmx");
@@ -140,11 +149,11 @@ public class Cozinha extends StandardRoom implements Screen {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
                     game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/cozinha.tmx");
@@ -157,8 +166,16 @@ public class Cozinha extends StandardRoom implements Screen {
                     game.setScreen(new CorredorServico(game, 128));
                 }
 
+            } else if (direction == "doorDown" && doorNum == -2){
+                if (game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false)){
+                    portaSound.play(0.5f);
+                    System.out.println("Fim de jogo");
+                    //Colocar screen de fim de jogo
+                } else {
+                    portraTrancada.setVolume(portraTrancada.play(), 0.5f);
+                    player.setCanChangeRoom(false);
+                }
             }
-
         }
         
         if(player.getBody().getPosition().x < 0) {

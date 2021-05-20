@@ -167,11 +167,11 @@ public class CorredorSalas extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                     game.getAssetManager().load("Tilesets/sala3.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/sala_3/Sala3Objects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
@@ -191,11 +191,11 @@ public class CorredorSalas extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                     game.getAssetManager().load("Tilesets/salaVitima1.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/salaVitima1/SalaVitima1Objects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
@@ -221,7 +221,7 @@ public class CorredorSalas extends StandardRoom implements Screen {
                 canSwitchAssets = true;
             }
             
-            if(doorAnimationTimer > 1.5f){
+            if(doorAnimationTimer > 2f){
             	dispose();
 
                 game.getAssetManager().unload("Tilesets/corredor.tmx");

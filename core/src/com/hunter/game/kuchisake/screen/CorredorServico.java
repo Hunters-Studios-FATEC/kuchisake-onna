@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -32,6 +33,8 @@ public class CorredorServico extends StandardRoom implements Screen {
     Sprite lustreSprite1;
     Sprite lustreSprite2;
 
+    SpriteItem extintorFlutuar;
+
     Sound portraTrancada;
     
     ObjectAnimation lustreAnimation;
@@ -52,6 +55,7 @@ public class CorredorServico extends StandardRoom implements Screen {
             extintorSprite = new Sprite(extintor);
             extintorSprite.setSize(extintorSprite.getWidth() / (TerrorGame.SCALE * 1.4f), extintorSprite.getHeight() / (TerrorGame.SCALE * 1.4f));
             extintorSprite.setPosition(1750 / TerrorGame.SCALE - extintorSprite.getWidth() / 2, 160 / TerrorGame.SCALE);
+            extintorFlutuar = new SpriteItem(50f, extintorSprite);
         }
         
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -115,6 +119,7 @@ public class CorredorServico extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("extintor", false)) {
         	extintorSprite.draw(game.batch);
+        	extintorFlutuar.flutar(delta);
         }
         
         estatua1.draw(game.batch);
@@ -163,11 +168,11 @@ public class CorredorServico extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/cozinha.tmx", TiledMap.class);
 		            game.getAssetManager().load("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
             	
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
 		        	dispose();
 		
 		            game.getAssetManager().unload("Tilesets/corredor.tmx");
@@ -189,11 +194,11 @@ public class CorredorServico extends StandardRoom implements Screen {
                     if (!canSwitchAssets) {
                         game.getAssetManager().load("Tilesets/porao.tmx", TiledMap.class);
                         game.getAssetManager().load("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
-
+                        portaSound.play(0.5f);
                         canSwitchAssets = true;
                     }
 
-                    if (doorAnimationTimer > 1.5f) {
+                    if (doorAnimationTimer > 2f) {
                         dispose();
 
                         game.getAssetManager().unload("Tilesets/corredor.tmx");

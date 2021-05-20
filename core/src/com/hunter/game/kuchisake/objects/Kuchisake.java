@@ -568,20 +568,20 @@ public class Kuchisake extends Thread{
         	
         	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
         	
-        	portaVolume = 0.5f - playerDistance.size() * 0.1f;
-        	madeiraVolume = 0.04f - playerDistance.size() * 0.008f;
+        	portaVolume = 0.7f - playerDistance.size() * 0.3f;
+        	madeiraVolume = 0.5f - playerDistance.size() * 0.1f;
     	}
     	else if(game.getPlayerColumn() == -1 && (currentLine != 1 || currentColumn != 0)) {
         	kuchisakeThread2.runThread(currentLine, currentColumn, 1, 0);
         	
         	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
         	
-        	portaVolume = 0.5f - playerDistance.size() * 0.1f;
-        	madeiraVolume = 0.04f - playerDistance.size() * 0.008f;
+        	portaVolume = 0.7f - playerDistance.size() * 0.3f;
+        	madeiraVolume = 0.5f - playerDistance.size() * 0.1f;
     	}
     	else {
-    		portaVolume = 0.5f;
-    		madeiraVolume = 0.04f;
+    		portaVolume = 0.7f;
+    		madeiraVolume = 0.5f;
     	}
     	
     	if(portaVolume < 0) {

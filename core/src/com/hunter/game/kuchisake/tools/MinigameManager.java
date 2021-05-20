@@ -24,7 +24,7 @@ public class MinigameManager {
 
     Sound correctSound;
     Sound wrongSound;
-    Sound geradorOn;
+    Sound geradorLigando;
 
     boolean lockCompleted;
     boolean wireCompleted;
@@ -34,11 +34,13 @@ public class MinigameManager {
     boolean canStartMinigame = false;
     boolean isMinigameActive = false;
 
+    boolean playOnce = false;
+
     float clearStageTimer = 0f;
     
     TextureAtlas textureAtlas;
     TextureAtlas descriptionAtlas;
-    
+
     TerrorGame game;
 
     public MinigameManager(SpriteBatch batch, TerrorGame game){
@@ -50,9 +52,10 @@ public class MinigameManager {
         textureAtlas = game.getAssetManager().get("MinigameAssets/MinigameObjects.atlas", TextureAtlas.class);
         descriptionAtlas = game.getAssetManager().get("MinigameAssets/MinigameDescription.atlas", TextureAtlas.class);
 
-//        correctSound = game.getAssetManager().get("Audio/Sfx/minigame complete 6.ogg");
+        correctSound = game.getAssetManager().get("Audio/Sfx/minigame complete 6.ogg");
         wrongSound = game.getAssetManager().get("Audio/Sfx/wrongBuzzer.wav");
-//        geradorOn = game.getAssetManager().get("Audio/Sfx/gerador ligando.ogg");
+        geradorLigando = game.getAssetManager().get("Audio/Sfx/gerador ligando.ogg");
+
 
         hideMinigame = new Hide(batch, game, textureAtlas, descriptionAtlas);
         lockPickMinigame = new LockPickMinigame(batch, textureAtlas, descriptionAtlas);
@@ -68,6 +71,7 @@ public class MinigameManager {
     }
 
     public void startMinigame (int id){
+        playOnce = true;
         switch (id){
             case 0:
             	hideMinigame.setLevel(game.getLevel());
@@ -165,6 +169,10 @@ public class MinigameManager {
                     lockPickMinigame.stage.draw();
                     if (lockPickMinigame.getIsFinished()) {
                         clearStageTimer += dt;
+                        if (playOnce){
+                            correctSound.play(0.5f);
+                            playOnce = false;
+                        }
 
                         if (clearStageTimer > 1.5) {
                             clearStageTimer = 0;
@@ -187,6 +195,11 @@ public class MinigameManager {
                     if (minigameBook.getIsFinished()) {
                         clearStageTimer += dt;
 
+                        if (playOnce){
+                            correctSound.play(0.5f);
+                            playOnce = false;
+                        }
+
                         if (clearStageTimer > 1.5) {
                             clearStageTimer = 0;
                             bookCompleted = true;
@@ -208,6 +221,11 @@ public class MinigameManager {
                     if (wireMinigame.getIsFinished()) {
                         clearStageTimer += dt;
 
+                        if (playOnce){
+                            correctSound.play(0.5f);
+                            playOnce = false;
+                        }
+
                         if (clearStageTimer > 1.5) {
                             clearStageTimer = 0;
                             wireCompleted = true;
@@ -227,6 +245,11 @@ public class MinigameManager {
 
                     if (geradorMinigame.getIsFinished()) {
                         clearStageTimer += dt;
+
+                        if (playOnce){
+                            geradorLigando.play(0.5f);
+                            playOnce = false;
+                        }
 
                         if (clearStageTimer > 1.5) {
                             clearStageTimer = 0;

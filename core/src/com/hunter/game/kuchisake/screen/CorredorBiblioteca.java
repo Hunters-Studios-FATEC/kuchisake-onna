@@ -129,11 +129,11 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                     game.getAssetManager().load("Tilesets/salaEstar.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/salaEstar/SalaEstarObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");
@@ -155,11 +155,11 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                     if(!canSwitchAssets) {
                         game.getAssetManager().load("Tilesets/biblioteca.tmx", TiledMap.class);
                         game.getAssetManager().load("ScenaryAssets/biblioteca/BibliotecaObjects.atlas", TextureAtlas.class);
-
+                        portaSound.play(0.5f);
                         canSwitchAssets = true;
                     }
 
-                    if(doorAnimationTimer > 1.5f) {
+                    if(doorAnimationTimer > 2f) {
                         dispose();
 
                         game.getAssetManager().unload("Tilesets/corredor.tmx");
@@ -183,11 +183,11 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                     game.getAssetManager().load("Tilesets/sala_descanso.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/salaDescanso/SalaDescansoObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/corredor.tmx");

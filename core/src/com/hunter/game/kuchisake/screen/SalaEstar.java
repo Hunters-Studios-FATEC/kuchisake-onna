@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -34,6 +35,9 @@ public class SalaEstar extends StandardRoom implements Screen {
     Sprite lustre;
     Sprite lareira;
 
+    SpriteItem maskFlutuar;
+    SpriteItem livroFlutuar;
+
     boolean isLareiraAcessa = true;
     
     ObjectAnimation lustreAnimation;
@@ -57,6 +61,7 @@ public class SalaEstar extends StandardRoom implements Screen {
             livroSprite = new Sprite(livro);
             livroSprite.setSize(livroSprite.getWidth() / (TerrorGame.SCALE * 2), livroSprite.getHeight() / (TerrorGame.SCALE * 2));
             livroSprite.setPosition(2710 / TerrorGame.SCALE - livroSprite.getWidth() / 2, 346 / TerrorGame.SCALE);
+            livroFlutuar = new SpriteItem(50f, livroSprite);
         }
 
         maskara1 = textureAtlas.findRegion("mask1");
@@ -64,6 +69,7 @@ public class SalaEstar extends StandardRoom implements Screen {
         mask1 = new Sprite(maskara1);
         mask1.setSize(mask1.getWidth() / TerrorGame.SCALE, mask1.getHeight() / TerrorGame.SCALE);
         mask1.setPosition(1750 / TerrorGame.SCALE - mask1.getWidth() / 2, 160 / TerrorGame.SCALE);
+        maskFlutuar = new SpriteItem(50f, mask1);
 
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
@@ -108,6 +114,7 @@ public class SalaEstar extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("livro1", false)) {
         	livroSprite.draw(game.batch);
+        	livroFlutuar.flutar(delta);
         }
 
         lareira.draw(game.batch);
@@ -117,6 +124,7 @@ public class SalaEstar extends StandardRoom implements Screen {
         } else if (!isLareiraAcessa && !game.getInventoryManager().getItemBackpack().contains("mask1", false)){
             lareira.setRegion(lareiraApagada);
             mask1.draw(game.batch);
+            maskFlutuar.flutar(delta);
         }
 
         game.getKuchisakeOnna().draw(game.batch);
@@ -155,11 +163,11 @@ public class SalaEstar extends StandardRoom implements Screen {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
                     game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/salaEstar.tmx");
@@ -185,7 +193,7 @@ public class SalaEstar extends StandardRoom implements Screen {
                 canSwitchAssets = true;
             }
             
-            if(doorAnimationTimer > 1.5f){
+            if(doorAnimationTimer > 2f){
             	dispose();
 
                 game.getAssetManager().unload("Tilesets/salaEstar.tmx");

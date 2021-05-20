@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -26,6 +27,8 @@ public class Sala2 extends StandardRoom implements Screen {
     Sprite fiosSprite;
     Sprite lustre;
 
+    SpriteItem fiosFlutuar;
+
     boolean isSecondFloor = false;
     
     ObjectAnimation lustreAnimation;
@@ -44,6 +47,7 @@ public class Sala2 extends StandardRoom implements Screen {
             fiosSprite = new Sprite(fios);
             fiosSprite.setSize(fiosSprite.getWidth() / (TerrorGame.SCALE * 2), fiosSprite.getHeight() / (TerrorGame.SCALE * 2));
             fiosSprite.setPosition(1720 / TerrorGame.SCALE - fiosSprite.getWidth() / 2, 155 / TerrorGame.SCALE);
+            fiosFlutuar = new SpriteItem(50f, fiosSprite);
         }
 
         portaFechada = textureAtlas.findRegion("porta1");
@@ -79,6 +83,7 @@ public class Sala2 extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("fiosItem", false)) {
         	fiosSprite.draw(game.batch);
+        	fiosFlutuar.flutar(delta);
         }
         
         game.getKuchisakeOnna().draw(game.batch);
@@ -110,11 +115,11 @@ public class Sala2 extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/saguao_segundo.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/saguao/SaguaoObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala2.tmx");

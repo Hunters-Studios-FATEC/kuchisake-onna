@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -25,6 +26,8 @@ public class SalaVitima1 extends StandardRoom implements Screen {
     Sprite porta;
     Sprite livroSprite;
     Sprite lampada;
+
+    SpriteItem livroFlutuar;
 
     boolean isSecondFloor = false;
     
@@ -45,6 +48,8 @@ public class SalaVitima1 extends StandardRoom implements Screen {
             livroSprite = new Sprite(livro);
             livroSprite.setSize(livroSprite.getWidth() / (TerrorGame.SCALE * 2), livroSprite.getHeight() / (TerrorGame.SCALE * 2));
             livroSprite.setPosition(978 / TerrorGame.SCALE - livroSprite.getWidth() / 2 + 0.5f, 365 / TerrorGame.SCALE);
+
+            livroFlutuar = new SpriteItem(50f, livroSprite);
         }
 
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -86,6 +91,7 @@ public class SalaVitima1 extends StandardRoom implements Screen {
         
         if (!game.getInventoryManager().getItemBackpack().contains("livro2", false)) {
         	livroSprite.draw(game.batch);
+        	livroFlutuar.flutar(delta);
         }
         
         game.getKuchisakeOnna().draw(game.batch);
@@ -111,11 +117,11 @@ public class SalaVitima1 extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/salaVitima1.tmx");

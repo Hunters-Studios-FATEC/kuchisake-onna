@@ -127,13 +127,13 @@ public class AreaServico extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/cozinha.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
-                    dispose();
+                if(doorAnimationTimer > 2f){
 
+                    dispose();
                     game.getAssetManager().unload("Tilesets/area_servico.tmx");
                     game.getAssetManager().unload("ScenaryAssets/areaServico/AreaServicoObjects.atlas");
                     game.getAssetManager().unload("Audio/Sfx/minigame complete 6.ogg");

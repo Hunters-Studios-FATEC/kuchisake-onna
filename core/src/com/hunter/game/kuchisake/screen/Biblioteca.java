@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
 import com.hunter.game.kuchisake.tools.MinigameManager;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 public class Biblioteca extends StandardRoom implements Screen {
 
@@ -30,6 +31,8 @@ public class Biblioteca extends StandardRoom implements Screen {
     Sprite estanteSprite1;
     Sprite estanteSprite2;
     Sprite lustre;
+
+    SpriteItem livroFlutua;
 
     boolean isSecondFloor = false;
     MinigameManager minigameManager;
@@ -53,6 +56,8 @@ public class Biblioteca extends StandardRoom implements Screen {
             livro3 = new Sprite(livro);
             livro3.setSize(livro3.getWidth() / (TerrorGame.SCALE * 2), livro3.getHeight() / (TerrorGame.SCALE * 2));
             livro3.setPosition((750 / TerrorGame.SCALE) - (livro3.getWidth() / 2), 160 / TerrorGame.SCALE);
+
+            livroFlutua = new SpriteItem(50f, livro3);
         }
 
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -88,7 +93,7 @@ public class Biblioteca extends StandardRoom implements Screen {
         	estanteSprite2.setPosition(2399 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         }
         else {
-        	estanteSprite2.setPosition(2399 / TerrorGame.SCALE, 500 / TerrorGame.SCALE);
+        	estanteSprite2.setPosition((2399 - 993) / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
         }
         
         lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
@@ -112,6 +117,12 @@ public class Biblioteca extends StandardRoom implements Screen {
 
         if (!game.getInventoryManager().getItemBackpack().contains("livro3", false)) {
             livro3.draw(game.batch);
+            livroFlutua.flutar(delta);
+        }
+
+        if (minigameManager.getBookCompleted() && estanteSprite2.getX() > (2399 - 993)/ TerrorGame.SCALE){
+            estanteSprite2.translateX((-993 / TerrorGame.SCALE) * delta);
+            estanteSprite2.draw(game.batch);
         }
 
         game.getKuchisakeOnna().draw(game.batch);
@@ -145,10 +156,12 @@ public class Biblioteca extends StandardRoom implements Screen {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
                     game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
+
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/biblioteca.tmx");
@@ -162,17 +175,18 @@ public class Biblioteca extends StandardRoom implements Screen {
                 }
 
             } else if (direction == "doorUp" && doorNum == 0){
-                if (game.getMinigameManager().getBookCompleted()){
+                if (game.getMinigameManager().getBookCompleted() && estanteSprite2.getX() <= (2399 - 993) / TerrorGame.SCALE){
                     doorAnimationTimer += delta;
                     transitionScene.fadeIn();
 
                     if(!canSwitchAssets) {
                         game.getAssetManager().load("Tilesets/sala_secreta.tmx", TiledMap.class);
                         game.getAssetManager().load("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas", TextureAtlas.class);
+                        portaSound.play(0.5f);
                         canSwitchAssets = true;
                     }
 
-                    if(doorAnimationTimer > 1.5f){
+                    if(doorAnimationTimer > 2f){
                         dispose();
 
                         game.getAssetManager().unload("Tilesets/biblioteca.tmx");

@@ -159,11 +159,11 @@ public class Saguao extends StandardRoom implements Screen {
                      if(!canSwitchAssets) {
                          game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
                          game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
-                         
+                         portaSound.play(0.5f);
                          canSwitchAssets = true;
                      }
                      
-                     if(doorAnimationTimer > 1.5f){
+                     if(doorAnimationTimer > 2f){
                     	 dispose();
                     	 
                     	 game.getAssetManager().unload("Tilesets/saguao_segundo.tmx");
@@ -184,11 +184,11 @@ public class Saguao extends StandardRoom implements Screen {
                      if(!canSwitchAssets) {     
                          game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
                          game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
-                         
+                         portaSound.play(0.5f);
                          canSwitchAssets = true;
                      }
                      
-                     if(doorAnimationTimer > 1.5f){
+                     if(doorAnimationTimer > 2f){
                      	 dispose();
                      	 
                     	 game.getAssetManager().unload("Tilesets/saguao_segundo.tmx");
@@ -217,7 +217,7 @@ public class Saguao extends StandardRoom implements Screen {
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                 	dispose();
                 	
                 	game.getAssetManager().unload("Tilesets/saguao_segundo.tmx");
@@ -242,7 +242,7 @@ public class Saguao extends StandardRoom implements Screen {
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f) {
+                if(doorAnimationTimer > 2f) {
                 	dispose();
                 	
                 	game.getAssetManager().unload("Tilesets/saguao_segundo.tmx");
@@ -269,7 +269,7 @@ public class Saguao extends StandardRoom implements Screen {
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f) {
+                if(doorAnimationTimer > 2f) {
                 	dispose();
                 	
                 	game.getAssetManager().unload("Tilesets/saguao_segundo.tmx");
@@ -292,7 +292,7 @@ public class Saguao extends StandardRoom implements Screen {
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f) {
+                if(doorAnimationTimer > 2f) {
                 	dispose();
                 	
                 	game.getAssetManager().unload("Tilesets/saguao_segundo.tmx");

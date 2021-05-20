@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 public class SalaSecreta extends StandardRoom implements Screen {
 
@@ -31,6 +32,9 @@ public class SalaSecreta extends StandardRoom implements Screen {
     Sprite mask2;
     Sprite chavePor;
 
+    SpriteItem maskFlutuar;
+    SpriteItem chaveFlutuar;
+
     boolean isSecondFloor = false;
     boolean hasTodasPecasMascara = false;
     
@@ -49,6 +53,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
             chavePor.setSize(chavePor.getWidth() / TerrorGame.SCALE, chavePor.getHeight() / TerrorGame.SCALE);
             collisions.CreateCollisions(450, 160, "chavePorao", 203, collisions.getITEM_BIT());
 
+            chaveFlutuar = new SpriteItem(50f, chavePor);
+
         }
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask2", false)){
@@ -57,6 +63,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
             mask2.setPosition(2030 / TerrorGame.SCALE, 160/ TerrorGame.SCALE);
             mask2.setSize(mask2.getWidth() / TerrorGame.SCALE, mask2.getHeight() / TerrorGame.SCALE);
             collisions.CreateCollisions(2030, 160, "mask2", 203, collisions.getITEM_BIT());
+
+            maskFlutuar = new SpriteItem(50f, mask2);
         }
 
         //colisao da caixa ornamentada de mascara
@@ -124,10 +132,12 @@ public class SalaSecreta extends StandardRoom implements Screen {
 
         if (!game.getInventoryManager().getItemBackpack().contains("chavePorao", false)){
             chavePor.draw(game.batch);
+            chaveFlutuar.flutar(delta);
         }
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask2", false)){
             mask2.draw(game.batch);
+            maskFlutuar.flutar(delta);
         }
 
         if (hasTodasPecasMascara && !game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false)){
@@ -168,11 +178,11 @@ public class SalaSecreta extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/biblioteca.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/biblioteca/BibliotecaObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/sala_secreta.tmx");

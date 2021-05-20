@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -27,6 +28,9 @@ public class Porao extends StandardRoom implements Screen {
     Sprite lampada;
     Sprite escadaSprite;
 
+    SpriteItem dogeFlutuar;
+    SpriteItem maskFlutuar;
+
     boolean isSecondFloor = false;
     
     ObjectAnimation lampadaAnimation;
@@ -44,6 +48,8 @@ public class Porao extends StandardRoom implements Screen {
             mask3 = new Sprite(maskara3);
             mask3.setSize(mask3.getWidth() / TerrorGame.SCALE, mask3.getHeight() / TerrorGame.SCALE);
             mask3.setPosition(2700 / TerrorGame.SCALE - (mask3.getWidth() / 2), 160 / TerrorGame.SCALE);
+
+            maskFlutuar = new SpriteItem(50f, mask3);
         }
 
         if (!game.getInventoryManager().getItemBackpack().contains("cachorro", false)){
@@ -53,6 +59,8 @@ public class Porao extends StandardRoom implements Screen {
             cachorro = new Sprite(cach);
             cachorro.setSize(cachorro.getWidth() / TerrorGame.SCALE, cachorro.getHeight() / TerrorGame.SCALE);
             cachorro.setPosition(1750 / TerrorGame.SCALE - (cachorro.getWidth() / 2), 160 / TerrorGame.SCALE);
+
+            dogeFlutuar = new SpriteItem(50f, cachorro);
         }
         
         lampada1 = textureAtlas.findRegion("lampada1");
@@ -93,10 +101,12 @@ public class Porao extends StandardRoom implements Screen {
         lampada.draw(game.batch);
         if (!game.getInventoryManager().getItemBackpack().contains("mask3", false)){
             mask3.draw(game.batch);
+            maskFlutuar.flutar(delta);
         }
 
         if (!game.getInventoryManager().getItemBackpack().contains("cachorro", false)){
             cachorro.draw(game.batch);
+            dogeFlutuar.flutar(delta);
         }
 
         game.getKuchisakeOnna().draw(game.batch);
@@ -121,11 +131,11 @@ public class Porao extends StandardRoom implements Screen {
                 if(!canSwitchAssets) {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
-                    
+                    portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
                 
-                if(doorAnimationTimer > 1.5f){
+                if(doorAnimationTimer > 2f){
                     dispose();
 
                     game.getAssetManager().unload("Tilesets/porao.tmx");

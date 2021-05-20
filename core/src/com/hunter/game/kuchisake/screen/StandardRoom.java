@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -71,6 +72,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	Music mansionTheme;
 	Music runTheme;
 
+	Sound portaSound;
+
 	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
 		this.game = game;
 
@@ -101,7 +104,9 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		tilesNumberX = mapProperties.get("width", Integer.class);
 		tileWidth = mapProperties.get("tilewidth", Integer.class) / TerrorGame.SCALE;
 		mapWidth = tilesNumberX * tileWidth;
-		
+
+		portaSound = game.getAssetManager().get("Audio/Sfx/porta fechando 3.ogg");
+
 		transitionScene = new TransitionScene(game);
 
 //		portaFechada = game.getAssetManager().get("PortasEEscadas/porta1.png", Texture.class);
@@ -117,7 +122,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		runTheme.setVolume(0.5f);
 		runTheme.setLooping(true);
-		
+
 		game.getKuchisakeOnna().setCanSetVolume(true);
 	}
 

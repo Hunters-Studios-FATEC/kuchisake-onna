@@ -55,9 +55,6 @@ public class InventoryManager {
         selectionArrowLeft = new SelectionArrow((viewport.getWorldWidth() - 2)  / 2 - 7, viewport.getWorldHeight() / 2, false, inventoryItem, game, textureAtlas);
         selectionArrowRight = new SelectionArrow((viewport.getWorldWidth()) / 2 + 7, viewport.getWorldHeight() / 2, true, inventoryItem, game, textureAtlas);
 
-        addItem("chavePorao");
-        addItem("livro3");
-        addItem("livro2");
     }
 
     public void openInventory(){
