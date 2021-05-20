@@ -16,6 +16,9 @@ public class KeyActor extends Actor{
 	
 	TextureRegion texture;
 	Sprite sprite;
+	
+	TextureRegion squareTexture;
+	Sprite squareSprite;
 
 	LockPickMinigame minigame;
 
@@ -27,9 +30,9 @@ public class KeyActor extends Actor{
 	Array<Sprite> nearWallsArray;
 
 	public KeyActor(float x, float y, LockPickMinigame minigame, TextureAtlas textureAtlas) {
-
 		this.minigame = minigame;
 		texture = textureAtlas.findRegion("gazua");
+		squareTexture = textureAtlas.findRegion("orange_square");
 		
 		sprite = new Sprite(texture);
 		sprite.setBounds(x, y, 36 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
@@ -38,6 +41,9 @@ public class KeyActor extends Actor{
 		setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
 		
 		nearWallsArray = new Array<Sprite>();
+		
+		squareSprite = new Sprite(squareTexture);
+		squareSprite.setBounds(sprite.getX(), sprite.getY(), 48 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
 		
 		addListener(new InputListener() {
 			@Override
@@ -158,6 +164,8 @@ public class KeyActor extends Actor{
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		sprite.setPosition(getX(), getY());
+		squareSprite.setPosition(sprite.getX() - squareSprite.getWidth() / 2, sprite.getY() - squareSprite.getHeight() / 2);
+		squareSprite.draw(batch);
 		sprite.draw(batch);
 	}
 	

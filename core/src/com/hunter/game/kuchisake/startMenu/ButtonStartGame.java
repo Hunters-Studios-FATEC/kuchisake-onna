@@ -96,6 +96,8 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().load("Audio/Sfx/madeira rangendo 2.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/madeira rangendo 6.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/madeira rangendo 7.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/madeira estralando 2.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/madeira quebrando.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/passo.ogg", Sound.class);
     	
     	game.getAssetManager().load("Audio/Music/mansion.ogg", Music.class);

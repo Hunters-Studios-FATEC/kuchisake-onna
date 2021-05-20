@@ -188,19 +188,19 @@ public class Player {
             if(animationStopped.getKeyFrameIndex(frameChangeTimer) == 1 || 
             		animationStopped.getKeyFrameIndex(frameChangeTimer) == 5) {
             	if(previousFrameIndex == 0 || previousFrameIndex == 4) {
-            		passo.play(0.15f);
+            		passo.play(0.25f);
             		
             		if(random.nextInt(4) == 0) {
                 		int soundID = random.nextInt(3);
                 		switch(soundID) {
                 			case 0:
-                				madeiraRangendo2.play(0.4f);
+                				madeiraRangendo2.play(0.5f);
                 				break;
                 			case 1:
-                				madeiraRangendo6.play(0.4f);
+                				madeiraRangendo6.play(0.5f);
                 				break;
                 			case 2:
-                				madeiraRangendo7.play(0.4f);
+                				madeiraRangendo7.play(0.5f);
                 				break;
                 		}
                 	}

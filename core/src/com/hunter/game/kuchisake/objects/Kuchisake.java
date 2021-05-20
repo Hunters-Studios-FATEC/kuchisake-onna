@@ -72,15 +72,19 @@ public class Kuchisake extends Thread{
     
     Sound teAchei;
     Sound portaAbrindo;
-    Sound madeiraRangendo2;
+    Sound madeiraEstralando2;
     Sound madeiraRangendo6;
     Sound madeiraRangendo7;
+    Sound madeiraQuebrando;
     
-    float volume;
+    float portaVolume;
+    float madeiraVolume;
     
     int previousFrameIndex = 0;
     
     Random random;
+    
+    boolean canSetVolume = false;
 
     public Kuchisake(float initialX, TerrorGame game) {
     	this.game = game;
@@ -127,9 +131,10 @@ public class Kuchisake extends Thread{
         
         teAchei = game.getAssetManager().get("Audio/Sfx/Te achei.ogg");
         portaAbrindo = game.getAssetManager().get("Audio/Sfx/porta abrindo 3.ogg");
-        madeiraRangendo2 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 2.ogg");
+        madeiraEstralando2 = game.getAssetManager().get("Audio/Sfx/madeira estralando 2.ogg");
         madeiraRangendo6 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 6.ogg");
         madeiraRangendo7 = game.getAssetManager().get("Audio/Sfx/madeira rangendo 7.ogg");
+        madeiraQuebrando = game.getAssetManager().get("Audio/Sfx/madeira quebrando.ogg");
         
         random = new Random();
     }
@@ -175,17 +180,14 @@ public class Kuchisake extends Thread{
         		animationWalking.getKeyFrameIndex(frameChangeTimer) == 15) {
         	if(previousFrameIndex == 1 || previousFrameIndex == 15) {
         		if(random.nextInt(2) == 0 && kuchisake.getLinearVelocity().x != 0) {
-        			int soundID = random.nextInt(3);
+        			int soundID = random.nextInt(2);
         			
         			switch(soundID) {
 	        			case 0:
-	        				madeiraRangendo2.play(volume);
+	        				madeiraEstralando2.play(madeiraVolume);
 	        				break;
 	        			case 1:
-	        				madeiraRangendo6.play(volume);
-	        				break;
-	        			case 2:
-	        				madeiraRangendo7.play(volume);
+	        				madeiraQuebrando.play(madeiraVolume);
 	        				break;
         			}
         		}
@@ -400,6 +402,11 @@ public class Kuchisake extends Thread{
     	int nextLine = nxtLine;
     	int nextColumn = nxtColumn;
     	
+    	if(canSetVolume) {
+    		setAudioVolume();
+    		canSetVolume = false;
+    	}
+    	
     	if (kuchisake.getPosition().x > doorX + 0.5f) {
             kuchisake.setLinearVelocity(-5f, 0);
         } else if (kuchisake.getPosition().x < doorX - 0.5f){
@@ -460,7 +467,7 @@ public class Kuchisake extends Thread{
                     
                     setAudioVolume();
                 	
-                	portaAbrindo.play(volume);
+                	portaAbrindo.play(portaVolume);
                 	
                 	if((currentLine == 1 && currentColumn == 2)) {
                         isSecondFloor = true;
@@ -556,24 +563,36 @@ public class Kuchisake extends Thread{
     }
     
     void setAudioVolume() {
-    	if((currentLine != game.getPlayerLine() || currentColumn != game.getPlayerColumn()) && 
-    			(game.getPlayerLine() == 1 && game.getPlayerColumn() == -1)) {
+    	if((currentLine != game.getPlayerLine() || currentColumn != game.getPlayerColumn()) && game.getPlayerColumn() != -1) {
         	kuchisakeThread2.runThread(currentLine, currentColumn, game.getPlayerLine(), game.getPlayerColumn());
         	
         	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
         	
-        	volume = 0.5f - playerDistance.size() * 0.1f;
+        	portaVolume = 0.5f - playerDistance.size() * 0.1f;
+        	madeiraVolume = 0.04f - playerDistance.size() * 0.008f;
     	}
-    	else if((game.getPlayerLine() == 1 && game.getPlayerColumn() == -1) && (currentLine != 1 && currentLine != 0)) {
+    	else if(game.getPlayerColumn() == -1 && (currentLine != 1 || currentColumn != 0)) {
         	kuchisakeThread2.runThread(currentLine, currentColumn, 1, 0);
         	
         	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
         	
-        	volume = 0.5f - playerDistance.size() * 0.1f;
+        	portaVolume = 0.5f - playerDistance.size() * 0.1f;
+        	madeiraVolume = 0.04f - playerDistance.size() * 0.008f;
     	}
     	else {
-    		volume = 0.5f;
+    		portaVolume = 0.5f;
+    		madeiraVolume = 0.04f;
     	}
+    	
+    	if(portaVolume < 0) {
+    		portaVolume = 0;
+    	}
+    	
+    	if(madeiraVolume < 0) {
+    		madeiraVolume = 0;
+    	}
+    	
+    	System.out.println(madeiraVolume);
     }
     
     public Body getBody() {
@@ -594,5 +613,9 @@ public class Kuchisake extends Thread{
     
     public void playFoundAudio() {
     	teAchei.play(0.5f);
+    }
+    
+    public void setCanSetVolume(boolean value) {
+    	canSetVolume = value;
     }
 }

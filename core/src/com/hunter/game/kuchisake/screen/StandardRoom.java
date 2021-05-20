@@ -118,6 +118,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		runTheme.setVolume(0.5f);
 		runTheme.setLooping(true);
 		
+		game.getKuchisakeOnna().setCanSetVolume(true);
 	}
 
 	void stepWorld(float dt) {
