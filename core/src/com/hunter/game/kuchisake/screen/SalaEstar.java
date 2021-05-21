@@ -2,6 +2,7 @@ package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -139,7 +140,7 @@ public class SalaEstar extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
@@ -163,6 +164,7 @@ public class SalaEstar extends StandardRoom implements Screen {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
                     game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
+                    game.getAssetManager().load("ScenaryAssets/corredor/save.png", Texture.class);
                     portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }

@@ -70,6 +70,13 @@ public class SalaVitima1 extends StandardRoom implements Screen {
         lampada.setPosition(1750 / TerrorGame.SCALE - lampada.getWidth() / 2, viewport.getWorldHeight() - lampada.getHeight());
         
         lampadaAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lampada1, lampada2, lampada3, lampada4});
+
+        if(game.getHasEncountered() &&
+                (game.getKuchisakeOnna().getCurrentLine() != game.getPlayerLine() ||
+                game.getKuchisakeOnna().getCurrentColumn() != game.getPlayerColumn())) {
+            game.getMinigameManager().setMinigameActive(true);
+            game.getMinigameManager().startMinigame(0);
+        }
     }
 
     @Override
@@ -100,7 +107,7 @@ public class SalaVitima1 extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
@@ -109,6 +116,7 @@ public class SalaVitima1 extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
+        game.getMinigameManager().minigameUpdate(delta, 0);
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 3){
                 doorAnimationTimer += delta;
@@ -142,6 +150,7 @@ public class SalaVitima1 extends StandardRoom implements Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        game.getMinigameManager().minigameResize(width, height, 0);
     }
 
     @Override

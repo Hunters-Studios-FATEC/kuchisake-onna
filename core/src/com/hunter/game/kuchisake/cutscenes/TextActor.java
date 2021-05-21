@@ -140,8 +140,8 @@ public class TextActor extends Actor{
 			        cutsceneTheme.stop();
 					
 			        game.getAssetManager().unload("Cutscenes/Cutscene1Objects.atlas");
-			        game.getAssetManager().unload("Cutscenes/fundo_cutscene.png");
-			        game.getAssetManager().unload("Audio/Music/Scary Sorrow.wav");
+//			        game.getAssetManager().unload("Cutscenes/fundo_cutscene.png");
+//			        game.getAssetManager().unload("Audio/Music/Scary Sorrow.wav");
 			        
 					game.setScreen(new Saguao(game, 1750, false));
 				}

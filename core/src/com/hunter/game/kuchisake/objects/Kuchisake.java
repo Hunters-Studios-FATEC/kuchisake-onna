@@ -117,8 +117,8 @@ public class Kuchisake extends Thread{
         kuchisakeSprite = new Sprite(new TextureRegion(kuchisakeMoving, 596, 596));
 
         // Sempre vai começar o jogo da sala secreta, posição 3/0.
-        currentLine = 3;
-        currentColumn = 0;
+        currentLine = 2;
+        currentColumn = 6;
 
         // 5 é o padrão pro player size multiplier.
         kuchisakeSprite.setSize(128 * 5.5f / TerrorGame.SCALE, 128 * 5.5f / TerrorGame.SCALE);
@@ -565,20 +565,20 @@ public class Kuchisake extends Thread{
         	
         	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
         	
-        	portaVolume = 0.7f - playerDistance.size() * 0.3f;
-        	madeiraVolume = 0.5f - playerDistance.size() * 0.1f;
+        	portaVolume = 0.7f - playerDistance.size() * 0.175f;
+        	madeiraVolume = 0.35f - playerDistance.size() * 0.1f;
     	}
     	else if(game.getPlayerColumn() == -1 && (currentLine != 1 || currentColumn != 0)) {
         	kuchisakeThread2.runThread(currentLine, currentColumn, 1, 0);
         	
         	ArrayList<Integer[]> playerDistance = kuchisakeThread2.getPath();
         	
-        	portaVolume = 0.7f - playerDistance.size() * 0.3f;
-        	madeiraVolume = 0.5f - playerDistance.size() * 0.1f;
+        	portaVolume = 0.7f - playerDistance.size() * 0.175f;
+        	madeiraVolume = 0.35f - playerDistance.size() * 0.1f;
     	}
     	else {
     		portaVolume = 0.7f;
-    		madeiraVolume = 0.5f;
+    		madeiraVolume = 0.35f;
     	}
     	
     	if(portaVolume < 0) {

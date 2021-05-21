@@ -100,7 +100,7 @@ public class Sala1 extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 

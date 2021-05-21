@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.cutscenes.Cutscene2;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.MinigameManager;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -36,7 +38,14 @@ public class Cozinha extends StandardRoom implements Screen {
 
     public Cozinha(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/cozinha.tmx", playerDoorPosX);
-        
+
+        if(game.getHasEncountered() &&
+                (game.getKuchisakeOnna().getCurrentLine() != game.getPlayerLine() ||
+                game.getKuchisakeOnna().getCurrentColumn() != game.getPlayerColumn())) {
+            game.getMinigameManager().setMinigameActive(true);
+            game.getMinigameManager().startMinigame(0);
+        }
+
         collisions.CreateCollisions(600, 160,"doorUp4", 203, collisions.getPortaBit());
         collisions.CreateCollisions(3143, 160,"doorUp5", 203, collisions.getPortaBit());
         collisions.CreateCollisions(1750, 160, "doorDown-2", 203, collisions.getPortaBit());
@@ -99,7 +108,7 @@ public class Cozinha extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
@@ -108,6 +117,9 @@ public class Cozinha extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
+
+        game.getMinigameManager().minigameUpdate(delta, 0);
+
         if (player.getCanChangeRoom()){
             if (direction == "doorUp" && doorNum == 4){
                 if (game.getInventoryManager().getItemBackpack().contains("chaveServico", false)) {
@@ -133,7 +145,7 @@ public class Cozinha extends StandardRoom implements Screen {
                         game.incrementPlayerLine(1);
                         game.setPlayerColumn(4);
 
-                        game.setScreen(new AreaServico(game, 2891));
+                        game.setScreen(new AreaServico(game, 1950));
                     }
                     } else {
                     portraTrancada.setVolume(portraTrancada.play(), 0.5f);
@@ -163,14 +175,29 @@ public class Cozinha extends StandardRoom implements Screen {
                     game.incrementPlayerLine(1);
                     game.setPlayerColumn(5);
                     
-                    game.setScreen(new CorredorServico(game, 128));
+                    game.setScreen(new CorredorServico(game, 600));
                 }
 
             } else if (direction == "doorDown" && doorNum == -2){
                 if (game.getInventoryManager().getItemBackpack().contains("chavePrincipal", false)){
-                    portaSound.play(0.5f);
-                    System.out.println("Fim de jogo");
-                    //Colocar screen de fim de jogo
+                    doorAnimationTimer += delta;
+                    transitionScene.fadeIn();
+
+                    if(!canSwitchAssets) {
+                        mansionTheme.stop();
+                        runTheme.stop();
+                        portaSound.play(0.5f);
+                        canSwitchAssets = true;
+                    }
+
+                    if(doorAnimationTimer > 3f){
+                        dispose();
+
+                        game.getAssetManager().unload("Tilesets/cozinha.tmx");
+                        game.getAssetManager().unload("ScenaryAssets/cozinha/CozinhaObjects.atlas");
+                        game.getAssetManager().finishLoading();
+                        game.setScreen(new Cutscene2(game));
+                    }
                 } else {
                     portraTrancada.setVolume(portraTrancada.play(), 0.5f);
                     player.setCanChangeRoom(false);
@@ -206,6 +233,7 @@ public class Cozinha extends StandardRoom implements Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        game.getMinigameManager().minigameResize(width, height, 0);
     }
 
     @Override

@@ -36,9 +36,9 @@ public class KuchisakeThread {
         doors = new Object[][][] {doorsRoom0, doorsRoom1, doorsRoom2, doorsRoom3};
 
 
-        doorsPosX0 = new Float[][]{{483f / TerrorGame.SCALE}, {1750f / TerrorGame.SCALE}, {483f / TerrorGame.SCALE, 3143f / TerrorGame.SCALE}};
-        doorsPosX1 = new Float[][]{{971f / TerrorGame.SCALE, 2891f / TerrorGame.SCALE}, {1750f / TerrorGame.SCALE}, {(420 + 280f / 2f) / TerrorGame.SCALE, 1750f / TerrorGame.SCALE, (2800 + 280f / 2f) / TerrorGame.SCALE}, {971f / TerrorGame.SCALE, 2487f / TerrorGame.SCALE}, {2891f / TerrorGame.SCALE}, {460f / TerrorGame.SCALE, 3040f / TerrorGame.SCALE}};
-        doorsPosX2 = new Float[][]{{(971+230f) / TerrorGame.SCALE, (2487+230f) / TerrorGame.SCALE}, {2810f / TerrorGame.SCALE}, {483f / TerrorGame.SCALE}, {2891f / TerrorGame.SCALE}, {483f / TerrorGame.SCALE}, {2891f / TerrorGame.SCALE}, {2810f / TerrorGame.SCALE}};
+        doorsPosX0 = new Float[][]{{483f / TerrorGame.SCALE}, {1750f / TerrorGame.SCALE}, {600f / TerrorGame.SCALE, 3143f / TerrorGame.SCALE}};
+        doorsPosX1 = new Float[][]{{600f / TerrorGame.SCALE, 2891f / TerrorGame.SCALE}, {1750f / TerrorGame.SCALE}, {(420 + 280f / 2f) / TerrorGame.SCALE, 1750f / TerrorGame.SCALE, (2800 + 280f / 2f) / TerrorGame.SCALE}, {971f / TerrorGame.SCALE, 2487f / TerrorGame.SCALE}, {1950 / TerrorGame.SCALE}, {600f / TerrorGame.SCALE, 2900f / TerrorGame.SCALE}};
+        doorsPosX2 = new Float[][]{{(971+230f) / TerrorGame.SCALE, (2487+230f) / TerrorGame.SCALE}, {2810f / TerrorGame.SCALE}, {483f / TerrorGame.SCALE}, {2891f / TerrorGame.SCALE}, {483f / TerrorGame.SCALE}, {2891f / TerrorGame.SCALE}, {500f / TerrorGame.SCALE}};
         doorsPosX3 = new Float[][]{{(2487+230f) / TerrorGame.SCALE}};
 
         doorsPosX = new Float[][][] {doorsPosX0, doorsPosX1, doorsPosX2, doorsPosX3};

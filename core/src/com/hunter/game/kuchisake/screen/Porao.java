@@ -38,7 +38,7 @@ public class Porao extends StandardRoom implements Screen {
     public Porao(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/porao.tmx", playerDoorPosX);
         
-        collisions.CreateCollisions(500, 160,"doorDown5", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(550, 160,"doorDown5", 500, collisions.getPortaBit());
         textureAtlas = game.getAssetManager().get("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
 
         if (!game.getInventoryManager().getItemBackpack().contains("mask3", false)){
@@ -79,6 +79,13 @@ public class Porao extends StandardRoom implements Screen {
         escadaSprite.setPosition(0, 160 / TerrorGame.SCALE);
         
         lampadaAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lampada1, lampada2, lampada3, lampada4});
+
+        if(game.getHasEncountered() &&
+                (game.getKuchisakeOnna().getCurrentLine() != game.getPlayerLine() ||
+                        game.getKuchisakeOnna().getCurrentColumn() != game.getPlayerColumn())) {
+            game.getMinigameManager().setMinigameActive(true);
+            game.getMinigameManager().startMinigame(0);
+        }
     }
 
     @Override
@@ -114,7 +121,7 @@ public class Porao extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
@@ -123,6 +130,9 @@ public class Porao extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
+
+        game.getMinigameManager().minigameUpdate(delta, 0);
+
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 5){
                 doorAnimationTimer += delta;
@@ -145,7 +155,7 @@ public class Porao extends StandardRoom implements Screen {
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(5);
                     
-                    game.setScreen(new CorredorServico(game, 3500 - 128));
+                    game.setScreen(new CorredorServico(game, 2900));
                 }
 
             }
@@ -156,6 +166,7 @@ public class Porao extends StandardRoom implements Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        game.getMinigameManager().minigameResize(width, height, 0);
     }
 
     @Override

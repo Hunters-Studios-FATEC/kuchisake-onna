@@ -41,7 +41,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	
 	float accumulator = 0;
 	
-	Box2DDebugRenderer debugRenderer;
+//	Box2DDebugRenderer debugRenderer;
 
 	Player player;
 	Collisions collisions;
@@ -97,7 +97,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		world.setContactListener(new WorldContactListener(game.getMinigameManager(), player, this, inventoryManager));
 
-		debugRenderer = new Box2DDebugRenderer();
+//		debugRenderer = new Box2DDebugRenderer();
 
 		mapRenderer = collisions.getMapRenderer();
 		
@@ -287,7 +287,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		if(collidedWithKuchisake) {
 			runTheme.stop();
 			game.getKuchisakeOnna().stopFoundAudio();
-			
+
 			game.setScreen(new GameOver(game));
 		}
 
@@ -354,7 +354,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		//player.getPolygonShape().dispose();
 		//collisions.getPolygonShape().dispose();
 		mapRenderer.dispose();
-		debugRenderer.dispose();
+//		debugRenderer.dispose();
 		//minigameManager.minigameDispose();
 		inventoryManager.inventoryDispose();
 	}

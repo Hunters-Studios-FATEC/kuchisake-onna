@@ -2,6 +2,7 @@ package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,12 +10,15 @@ import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
+import com.hunter.game.kuchisake.tools.SpriteItem;
 
 import javax.xml.stream.FactoryConfigurationError;
 
 public class CorredorBiblioteca extends StandardRoom implements Screen {
 
     TextureAtlas textureAtlas;
+
+    Texture saveTexture;
 
     TextureRegion portaFechada;
     TextureRegion portaAberta;
@@ -23,6 +27,9 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
     TextureRegion lustreCorredor2;
     TextureRegion lustreCorredor3;
     TextureRegion lustreCorredor4;
+
+    Sprite save;
+    SpriteItem saveIcon;
 
     Sprite porta1;
     Sprite porta2;
@@ -38,11 +45,17 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
     public CorredorBiblioteca(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/corredor.tmx", playerDoorPosX);
+
+        saveTexture = game.getAssetManager().get("ScenaryAssets/corredor/save.png");
+        save = new Sprite(saveTexture);
+        save.setSize((save.getWidth() / TerrorGame.SCALE) / 2f, (save.getHeight() / TerrorGame.SCALE) / 2f);
+        save.setPosition((1750 / TerrorGame.SCALE) - (save.getWidth() / 2), 840 / TerrorGame.SCALE);
+        saveIcon = new SpriteItem(50f, save);
         
         collisions.CreateCollisions(2900, 160,"doorDown0", 203, collisions.getPortaBit());
         collisions.CreateCollisions(600, 160,"doorUp0", 203, collisions.getPortaBit());
         collisions.CreateCollisions(1750, 160,"doorUp-1", 203, collisions.getPortaBit());
-        
+
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
         portaAberta = textureAtlas.findRegion("portaCorredor2");
@@ -65,7 +78,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         porta2.setPosition(397 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
 
         porta3.setSize(porta3.getWidth() / TerrorGame.SCALE, porta3.getHeight() / TerrorGame.SCALE);
-        porta3.setPosition(1547 / TerrorGame.SCALE, 160 / TerrorGame.SCALE);
+        porta3.setPosition((1750 / TerrorGame.SCALE) - (porta3.getWidth() / 2), 160 / TerrorGame.SCALE);
         
         lustreSprite1.setSize(lustreSprite1.getWidth() / TerrorGame.SCALE, lustreSprite1.getHeight() / TerrorGame.SCALE);
         lustreSprite1.setPosition(1057 / TerrorGame.SCALE, 700 / TerrorGame.SCALE);
@@ -103,6 +116,9 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         porta3.draw(game.batch);
         porta2.draw(game.batch);
         porta1.draw(game.batch);
+
+        save.draw(game.batch);
+        saveIcon.flutar(delta);
         
         lustreSprite1.draw(game.batch);
         lustreSprite2.draw(game.batch);
@@ -112,7 +128,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 

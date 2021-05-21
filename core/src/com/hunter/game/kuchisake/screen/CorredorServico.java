@@ -135,7 +135,7 @@ public class CorredorServico extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
@@ -209,7 +209,7 @@ public class CorredorServico extends StandardRoom implements Screen {
                         game.incrementPlayerLine(1);
                         game.setPlayerColumn(6);
 
-                        game.setScreen(new Porao(game, 2810));
+                        game.setScreen(new Porao(game, 500));
                     }
                 } else {
                     portraTrancada.setVolume(portraTrancada.play(), 0.5f);

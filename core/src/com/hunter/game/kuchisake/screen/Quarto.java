@@ -104,7 +104,9 @@ public class Quarto extends StandardRoom implements Screen {
         quadroSprite.setSize(quadroSprite.getWidth() / TerrorGame.SCALE, quadroSprite.getHeight() / TerrorGame.SCALE);
         quadroSprite.setPosition(162.5f / TerrorGame.SCALE, 500 / TerrorGame.SCALE);
         
-        if(game.getHasEncountered()) {
+        if(game.getHasEncountered() &&
+                (game.getKuchisakeOnna().getCurrentLine() != game.getPlayerLine() ||
+                game.getKuchisakeOnna().getCurrentColumn() != game.getPlayerColumn())) {
         	game.getMinigameManager().setMinigameActive(true);
         	game.getMinigameManager().startMinigame(0);
         }
@@ -151,7 +153,7 @@ public class Quarto extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 

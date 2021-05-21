@@ -111,7 +111,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         minigameManager.minigameUpdate(delta, 1);
         transitionScene.updateTransition();

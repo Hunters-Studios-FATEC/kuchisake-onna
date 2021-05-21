@@ -111,7 +111,7 @@ public class AreaServico extends StandardRoom implements Screen {
         
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
 
@@ -143,7 +143,7 @@ public class AreaServico extends StandardRoom implements Screen {
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(2);
                     
-                    game.setScreen(new Cozinha(game, 483));
+                    game.setScreen(new Cozinha(game, 600));
                 }
 
             }

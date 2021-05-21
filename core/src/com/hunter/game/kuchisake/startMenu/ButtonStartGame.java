@@ -59,7 +59,6 @@ public class ButtonStartGame extends Actor {
 
                 if (checaLargura && checaAltura){
                     loadScene();
-                    System.out.println("INicia porra");
                 }
 
                 System.out.println(event.getStageX() + " , " + event.getStageY());
@@ -139,8 +138,17 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().unload("ButtonAssets/botao_carregar.png");
     	game.getAssetManager().unload("ButtonAssets/botao_controles.png");
     	game.getAssetManager().unload("Audio/Music/Night Wind.wav");
-        
+
         game.setScreen(new Cutscene1(game));
+
+        //Para testes sem a cutscene
+//        game.createMinigameManager();
+//        game.createInventoryManager();
+//
+//        game.createVillain();
+//
+//        game.addMusic();
+//        game.setScreen(new Saguao(game, 1750, false));
     }
 
     public Sprite getBotaoStart() {

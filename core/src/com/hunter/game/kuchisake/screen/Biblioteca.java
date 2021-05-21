@@ -2,6 +2,7 @@ package com.hunter.game.kuchisake.screen;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -98,6 +99,13 @@ public class Biblioteca extends StandardRoom implements Screen {
         
         lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
 
+        if(game.getHasEncountered() &&
+                (game.getKuchisakeOnna().getCurrentLine() != game.getPlayerLine() ||
+                        game.getKuchisakeOnna().getCurrentColumn() != game.getPlayerColumn())) {
+            game.getMinigameManager().setMinigameActive(true);
+            game.getMinigameManager().startMinigame(0);
+        }
+
     }
 
     @Override
@@ -137,7 +145,7 @@ public class Biblioteca extends StandardRoom implements Screen {
 
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         inventoryManager.inventoryUpdate(delta);
         minigameManager.minigameUpdate(delta, 2);
         transitionScene.updateTransition();
@@ -147,6 +155,9 @@ public class Biblioteca extends StandardRoom implements Screen {
 		}*/
 
         //inventoryManager.inventoryUpdate(delta);
+
+        game.getMinigameManager().minigameUpdate(delta, 0);
+
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;
@@ -156,6 +167,7 @@ public class Biblioteca extends StandardRoom implements Screen {
                 	game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
                     game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
                     game.getAssetManager().load("Audio/Sfx/porta trancada.ogg", Sound.class);
+                    game.getAssetManager().load("ScenaryAssets/corredor/save.png", Texture.class);
                     portaSound.play(0.5f);
                     canSwitchAssets = true;
                 }
@@ -171,7 +183,7 @@ public class Biblioteca extends StandardRoom implements Screen {
                     game.incrementPlayerLine(-1);
                     game.setPlayerColumn(0);
                     
-                    game.setScreen(new CorredorBiblioteca(game, 971));
+                    game.setScreen(new CorredorBiblioteca(game, 600));
                 }
 
             } else if (direction == "doorUp" && doorNum == 0){
@@ -208,6 +220,7 @@ public class Biblioteca extends StandardRoom implements Screen {
     public void resize(int width, int height) {
         super.resize(width, height);
         minigameManager.minigameResize(width, height, 2);
+        game.getMinigameManager().minigameResize(width, height, 0);
     }
 
     @Override

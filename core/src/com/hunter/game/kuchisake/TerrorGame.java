@@ -234,6 +234,7 @@ public class TerrorGame extends Game{
 		playerXPos = 1750f;
 		isHiding = false;
 		level = 2;
+		hasEncountered = false;
 		
 		canPlayMusic = true;
 	}

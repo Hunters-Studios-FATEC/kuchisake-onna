@@ -49,8 +49,8 @@ public class WorldContactListener implements ContactListener{
 			} else if (object.getUserData().equals("bookshelf")) {
 				if (inventoryManager.getItemBackpack().contains("livro1", false) &&
 				inventoryManager.getItemBackpack().contains("livro2", false) &&
-				inventoryManager.getItemBackpack().contains("livro3", false)
-//						&& minigameManager.getGeradorCompleted()
+				inventoryManager.getItemBackpack().contains("livro3", false) &&
+						minigameManager.getGeradorCompleted()
 				){
 					minigameManager.setCanStartMinigame(true);
 					System.out.println("BOOKSHELF");
