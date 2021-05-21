@@ -106,7 +106,7 @@ public class Quarto extends StandardRoom implements Screen {
         
         if(game.getHasEncountered()) {
         	game.getMinigameManager().setMinigameActive(true);
-        	game.getMinigameManager().showDescription(0);
+        	game.getMinigameManager().startMinigame(0);
         }
         
         abajurAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {abajur1, abajur2, abajur3, abajur4});

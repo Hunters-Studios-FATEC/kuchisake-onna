@@ -127,7 +127,7 @@ public class Player {
         fixtureDef.filter.categoryBits = game.getPlayerBit();
 
         //definido o maskBits (identificador das colisoes que esse sensor detecta)
-        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit() + collisions.getITEM_BIT() + collisions.getINTERACTIBLE_BIT());
+        fixtureDef.filter.maskBits = (short) (collisions.getHideBit() + collisions.getLockpickBit() + collisions.getShelfBit() + collisions.getWireBit() + collisions.getGeradorBit() + collisions.getPortaBit() + collisions.getITEM_BIT() + collisions.getINTERACTIBLE_BIT() + game.getKuchisakeBit());
         fixture = player.createFixture(fixtureDef);
         fixture.setUserData("player sensor");
         

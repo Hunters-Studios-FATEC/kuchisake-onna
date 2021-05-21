@@ -1,0 +1,34 @@
+
+Cutscene2Objects.png
+size: 2517,384
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cut2 line1
+  rotate: false
+  xy: 2, 187
+  size: 1761, 195
+  orig: 1761, 195
+  offset: 0, 0
+  index: -1
+cut2 line2
+  rotate: false
+  xy: 2, 2
+  size: 1614, 183
+  orig: 1614, 183
+  offset: 0, 0
+  index: -1
+cut2 line3
+  rotate: false
+  xy: 1765, 172
+  size: 750, 210
+  orig: 750, 210
+  offset: 0, 0
+  index: -1
+cut2 line4
+  rotate: false
+  xy: 1618, 65
+  size: 702, 105
+  orig: 702, 105
+  offset: 0, 0
+  index: -1

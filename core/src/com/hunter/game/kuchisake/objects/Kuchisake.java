@@ -1,5 +1,6 @@
 package com.hunter.game.kuchisake.objects;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,8 +36,8 @@ public class Kuchisake extends Thread{
 
     PolygonShape polygonShape;
 
-    int minigameID = -1;
-    float isWalking = 0;
+    //int minigameID = -1;
+    //float isWalking = 0;
     float transitionTime = 0.10f;
     float frameChangeTimer = 0;
 
@@ -212,10 +213,6 @@ public class Kuchisake extends Thread{
 
     public void draw(SpriteBatch batch){
         kuchisakeSprite.draw(batch);
-    }
-
-    public void setminigameID(int minigameID) {
-        this.minigameID = minigameID;
     }
 
     public void calculateRoute(){
@@ -613,6 +610,10 @@ public class Kuchisake extends Thread{
     
     public void playFoundAudio() {
     	teAchei.play(0.5f);
+    }
+    
+    public void stopFoundAudio() {
+    	teAchei.stop();
     }
     
     public void setCanSetVolume(boolean value) {

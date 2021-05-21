@@ -73,6 +73,8 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	Music runTheme;
 
 	Sound portaSound;
+	
+	boolean collidedWithKuchisake = false;
 
 	public StandardRoom(TerrorGame game, String fundo_sala, float playerDoorPosX) {
 		this.game = game;
@@ -214,6 +216,13 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 			game.setCanPlayMusic(false);
 		}
 	}
+	
+	public void verifyKuchisakeCollision() {
+		if(game.getPlayerLine() == game.getKuchisakeOnna().getCurrentLine() 
+				&& game.getPlayerColumn() == game.getKuchisakeOnna().getCurrentColumn()) {
+			collidedWithKuchisake = true;
+		}
+	}
 
 	@Override
 	public void show() {
@@ -273,6 +282,13 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		if(game.getMinigameManager().getGeradorCompleted() && 
 				(transitionScene.getActor().getActions().size == 0 && !canSwitchAssets)) {
 			transitionScene.getActor().setColor(0, 0, 0, 0);
+		}
+		
+		if(collidedWithKuchisake) {
+			runTheme.stop();
+			game.getKuchisakeOnna().stopFoundAudio();
+			
+			game.setScreen(new GameOver(game));
 		}
 
 //		game.batch.setProjectionMatrix(camera.combined);

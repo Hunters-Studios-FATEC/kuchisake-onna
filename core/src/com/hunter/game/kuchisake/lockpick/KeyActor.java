@@ -28,6 +28,8 @@ public class KeyActor extends Actor{
 	float previousYPos = 0;
 	
 	Array<Sprite> nearWallsArray;
+	
+	boolean growSquare = false;
 
 	public KeyActor(float x, float y, LockPickMinigame minigame, TextureAtlas textureAtlas) {
 		this.minigame = minigame;
@@ -44,6 +46,7 @@ public class KeyActor extends Actor{
 		
 		squareSprite = new Sprite(squareTexture);
 		squareSprite.setBounds(sprite.getX(), sprite.getY(), 48 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
+		squareSprite.setOriginCenter();
 		
 		addListener(new InputListener() {
 			@Override
@@ -161,10 +164,29 @@ public class KeyActor extends Actor{
 		nearWallsArray.addAll(wallActor.getSpriteArray());
 	}
 	
+	void changeSquareSize(float delta) {
+		if(growSquare) {
+			if(squareSprite.getWidth() < 48f / TerrorGame.SCALE) {
+				squareSprite.setScale(squareSprite.getWidth() + (48f / TerrorGame.SCALE * delta));
+			}
+			else {
+				growSquare = false;
+			}
+		}
+		else {
+			if(squareSprite.getWidth() > 0f / TerrorGame.SCALE) {
+				squareSprite.setScale(squareSprite.getWidth() - (48f / TerrorGame.SCALE * delta));
+			}
+			else {
+				growSquare = true;
+			}
+		}
+	}
+	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		sprite.setPosition(getX(), getY());
-		squareSprite.setPosition(sprite.getX() - squareSprite.getWidth() / 2, sprite.getY() - squareSprite.getHeight() / 2);
+		squareSprite.setPosition(sprite.getX(), sprite.getY());
 		squareSprite.draw(batch);
 		sprite.draw(batch);
 	}
@@ -175,6 +197,7 @@ public class KeyActor extends Actor{
 		moveBy(moveX * delta, moveY * delta);
 		verifyPos(getX(), getY());
 		verifyFinishCheckerPos();
+		changeSquareSize(delta);
 		
 		//System.out.println(nearWallsArray.size);
 	}

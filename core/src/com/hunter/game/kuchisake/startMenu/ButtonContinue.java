@@ -28,7 +28,7 @@ public class ButtonContinue extends Actor {
             this.posX = posX;
             this.posY = posY;
 
-            botao.setSize(botao.getWidth() / TerrorGame.SCALE, botao.getHeight() / TerrorGame.SCALE);
+            botao.setSize(botao.getWidth() / 42f, botao.getHeight() / 42f);
             botao.setPosition(posX - botao.getWidth() / 2, posY);
             setBounds(botao.getX(), botao.getY(), botao.getWidth(), botao.getHeight());
 

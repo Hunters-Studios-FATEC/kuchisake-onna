@@ -15,12 +15,15 @@ import com.hunter.game.kuchisake.TerrorGame;
 public class ButtonControles extends Actor {
     Texture image;
     Sprite botao;
+    
+    Texture controles;
+    Sprite controlesSprite;
 
     float posX;
     float posY;
     TerrorGame game;
 
-    boolean controlesCarregados;
+    boolean controlesCarregados = false;
 
     public ButtonControles(String imagem_path, float posX, float posY, TerrorGame terrorGame){
     	game = terrorGame;
@@ -31,10 +34,14 @@ public class ButtonControles extends Actor {
         this.posX = posX;
         this.posY = posY;
 
-
-        botao.setSize(botao.getWidth() / TerrorGame.SCALE, botao.getHeight() / TerrorGame.SCALE);
+        botao.setSize(botao.getWidth() / 42f, botao.getHeight() / 42f);
         botao.setPosition(posX - botao.getWidth() / 2, posY);
         setBounds(botao.getX(), botao.getY(), botao.getWidth(), botao.getHeight());
+        
+        controles = game.getAssetManager().get("ButtonAssets/controls.png");
+        controlesSprite = new Sprite(controles);
+        controlesSprite.setSize(controlesSprite.getWidth() / TerrorGame.SCALE, controlesSprite.getHeight() / TerrorGame.SCALE);
+        controlesSprite.setPosition(0, 0);
 
         setTouchable(Touchable.enabled);
 
@@ -58,7 +65,6 @@ public class ButtonControles extends Actor {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && controlesCarregados){
                     retirarImagemControles();
-                    controlesCarregados = false;
                 }
                 return true;
             }
@@ -67,16 +73,21 @@ public class ButtonControles extends Actor {
     }
 
     public void loadControlesImage(){
-        System.out.println("Controles aparacendo");
+        controlesCarregados = true;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         botao.draw(batch);
+        
+        if(controlesCarregados) {
+        	controlesSprite.draw(batch);
+        }
+        
     }
 
     public void retirarImagemControles(){
-        System.out.println("Controles saíram");
+        controlesCarregados = false;
     }
 
     public Sprite getBotaoControle() {

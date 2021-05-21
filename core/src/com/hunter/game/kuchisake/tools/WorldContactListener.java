@@ -134,6 +134,10 @@ public class WorldContactListener implements ContactListener{
 				inventoryManager.setCanCollectItem(true);
 				player.setItemName("chavePorao");
 			}
+			
+			if(object.getUserData().equals("kuchisake")) {
+				standardRoom.verifyKuchisakeCollision();
+			}
 		}
 	}
 

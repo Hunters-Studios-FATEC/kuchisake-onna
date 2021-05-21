@@ -2,9 +2,11 @@ package com.hunter.game.kuchisake.startMenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,11 +24,13 @@ public class SceneMenu implements Screen {
     OrthographicCamera orthographicCamera;
     TerrorGame terrorGame;
 
-    Texture logo;
-    Sprite logoSprite;
+    Texture fundo;
+    Sprite fundoSprite;
 
     Stage stage;
-
+    
+    Music menuTheme;
+    
     public SceneMenu(TerrorGame terrorGame) {
         this.terrorGame = terrorGame;
         orthographicCamera = new OrthographicCamera();
@@ -36,21 +40,28 @@ public class SceneMenu implements Screen {
         orthographicCamera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         orthographicCamera.update();
 
-        logo = terrorGame.getAssetManager().get("ButtonAssets/Logo_rascunho.png", Texture.class);
-        logoSprite = new Sprite(logo);
-        logoSprite.setSize(logoSprite.getWidth() / TerrorGame.SCALE, logoSprite.getHeight() / TerrorGame.SCALE);
-        logoSprite.setPosition(viewport.getWorldWidth() / 2 - logoSprite.getWidth() / 2, viewport.getWorldHeight() / 2 + 1);
+        fundo = terrorGame.getAssetManager().get("ButtonAssets/fundo_menu.png", Texture.class);
+        fundoSprite = new Sprite(fundo);
+        fundoSprite.setPosition(0, 0);
+        fundoSprite.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+        
+        menuTheme = terrorGame.getAssetManager().get("Audio/Music/Night Wind.wav");
+        menuTheme.setVolume(0.3f);
+        menuTheme.setLooping(true);
+        menuTheme.play();
 
-        this.start = new ButtonStartGame("ButtonAssets/start_rascunho.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 1, terrorGame, this);
-        this.controls = new ButtonControles("ButtonAssets/controles_rascunho.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame);
-        this.contin = new ButtonContinue("ButtonAssets/controles_rascunho.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 3.5f, terrorGame);
-
+        this.start = new ButtonStartGame("ButtonAssets/botao_jogar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, terrorGame, menuTheme);
+        this.contin = new ButtonContinue("ButtonAssets/botao_carregar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame);
+        this.controls = new ButtonControles("ButtonAssets/botao_controles.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 5f, terrorGame);
+        
         stage = new Stage(viewport, terrorGame.batch);
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(start);
         stage.addActor(contin);
         stage.addActor(controls);
+        
+        stage.setKeyboardFocus(controls);
     }
     
     public Stage getStage() {
@@ -68,12 +79,12 @@ public class SceneMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         terrorGame.batch.setProjectionMatrix(orthographicCamera.combined);
+        
+        terrorGame.batch.begin();
+        fundoSprite.draw(terrorGame.batch);
+        terrorGame.batch.end();
 
         stage.draw();
-
-        terrorGame.batch.begin();
-        logoSprite.draw(terrorGame.batch);
-        terrorGame.batch.end();
     }
 
     @Override

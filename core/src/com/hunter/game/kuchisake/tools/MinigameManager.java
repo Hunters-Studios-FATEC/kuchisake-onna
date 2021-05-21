@@ -11,6 +11,7 @@ import com.hunter.game.kuchisake.hide.Hide;
 import com.hunter.game.kuchisake.lockpick.LockPickMinigame;
 import com.hunter.game.kuchisake.minigame.MinigameBook;
 import com.hunter.game.kuchisake.minigameGerador.MinigameGerador;
+import com.hunter.game.kuchisake.screen.GameOver;
 
 public class MinigameManager {
 
@@ -114,17 +115,6 @@ public class MinigameManager {
                 break;
         }
     }
-    
-    public void showDescription(int id) {
-    	switch (id) {
-    		case 0:
-    			hideMinigame.setLevel(game.getLevel());
-                hideMinigame.showDescription();
-                game.setIsHiding(true);
-                game.setHasEncountered(false);
-                break;
-    	}
-    }
 
     public void minigameUpdate(float dt, int id) {
         switch (id) {
@@ -146,7 +136,11 @@ public class MinigameManager {
                                 game.setIsHiding(false);
                                 game.setCanPlayMusic(true);
                                 canStartMinigame = false;       
-                        	}	
+                        	}
+                        	
+                        	if(hideMinigame.getShowGameOverScreen()) {
+                        		game.setScreen(new GameOver(game));
+                        	}
                         }
                     }
                     else {
@@ -155,7 +149,7 @@ public class MinigameManager {
                         
                         if(hideMinigame.stage.getActors().get(1).getColor().a == 0) {
                         	hideMinigame.stage.getActors().get(1).remove();
-                        	startMinigame(0);
+                        	hideMinigame.addAllCircles();
                         }
                     }
                 }

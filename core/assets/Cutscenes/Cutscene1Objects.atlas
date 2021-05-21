@@ -1,0 +1,48 @@
+
+Cutscene1Objects.png
+size: 2583,542
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cut1 line1
+  rotate: false
+  xy: 1741, 5
+  size: 840, 144
+  orig: 840, 144
+  offset: 0, 0
+  index: -1
+cut1 line2
+  rotate: false
+  xy: 2, 342
+  size: 1872, 198
+  orig: 1872, 198
+  offset: 0, 0
+  index: -1
+cut1 line3
+  rotate: false
+  xy: 2, 151
+  size: 1758, 189
+  orig: 1758, 189
+  offset: 0, 0
+  index: -1
+cut1 line4
+  rotate: false
+  xy: 1876, 340
+  size: 408, 93
+  orig: 408, 93
+  offset: 0, 0
+  index: -1
+cut1 line5
+  rotate: false
+  xy: 2, 2
+  size: 1737, 147
+  orig: 1737, 147
+  offset: 0, 0
+  index: -1
+cut1 line6
+  rotate: false
+  xy: 1876, 435
+  size: 702, 105
+  orig: 702, 105
+  offset: 0, 0
+  index: -1

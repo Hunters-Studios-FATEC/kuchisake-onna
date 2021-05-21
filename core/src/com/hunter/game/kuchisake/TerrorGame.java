@@ -37,28 +37,39 @@ public class TerrorGame extends Game{
 	final short PLAYER_BIT = 1;
 	final short KUCHISAKE_BIT = 2;
 	
-	private int playerLine = 0;
-	private int playerColumn = 1;
+	private int playerLine;
+	private int playerColumn;
 	
-	private float playerXPos = 1000f;
+	private float playerXPos;
 	
 	MinigameManager minigameManager;
 	
-	private boolean isHiding = false;
+	private boolean isHiding;
 	
-	int level = 3;
+	int level;
 	
-	boolean canPlayMusic = true;
+	boolean canPlayMusic;
 	Music mansionTheme;
 	Music runTheme;
 	
 	@Override
 	public void create () {
+		playerLine = 0;
+		playerColumn = 1;
+		playerXPos = 1750f;
+		isHiding = false;
+		level = 2;
+		
+		canPlayMusic = true;
+		
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
-		assetManager.load("ButtonAssets/controles_rascunho.png", Texture.class);
-		assetManager.load("ButtonAssets/Logo_rascunho.png", Texture.class);
-		assetManager.load("ButtonAssets/start_rascunho.png", Texture.class);
+		assetManager.load("ButtonAssets/botao_jogar.png", Texture.class);
+		assetManager.load("ButtonAssets/botao_carregar.png", Texture.class);
+		assetManager.load("ButtonAssets/botao_controles.png", Texture.class);
+		assetManager.load("ButtonAssets/fundo_menu.png", Texture.class);
+		assetManager.load("ButtonAssets/controls.png", Texture.class);
+		assetManager.load("Audio/Music/Night Wind.wav", Music.class);
 		assetManager.finishLoading();
 //		this.setScreen(new Sala01(this, 1000));
 		this.setScreen(new SceneMenu(this));
@@ -215,5 +226,15 @@ public class TerrorGame extends Game{
 	
 	public Music getRunTheme() {
 		return runTheme;
+	}
+	
+	public void resetVariables() {
+		playerLine = 0;
+		playerColumn = 1;
+		playerXPos = 1750f;
+		isHiding = false;
+		level = 2;
+		
+		canPlayMusic = true;
 	}
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.cutscenes.Cutscene1;
 import com.hunter.game.kuchisake.screen.CorredorQuarto;
 import com.hunter.game.kuchisake.screen.CorredorSalas;
 import com.hunter.game.kuchisake.screen.Quarto;
@@ -28,10 +29,13 @@ public class ButtonStartGame extends Actor {
     float posY;
     
     TerrorGame game;
-    SceneMenu menu;
+    
+    Music menuTheme;
 
-    public ButtonStartGame(String imagem_path, float posX, float posY, TerrorGame terrorGame, SceneMenu menu){
+    public ButtonStartGame(String imagem_path, float posX, float posY, TerrorGame terrorGame, Music menuTheme){
         game = terrorGame;
+        
+        this.menuTheme = menuTheme;
         
         image = game.getAssetManager().get(imagem_path, Texture.class);
         botao = new Sprite(image);
@@ -39,7 +43,7 @@ public class ButtonStartGame extends Actor {
         this.posX = posX;
         this.posY = posY;
 
-        botao.setSize(botao.getWidth() / TerrorGame.SCALE, botao.getHeight() / TerrorGame.SCALE);
+        botao.setSize(botao.getWidth() / 42f, botao.getHeight() / 42f);
         botao.setPosition(posX - botao.getWidth() / 2, posY);
         setBounds(botao.getX(), botao.getY(), botao.getWidth(), botao.getHeight());
 
@@ -67,10 +71,6 @@ public class ButtonStartGame extends Actor {
 
 
     public void loadScene(){
-    	game.getAssetManager().unload("ButtonAssets/controles_rascunho.png");
-    	game.getAssetManager().unload("ButtonAssets/Logo_rascunho.png");
-    	game.getAssetManager().unload("ButtonAssets/start_rascunho.png");
-    	
     	game.getAssetManager().setLoader(TiledMap.class, new TmxMapLoader());
     	
     	game.getAssetManager().load("CharactersAssets/sprites_protag_right.png", Texture.class);
@@ -88,11 +88,19 @@ public class ButtonStartGame extends Actor {
 
         game.getAssetManager().load("Coletaveis/Coletaveis.atlas", TextureAtlas.class);
         game.getAssetManager().load("Coletaveis/DescriptionAtlas.atlas", TextureAtlas.class);
+        
+        game.getAssetManager().load("Cutscenes/Cutscene1Objects.atlas", TextureAtlas.class);
+        game.getAssetManager().load("Cutscenes/Cutscene2Objects.atlas", TextureAtlas.class);
+        game.getAssetManager().load("Cutscenes/fundo_cutscene.png", Texture.class);
+        
+        game.getAssetManager().load("ButtonAssets/game_over_text.png", Texture.class);
 
     	game.getAssetManager().load("Audio/Sfx/porta abrindo 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/porta fechando 3.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/Achei voce.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/Te achei.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/acabou.ogg", Sound.class);
+    	game.getAssetManager().load("Audio/Sfx/watashi wa kirei.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/madeira rangendo 2.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/madeira rangendo 6.ogg", Sound.class);
     	game.getAssetManager().load("Audio/Sfx/madeira rangendo 7.ogg", Sound.class);
@@ -102,6 +110,8 @@ public class ButtonStartGame extends Actor {
     	
     	game.getAssetManager().load("Audio/Music/mansion.ogg", Music.class);
     	game.getAssetManager().load("Audio/Music/Run.ogg", Music.class);
+    	game.getAssetManager().load("Audio/Music/Run.ogg", Music.class);
+    	game.getAssetManager().load("Audio/Music/Scary Sorrow.wav", Music.class);
 
     	//game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
     	//game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
@@ -122,15 +132,15 @@ public class ButtonStartGame extends Actor {
 
         game.getAssetManager().finishLoading();
         
-        game.createMinigameManager();
-        game.createInventoryManager();
-        
-        game.createVillain();
-        
-        game.addMusic();
+        menuTheme.stop();
     	
-        //game.setScreen(new Saguao(game, 1000));
-    	game.setScreen(new Saguao(game, 1750,  false));
+    	game.getAssetManager().unload("ButtonAssets/fundo_menu.png");
+    	game.getAssetManager().unload("ButtonAssets/botao_jogar.png");
+    	game.getAssetManager().unload("ButtonAssets/botao_carregar.png");
+    	game.getAssetManager().unload("ButtonAssets/botao_controles.png");
+    	game.getAssetManager().unload("Audio/Music/Night Wind.wav");
+        
+        game.setScreen(new Cutscene1(game));
     }
 
     public Sprite getBotaoStart() {

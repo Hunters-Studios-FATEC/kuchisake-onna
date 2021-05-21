@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.screen.GameOver;
 
 public class Hide {
 	
@@ -49,6 +50,7 @@ public class Hide {
 	
 	boolean playAudio2 = true;
 	boolean gotCaught = false;
+	boolean showGameOverScreen = false;
 	
 	float minScore;
 	float score;
@@ -114,34 +116,7 @@ public class Hide {
 		minScore = (1000 * circleArray.size) * scorePercent;
 	}
 	
-	public void showDescription() {
-		stage = new Stage(viewport, hideBatch);
-
-		background = new Background(0, 0, textureAtlas);
-
-		Gdx.input.setInputProcessor(stage);
-		
-		description = new Actor() {
-			@Override
-			public void draw(Batch batch, float parentAlpha) {
-				descSprite.setAlpha(getColor().a);
-				descSprite.draw(batch);
-			}
-		};
-		
-		description.setColor(0, 0, 0, 1f);
-		
-		alphaAction = new AlphaAction();
-		alphaAction.setAlpha(0);
-		alphaAction.setDuration(5f);
-		
-		description.addAction(alphaAction);
-
-		stage.addActor(background);
-		stage.addActor(description);
-	}
-
-	public void startMinigame() {
+	public void addAllCircles() {
 		count = 0;
 		playSoundTimer = 0;
 		score = 0;
@@ -226,6 +201,37 @@ public class Hide {
 		});
 	}
 	
+	void showDescription() {
+		stage = new Stage(viewport, hideBatch);
+
+		background = new Background(0, 0, textureAtlas);
+
+		Gdx.input.setInputProcessor(stage);
+		
+		description = new Actor() {
+			@Override
+			public void draw(Batch batch, float parentAlpha) {
+				descSprite.setAlpha(getColor().a);
+				descSprite.draw(batch);
+			}
+		};
+		
+		description.setColor(0, 0, 0, 1f);
+		
+		alphaAction = new AlphaAction();
+		alphaAction.setAlpha(0);
+		alphaAction.setDuration(5f);
+		
+		description.addAction(alphaAction);
+
+		stage.addActor(background);
+		stage.addActor(description);
+	}
+
+	public void startMinigame() {
+		showDescription();
+	}
+	
 	public void verifyConclusion() {
 		if(count == (stage.getActors().size - 1) / 2) {
 			isFinished = true;
@@ -259,21 +265,27 @@ public class Hide {
 				}
 			}
 			else if(playSoundTimer > 5.5f) {
-				if(gotCaught) {
-					// funcao para ir para a tela de game over
-				}
-				else {
+				if(!gotCaught){
 					background.fadeOut();
 				}
 				
 				if(playSoundTimer > 5.75f) {
-					System.out.println("TESTE");
-					return true;
+					if(gotCaught) {
+						showGameOverScreen = true;
+					}
+					else {
+						System.out.println("TESTE");
+						return true;
+					}
 				}
 			}
 		}
 		
 		return false;
+	}
+	
+	public boolean getShowGameOverScreen() {
+		return showGameOverScreen;
 	}
 	
 	public void setLevel(int level) {
