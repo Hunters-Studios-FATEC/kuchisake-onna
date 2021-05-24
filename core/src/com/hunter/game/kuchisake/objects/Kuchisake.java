@@ -117,8 +117,8 @@ public class Kuchisake extends Thread{
         kuchisakeSprite = new Sprite(new TextureRegion(kuchisakeMoving, 596, 596));
 
         // Sempre vai começar o jogo da sala secreta, posição 3/0.
-        currentLine = 2;
-        currentColumn = 6;
+        currentLine = 3;
+        currentColumn = 0;
 
         // 5 é o padrão pro player size multiplier.
         kuchisakeSprite.setSize(128 * 5.5f / TerrorGame.SCALE, 128 * 5.5f / TerrorGame.SCALE);

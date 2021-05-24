@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.TesteSQLite;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 public class SalaSegura extends StandardRoom implements Screen {
@@ -27,6 +28,8 @@ public class SalaSegura extends StandardRoom implements Screen {
     boolean isSecondFloor = false;
     
     ObjectAnimation lustreAnimation;
+    
+    TesteSQLite testeBancoDeDados;
 
     public SalaSegura(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala_descanso.tmx", playerDoorPosX);
@@ -52,6 +55,9 @@ public class SalaSegura extends StandardRoom implements Screen {
         lustre.setPosition(1750 / TerrorGame.SCALE - lustre.getWidth() / 2, viewport.getWorldHeight() - lustre.getHeight());
         
         lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
+        
+        testeBancoDeDados = new TesteSQLite();
+        testeBancoDeDados.connect();
     }
 
 
