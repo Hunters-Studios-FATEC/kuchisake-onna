@@ -1,0 +1,55 @@
+
+Sala3Objects.png
+size: 1649,709
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gazua
+  rotate: false
+  xy: 926, 8
+  size: 339, 699
+  orig: 339, 699
+  offset: 0, 0
+  index: -1
+lustre1
+  rotate: false
+  xy: 1267, 552
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre2
+  rotate: false
+  xy: 1267, 395
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre4
+  rotate: false
+  xy: 1267, 395
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre3
+  rotate: false
+  xy: 1267, 238
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+portaCorredor1
+  rotate: false
+  xy: 2, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+portaCorredor2
+  rotate: false
+  xy: 464, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,55 @@
+
+SaguaoObjects.png
+size: 4068,1004
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+corrimao
+  rotate: false
+  xy: 2, 2
+  size: 3500, 1000
+  orig: 3500, 1000
+  offset: 0, 0
+  index: -1
+lustre1
+  rotate: false
+  xy: 3504, 435
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre2
+  rotate: false
+  xy: 3504, 278
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre4
+  rotate: false
+  xy: 3504, 278
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+lustre3
+  rotate: false
+  xy: 3504, 121
+  size: 380, 155
+  orig: 380, 155
+  offset: 0, 0
+  index: -1
+porta1
+  rotate: false
+  xy: 3504, 592
+  size: 280, 410
+  orig: 280, 410
+  offset: 0, 0
+  index: -1
+porta2
+  rotate: false
+  xy: 3786, 592
+  size: 280, 410
+  orig: 280, 410
+  offset: 0, 0
+  index: -1

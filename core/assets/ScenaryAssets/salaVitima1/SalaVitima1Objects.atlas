@@ -1,0 +1,55 @@
+
+SalaVitima1Objects.png
+size: 1869,709
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+lampada1
+  rotate: false
+  xy: 926, 212
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+lampada2
+  rotate: false
+  xy: 1148, 212
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+lampada4
+  rotate: false
+  xy: 1148, 212
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+lampada3
+  rotate: false
+  xy: 1370, 212
+  size: 220, 495
+  orig: 220, 495
+  offset: 0, 0
+  index: -1
+livro2
+  rotate: false
+  xy: 1592, 432
+  size: 275, 275
+  orig: 275, 275
+  offset: 0, 0
+  index: -1
+portaCorredor1
+  rotate: false
+  xy: 2, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+portaCorredor2
+  rotate: false
+  xy: 464, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1

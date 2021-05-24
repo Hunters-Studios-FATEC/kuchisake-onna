@@ -1,0 +1,111 @@
+
+DescriptionAtlas.png
+size: 2398, 2175
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+cachorro
+  rotate: false
+  xy: 2, 2
+  size: 1282, 195
+  orig: 1282, 195
+  offset: 0, 0
+  index: -1
+chaveBiblio
+  rotate: false
+  xy: 2, 2023
+  size: 1973, 150
+  orig: 1973, 150
+  offset: 0, 0
+  index: -1
+chavePorao
+  rotate: false
+  xy: 2, 199
+  size: 1352, 150
+  orig: 1352, 150
+  offset: 0, 0
+  index: -1
+chavePrincipal
+  rotate: false
+  xy: 2, 1567
+  size: 1814, 150
+  orig: 1814, 150
+  offset: 0, 0
+  index: -1
+chaveServico
+  rotate: false
+  xy: 2, 807
+  size: 1493, 150
+  orig: 1493, 150
+  offset: 0, 0
+  index: -1
+extintor
+  rotate: false
+  xy: 1286, 47
+  size: 1110, 150
+  orig: 1110, 150
+  offset: 0, 0
+  index: -1
+fiosItem
+  rotate: false
+  xy: 2, 1871
+  size: 1878, 150
+  orig: 1878, 150
+  offset: 0, 0
+  index: -1
+gazua
+  rotate: false
+  xy: 2, 1719
+  size: 1848, 150
+  orig: 1848, 150
+  offset: 0, 0
+  index: -1
+livro1
+  rotate: false
+  xy: 2, 655
+  size: 1461, 150
+  orig: 1461, 150
+  offset: 0, 0
+  index: -1
+livro2
+  rotate: false
+  xy: 2, 351
+  size: 1461, 150
+  orig: 1461, 150
+  offset: 0, 0
+  index: -1
+livro3
+  rotate: false
+  xy: 2, 503
+  size: 1461, 150
+  orig: 1461, 150
+  offset: 0, 0
+  index: -1
+mask1
+  rotate: false
+  xy: 2, 959
+  size: 1503, 150
+  orig: 1503, 150
+  offset: 0, 0
+  index: -1
+mask2
+  rotate: false
+  xy: 2, 1263
+  size: 1503, 150
+  orig: 1503, 150
+  offset: 0, 0
+  index: -1
+mask3
+  rotate: false
+  xy: 2, 1415
+  size: 1503, 150
+  orig: 1503, 150
+  offset: 0, 0
+  index: -1
+mask4
+  rotate: false
+  xy: 2, 1111
+  size: 1503, 150
+  orig: 1503, 150
+  offset: 0, 0
+  index: -1

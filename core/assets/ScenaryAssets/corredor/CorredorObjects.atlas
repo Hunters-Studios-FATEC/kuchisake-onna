@@ -1,0 +1,62 @@
+
+CorredorObjects.png
+size: 1607,709
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+estatua
+  rotate: false
+  xy: 926, 22
+  size: 325, 685
+  orig: 325, 685
+  offset: 0, 0
+  index: -1
+extintor
+  rotate: false
+  xy: 1253, 155
+  size: 150, 340
+  orig: 150, 340
+  offset: 0, 0
+  index: -1
+lustre corredor1
+  rotate: false
+  xy: 1253, 497
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+lustre corredor2
+  rotate: false
+  xy: 1405, 285
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+lustre corredor4
+  rotate: false
+  xy: 1405, 285
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+lustre corredor3
+  rotate: false
+  xy: 1405, 73
+  size: 200, 210
+  orig: 200, 210
+  offset: 0, 0
+  index: -1
+portaCorredor1
+  rotate: false
+  xy: 2, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1
+portaCorredor2
+  rotate: false
+  xy: 464, 2
+  size: 460, 705
+  orig: 460, 705
+  offset: 0, 0
+  index: -1

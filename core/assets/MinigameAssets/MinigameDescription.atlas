@@ -1,0 +1,41 @@
+
+MinigameDescription.png
+size: 1507, 822
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+esconde
+  rotate: false
+  xy: 2, 494
+  size: 1451, 162
+  orig: 1451, 162
+  offset: 0, 0
+  index: -1
+estante
+  rotate: false
+  xy: 2, 166
+  size: 1356, 162
+  orig: 1356, 162
+  offset: 0, 0
+  index: -1
+fios
+  rotate: false
+  xy: 2, 658
+  size: 1503, 162
+  orig: 1503, 162
+  offset: 0, 0
+  index: -1
+gerador
+  rotate: false
+  xy: 2, 330
+  size: 1380, 162
+  orig: 1380, 162
+  offset: 0, 0
+  index: -1
+lockpick
+  rotate: false
+  xy: 2, 2
+  size: 1355, 162
+  orig: 1355, 162
+  offset: 0, 0
+  index: -1
