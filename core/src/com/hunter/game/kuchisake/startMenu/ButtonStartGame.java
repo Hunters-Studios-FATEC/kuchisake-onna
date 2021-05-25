@@ -133,22 +133,22 @@ public class ButtonStartGame extends Actor {
         
         menuTheme.stop();
     	
-    	game.getAssetManager().unload("ButtonAssets/fundo_menu.png");
+    	/*game.getAssetManager().unload("ButtonAssets/fundo_menu.png");
     	game.getAssetManager().unload("ButtonAssets/botao_jogar.png");
     	game.getAssetManager().unload("ButtonAssets/botao_carregar.png");
     	game.getAssetManager().unload("ButtonAssets/botao_controles.png");
     	game.getAssetManager().unload("Audio/Music/Night Wind.wav");
 
-        game.setScreen(new Cutscene1(game));
+        game.setScreen(new Cutscene1(game));*/
 
         //Para testes sem a cutscene
-//        game.createMinigameManager();
-//        game.createInventoryManager();
-//
-//        game.createVillain();
-//
-//        game.addMusic();
-//        game.setScreen(new Saguao(game, 1750, false));
+        game.createMinigameManager();
+        game.createInventoryManager();
+
+        game.createVillain();
+
+        game.addMusic();
+        game.setScreen(new Saguao(game, 1750, false));
     }
 
     public Sprite getBotaoStart() {

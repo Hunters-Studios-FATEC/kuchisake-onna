@@ -28,8 +28,6 @@ public class KeyActor extends Actor{
 	float previousYPos = 0;
 	
 	Array<Sprite> nearWallsArray;
-	
-	boolean growSquare = false;
 
 	public KeyActor(float x, float y, LockPickMinigame minigame, TextureAtlas textureAtlas) {
 		this.minigame = minigame;
@@ -37,7 +35,7 @@ public class KeyActor extends Actor{
 		squareTexture = textureAtlas.findRegion("orange_square");
 		
 		sprite = new Sprite(texture);
-		sprite.setBounds(x, y, 36 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
+		sprite.setBounds(x, y, 48 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
 		sprite.setPosition(x + 0.5f / 2 - sprite.getWidth() / 2, y + 0.5f / 2 - sprite.getHeight() / 2);
 		
 		setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
@@ -46,7 +44,7 @@ public class KeyActor extends Actor{
 		
 		squareSprite = new Sprite(squareTexture);
 		squareSprite.setBounds(sprite.getX(), sprite.getY(), 48 / TerrorGame.SCALE, 48 / TerrorGame.SCALE);
-		squareSprite.setOriginCenter();
+		squareSprite.setAlpha(0.5f);
 		
 		addListener(new InputListener() {
 			@Override
@@ -164,25 +162,6 @@ public class KeyActor extends Actor{
 		nearWallsArray.addAll(wallActor.getSpriteArray());
 	}
 	
-	void changeSquareSize(float delta) {
-		if(growSquare) {
-			if(squareSprite.getWidth() < 48f / TerrorGame.SCALE) {
-				squareSprite.setScale(squareSprite.getWidth() + (48f / TerrorGame.SCALE * delta));
-			}
-			else {
-				growSquare = false;
-			}
-		}
-		else {
-			if(squareSprite.getWidth() > 0f / TerrorGame.SCALE) {
-				squareSprite.setScale(squareSprite.getWidth() - (48f / TerrorGame.SCALE * delta));
-			}
-			else {
-				growSquare = true;
-			}
-		}
-	}
-	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		sprite.setPosition(getX(), getY());
@@ -197,7 +176,6 @@ public class KeyActor extends Actor{
 		moveBy(moveX * delta, moveY * delta);
 		verifyPos(getX(), getY());
 		verifyFinishCheckerPos();
-		changeSquareSize(delta);
 		
 		//System.out.println(nearWallsArray.size);
 	}

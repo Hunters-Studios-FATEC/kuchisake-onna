@@ -252,6 +252,12 @@ public class Player {
                 isWalking = -20f;
             }
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor && 
+        		!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
+        	setCanChangeRoom(true);
+            System.out.println("mudou");
+        }
     }
 
     public void handleInput() {
@@ -295,12 +301,6 @@ public class Player {
                     }
                 }
             }
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor && 
-        		!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
-        	setCanChangeRoom(true);
-            System.out.println("mudou");
         }
         
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && getCanInteractWorld()){

@@ -3,12 +3,17 @@ package com.hunter.game.kuchisake;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hunter.game.kuchisake.objects.Kuchisake;
+import com.hunter.game.kuchisake.screen.Saguao;
 import com.hunter.game.kuchisake.screen.StandardRoom;
 import com.hunter.game.kuchisake.startMenu.SceneMenu;
 import com.hunter.game.kuchisake.tools.InventoryManager;
@@ -64,14 +69,16 @@ public class TerrorGame extends Game{
 		
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
+		
 		assetManager.load("ButtonAssets/botao_jogar.png", Texture.class);
 		assetManager.load("ButtonAssets/botao_carregar.png", Texture.class);
 		assetManager.load("ButtonAssets/botao_controles.png", Texture.class);
 		assetManager.load("ButtonAssets/fundo_menu.png", Texture.class);
 		assetManager.load("ButtonAssets/controls.png", Texture.class);
 		assetManager.load("Audio/Music/Night Wind.wav", Music.class);
+		
 		assetManager.finishLoading();
-//		this.setScreen(new Sala01(this, 1000));
+		
 		this.setScreen(new SceneMenu(this));
 	}
 

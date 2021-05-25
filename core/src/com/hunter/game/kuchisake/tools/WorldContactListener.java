@@ -59,7 +59,7 @@ public class WorldContactListener implements ContactListener{
 					minigameManager.wrongSound.play(0.5f);
 				}
 
-			} else if (object.getUserData().equals("fios") ) {
+			} else if (object.getUserData().equals("fios")) {
 				if (inventoryManager.getItemBackpack().contains("fiosItem", false)){
 					minigameManager.setCanStartMinigame(true);
 					System.out.println("FIOS");
@@ -134,8 +134,7 @@ public class WorldContactListener implements ContactListener{
 				inventoryManager.setCanCollectItem(true);
 				player.setItemName("chavePorao");
 			}
-			
-			if(object.getUserData().equals("kuchisake")) {
+			else if(object.getUserData().equals("kuchisake")) {
 				standardRoom.verifyKuchisakeCollision();
 			}
 		}
@@ -151,11 +150,20 @@ public class WorldContactListener implements ContactListener{
 			Fixture sensor = ("player sensor".equals(fixA.getUserData()))? fixA : fixB;
 			Fixture object = (sensor.equals(fixA))? fixB: fixA;
 			
-			minigameManager.setCanStartMinigame(false);
-			player.setTouchingDoor(false);
-			player.setCanInteractWorld(false);
-			inventoryManager.setCanCollectItem(false);
-
+			if(object.getUserData().equals("esconde") || object.getUserData().equals("lockpick") || 
+					object.getUserData().equals("bookshelf") || object.getUserData().equals("fios") || 
+					object.getUserData().equals("gerador")) {
+				minigameManager.setCanStartMinigame(false);
+			}
+			else if(object.getUserData().toString().contains("door")) {
+				player.setTouchingDoor(false);
+			}
+			else if (object.getUserData().equals("objetoMundo")) {
+				player.setCanInteractWorld(false);
+			}
+			else if(!object.getUserData().equals("kuchisake")) {
+				inventoryManager.setCanCollectItem(false);
+			}
 		}
 	}
 
