@@ -133,7 +133,7 @@ public class TextActor extends Actor{
 					game.createMinigameManager();
 			        game.createInventoryManager();
 			        
-			        game.createVillain();
+			        game.createVillain(3, 0);
 			        
 			        game.addMusic();
 			        

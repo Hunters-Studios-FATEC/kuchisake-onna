@@ -145,7 +145,7 @@ public class ButtonStartGame extends Actor {
         game.createMinigameManager();
         game.createInventoryManager();
 
-        game.createVillain();
+        game.createVillain(3, 0);
 
         game.addMusic();
         game.setScreen(new Saguao(game, 1750, false));

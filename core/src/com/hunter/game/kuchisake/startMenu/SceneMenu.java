@@ -51,7 +51,7 @@ public class SceneMenu implements Screen {
         menuTheme.play();
 
         this.start = new ButtonStartGame("ButtonAssets/botao_jogar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, terrorGame, menuTheme);
-        this.contin = new ButtonContinue("ButtonAssets/botao_carregar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame);
+        this.contin = new ButtonContinue("ButtonAssets/botao_carregar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame, menuTheme);
         this.controls = new ButtonControles("ButtonAssets/botao_controles.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 5f, terrorGame);
         
         stage = new Stage(viewport, terrorGame.batch);

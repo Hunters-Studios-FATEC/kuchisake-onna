@@ -156,11 +156,11 @@ public class TerrorGame extends Game{
 		return inventoryManager;
 	}
 
-	public void createVillain(){
+	public void createVillain(int line, int column){
 		world = new World(new Vector2(0, 0), true);
 		this.getAssetManager().load("CharactersAssets/muie_sprites.png", Texture.class);
 		assetManager.finishLoading();
-		kuchisakeOnna = new Kuchisake(1750, this);
+		kuchisakeOnna = new Kuchisake(1750, line, column, this);
 
 		//Thread run aqui
 		kuchisakeOnna.start();

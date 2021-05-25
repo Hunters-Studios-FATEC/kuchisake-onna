@@ -403,4 +403,23 @@ public class MinigameManager {
     public boolean getHideIsFinished() {
     	return hideMinigame.getIsFinished();
     }
+
+	public void setLockCompleted(boolean lockCompleted) {
+		this.lockCompleted = lockCompleted;
+	}
+
+	public void setWireCompleted(boolean wireCompleted) {
+		this.wireCompleted = wireCompleted;
+	}
+
+	public void setBookCompleted(boolean bookCompleted) {
+		this.bookCompleted = bookCompleted;
+	}
+
+	public void setGeradorCompleted(boolean geradorCompleted) {
+		this.geradorCompleted = geradorCompleted;
+	}
+    
+    
+    
 }

@@ -57,7 +57,16 @@ public class SalaSegura extends StandardRoom implements Screen {
         lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
         
         testeBancoDeDados = new TesteSQLite();
-        testeBancoDeDados.connect();
+        
+        testeBancoDeDados.connect(game.getInventoryManager().getItemBackpack(), 
+        		game.getKuchisakeOnna().getCurrentLine(),
+        		game.getKuchisakeOnna().getCurrentColumn(),
+        		game.getMinigameManager().getLockCompleted(),
+        		game.getMinigameManager().getBookCompleted(),
+        		game.getMinigameManager().getWireCompleted(),
+        		game.getMinigameManager().getGeradorCompleted(),
+        		1,
+        		1);
     }
 
 
