@@ -177,7 +177,6 @@ public class KeyActor extends Actor{
 		verifyPos(getX(), getY());
 		verifyFinishCheckerPos();
 		
-		//System.out.println(nearWallsArray.size);
 	}
 	
 }

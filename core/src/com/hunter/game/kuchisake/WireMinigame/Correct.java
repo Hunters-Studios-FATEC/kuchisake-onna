@@ -21,8 +21,7 @@ public class Correct extends Actor{
 		sprite.setPosition(x - sprite.getWidth() / 2, y - sprite.getHeight() / 2);
 		
 		setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
-		
-		//texture.dispose();
+
 	}
 
 	

@@ -27,8 +27,6 @@ public class TesteSQLite {
             String url = "jdbc:sqlite:database/test.db";  
             // create a connection to the database  
             conn = DriverManager.getConnection(url);  
-               
-            System.out.println("Connection to SQLite has been established.");
             
             Statement statement = conn.createStatement();
             
@@ -101,8 +99,6 @@ public class TesteSQLite {
         try {
             String url = "jdbc:sqlite:database/test.db";  
             conn = DriverManager.getConnection(url); 
-            
-            System.out.println("Connection to SQLite has been established.");
             
             Statement statement = conn.createStatement();
             

@@ -15,10 +15,7 @@ import com.hunter.game.kuchisake.TerrorGame;
 public class LockPickMinigame {
 	
 	FitViewport viewport;
-	
-	//float w = Gdx.graphics.getWidth();
-	//float h = Gdx.graphics.getHeight();
-	
+
 	public Stage stage;
 	
 	Background background;
@@ -79,7 +76,6 @@ public class LockPickMinigame {
 
 		stage.setKeyboardFocus(keyActor);
 
-		//keyActor.addInitialNearWalls();
 	}
 
 	public void closeMinigame() {

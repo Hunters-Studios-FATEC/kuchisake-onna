@@ -30,7 +30,6 @@ public class Collisions {
     final short ITEM_BIT = 512;
     final short INTERACTIBLE_BIT = 1024;
 
-    //PolygonShape polygonShape = new PolygonShape();
     TiledMap map;
     OrthogonalTiledMapRenderer mapRenderer;
     MapProperties mapProperties;
@@ -56,80 +55,6 @@ public class Collisions {
         
         mapProperties = map.getProperties();
 
-        /*for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE,
-                    (rect.getY() + rect.getHeight() / 2) / TerrorGame.SCALE);
-            invisible_wall = world.createBody(bodyDef);
-
-            PolygonShape polygonShape = new PolygonShape();
-            polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
-            fixtureDef.shape = polygonShape;
-
-            fixtureDef.filter.categoryBits = GROUND_BIT;
-            fixtureDef.filter.maskBits = PLAYER_BIT;
-            invisible_wall.createFixture(fixtureDef);
-            
-            polygonShape.dispose();
-        }*/
-
-//        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//
-//            bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / TerrorGame.SCALE,
-//                    (rect.getY() + rect.getHeight() / 2) / TerrorGame.SCALE);
-//            shelf = world.createBody(bodyDef);
-//
-//            polygonShape.setAsBox(rect.getWidth() / 2 / TerrorGame.SCALE, rect.getHeight() / 2 / TerrorGame.SCALE);
-//            fixtureDef.shape = polygonShape;
-//
-//            fixtureDef.filter.categoryBits = SHELF_BIT;
-//            fixtureDef.filter.maskBits = PLAYER_BIT;
-//
-//            Fixture fixture = shelf.createFixture(fixtureDef);
-//            fixture.setUserData("bookshelf");
-//        }
-//
-//        bodyDef.position.set(600 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
-//        body1 = world.createBody(bodyDef);
-//        PolygonShape porygonShape1 = new PolygonShape();
-//        porygonShape1.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
-//        fixtureDef.shape = porygonShape1;
-//        fixtureDef.filter.categoryBits = HIDE_BIT;
-//        fixtureDef.filter.maskBits = PLAYER_BIT;
-//        Fixture fixture1 = body1.createFixture(fixtureDef);
-//        fixture1.setUserData("esconde");
-//
-//        bodyDef.position.set(900 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
-//        body2 = world.createBody(bodyDef);
-//        PolygonShape porygonShape2 = new PolygonShape();
-//        porygonShape2.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
-//        fixtureDef.shape = porygonShape2;
-//        fixtureDef.filter.categoryBits = LOCKPICK_BIT;
-//        fixtureDef.filter.maskBits = PLAYER_BIT;
-//        Fixture fixture2 = body2.createFixture(fixtureDef);
-//        fixture2.setUserData("lockpick");
-//
-//        bodyDef.position.set(1200 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
-//        body3 = world.createBody(bodyDef);
-//        PolygonShape porygonShape3 = new PolygonShape();
-//        porygonShape3.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
-//        fixtureDef.shape = porygonShape3;
-//        fixtureDef.filter.categoryBits = WIRE_BIT;
-//        fixtureDef.filter.maskBits = PLAYER_BIT;
-//        Fixture fixture3 = body3.createFixture(fixtureDef);
-//        fixture3.setUserData("fios");
-//
-//        bodyDef.position.set(1800 / TerrorGame.SCALE, 410 / TerrorGame.SCALE);
-//        body4 = world.createBody(bodyDef);
-//        PolygonShape porygonShape4 = new PolygonShape();
-//        porygonShape4.setAsBox(80 / TerrorGame.SCALE, 200 / TerrorGame.SCALE);
-//        fixtureDef.shape = porygonShape4;
-//        fixtureDef.filter.categoryBits = GERADOR_BIT;
-//        fixtureDef.filter.maskBits = PLAYER_BIT;
-//        Fixture fixture4 = body4.createFixture(fixtureDef);
-//        fixture4.setUserData("gerador");
     }
 
     public void CreateCollisions(float posX,float posY, String collision_tag, float sprite_width, short category_bits){
@@ -150,10 +75,6 @@ public class Collisions {
         
         porygonShape.dispose();
     }
-
-    /*public PolygonShape getPolygonShape() {
-        return polygonShape;
-    }*/
 
     public TiledMap getMap() {
         return map;

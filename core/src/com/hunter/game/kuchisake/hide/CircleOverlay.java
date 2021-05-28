@@ -124,10 +124,6 @@ public class CircleOverlay extends Actor{
 		sprite.setAlpha(getColor().a);
 		sprite.setSize(getWidth(), getHeight());
 		sprite.draw(batch);
-		
-		//System.out.println(getColor().a);
-		
-		//System.out.println(getActions());
 	}
 	
 	@Override

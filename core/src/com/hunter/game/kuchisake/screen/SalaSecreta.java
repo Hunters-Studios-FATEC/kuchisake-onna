@@ -35,7 +35,6 @@ public class SalaSecreta extends StandardRoom implements Screen {
     SpriteItem maskFlutuar;
     SpriteItem chaveFlutuar;
 
-    boolean isSecondFloor = false;
     boolean hasTodasPecasMascara = false;
     
     ObjectAnimation braseiroAnimation;
@@ -43,6 +42,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
     public SalaSecreta(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala_secreta.tmx", playerDoorPosX);
 
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         collisions.CreateCollisions(2487+230f, 160,"doorDown0", 203, collisions.getPortaBit());
         textureAtlas = game.getAssetManager().get("ScenaryAssets/salaSecreta/SalaSecretaObjects.atlas", TextureAtlas.class);
 
@@ -152,9 +153,8 @@ public class SalaSecreta extends StandardRoom implements Screen {
         porta.draw(game.batch);
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
         if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("mask1", false) &&
                 inventoryManager.getItemBackpack().contains("mask2", false) &&
@@ -165,11 +165,6 @@ public class SalaSecreta extends StandardRoom implements Screen {
             collisions.CreateCollisions(1750, 160, "chavePrincipal", 203, collisions.getITEM_BIT());
         }
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;

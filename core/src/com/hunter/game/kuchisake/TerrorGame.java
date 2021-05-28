@@ -53,6 +53,9 @@ public class TerrorGame extends Game{
 	
 	int level;
 	
+	int saveCount = 0;
+	int hideCount = 0;
+	
 	boolean canPlayMusic;
 	Music mansionTheme;
 	Music runTheme;
@@ -235,9 +238,27 @@ public class TerrorGame extends Game{
 		return runTheme;
 	}
 	
+	public int getSaveCount() {
+		return saveCount;
+	}
+
+	public void setSaveCount(int saveCount) {
+		this.saveCount = saveCount;
+	}
+
+	public int getHideCount() {
+		return hideCount;
+	}
+
+	public void setHideCount(int hideCount) {
+		this.hideCount = hideCount;
+	}
+
 	public void resetVariables() {
 		playerLine = 0;
 		playerColumn = 1;
+		saveCount = 0;
+		hideCount = 0;
 		playerXPos = 1750f;
 		isHiding = false;
 		level = 2;
@@ -245,4 +266,6 @@ public class TerrorGame extends Game{
 		
 		canPlayMusic = true;
 	}
+	
+	
 }

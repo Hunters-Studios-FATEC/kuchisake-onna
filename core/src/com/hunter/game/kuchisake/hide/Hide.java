@@ -104,8 +104,6 @@ public class Hide {
 			
 			circle = new Circle(randomX, randomY, random.nextInt(4), randomTime, i + 1, textureAtlas, this);
 			
-			//circle = new Circle(randomX, randomY, 0, randomTime, i + 1);
-			
 			circleArray.add(circle);
 			
 			circleOverlay = new CircleOverlay(randomX, randomY, randomTime, textureAtlas, this);

@@ -36,8 +36,6 @@ public class Kuchisake extends Thread{
 
     PolygonShape polygonShape;
 
-    //int minigameID = -1;
-    //float isWalking = 0;
     float transitionTime = 0.10f;
     float frameChangeTimer = 0;
 
@@ -252,8 +250,6 @@ public class Kuchisake extends Thread{
         int nextLine;
         int nextColumn;
 
-        //float doorX = 0;
-
         ArrayList<Integer[]> path = kuchisakeThread.getPath();
 
         nextLine = path.get(pathStep)[0];
@@ -274,7 +270,6 @@ public class Kuchisake extends Thread{
                     if (portas[i].toString().contains("doorDown" + Integer.toString(nextColumn))) {
                         Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
                         doorX = doorsPosX[i];
-                        //System.out.println(doorX);
                         break;
                     }
                 }
@@ -283,7 +278,6 @@ public class Kuchisake extends Thread{
                     if (portas[i].toString().contains("doorUp" + Integer.toString(nextColumn))) {
                         Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
                         doorX = doorsPosX[i];
-                        //System.out.println(doorX);
                         break;
                     }
                 }
@@ -324,8 +318,6 @@ public class Kuchisake extends Thread{
         int nextLine;
         int nextColumn;
 
-        //float doorX = 0;
-
         ArrayList<Integer[]> path = kuchisakeThread.getPath();
 
         nextLine = path.get(pathStep)[0];
@@ -346,7 +338,6 @@ public class Kuchisake extends Thread{
                     if (portas[i].toString().contains("doorDown" + Integer.toString(nextColumn))) {
                         Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
                         doorX = doorsPosX[i];
-                        //System.out.println(doorX);
                         break;
                     }
                 }
@@ -355,7 +346,6 @@ public class Kuchisake extends Thread{
                     if (portas[i].toString().contains("doorUp" + Integer.toString(nextColumn))) {
                         Float[] doorsPosX = kuchisakeThread.getDoorsPosX()[currentLine][currentColumn];
                         doorX = doorsPosX[i];
-                        //System.out.println(doorX);
                         break;
                     }
                 }
@@ -588,8 +578,6 @@ public class Kuchisake extends Thread{
     	if(madeiraVolume < 0) {
     		madeiraVolume = 0;
     	}
-    	
-    	System.out.println(madeiraVolume);
     }
     
     public Body getBody() {

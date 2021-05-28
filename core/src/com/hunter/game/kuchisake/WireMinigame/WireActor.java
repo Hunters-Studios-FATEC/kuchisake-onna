@@ -34,11 +34,6 @@ public class WireActor extends Actor{
 
 	addListener(new InputListener() {
 		public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-			//System.out.println("down");
-
-			//setRotation(getRotation() + 15);
-			//System.out.println(getRotation());
-
 			return true;
 		}
 
@@ -72,22 +67,15 @@ public class WireActor extends Actor{
 			public void touchDragged(InputEvent event, float x, float y, int pointer) {
 
 				if (accept_input) {
-					//rotateBy(getAngle(getX(), getY(), x, y));
-					//sizeBy(getLineDistance(getX(), getY(), x, y), 0);
 
 					if (event.getStageX() > getX() + getOriginX()) {
 						setSize(getLineDistance(getX(), getY(), event.getStageX() + getOriginX(), event.getStageY() + getOriginY()), getHeight());
 						setRotation(getAngle(getX() + getOriginX(), getY() + getOriginY(), event.getStageX(), event.getStageY()));
 					}
-
-					//System.out.println(event.getStageX());
 				}
 			}
 		});
 	}
-
-	//System.out.println(getOriginX());
-	//System.out.println(getOriginY());
 	
 	float getAngle(float x1, float y1, float x2, float y2) {	
 		float width = x2 - x1;
@@ -107,23 +95,12 @@ public class WireActor extends Actor{
 		return lineDistance;
 	}
 
-//	public boolean getCorrect_position() {
-//		return correct_position;
-//	}
-//
-//	public void setAccept_input(boolean accept_input) {
-//		this.accept_input = accept_input;
-//	}
-
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		sprite.setPosition(getX(), getY());
 		sprite.setSize(getWidth(), getHeight());
 		sprite.setRotation(getRotation());
 		sprite.draw(batch);
-
-		//System.out.println("Wire actor" + actor_number + " correct position = " + correct_position);
-		//System.out.println("Wire actor" + actor_number + " accept input = " + accept_input);
 	}
 	
 	@Override

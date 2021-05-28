@@ -28,14 +28,14 @@ public class SalaVitima1 extends StandardRoom implements Screen {
     Sprite lampada;
 
     SpriteItem livroFlutuar;
-
-    boolean isSecondFloor = false;
     
     ObjectAnimation lampadaAnimation;
 
     public SalaVitima1(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/salaVitima1.tmx", playerDoorPosX);
         
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         collisions.CreateCollisions(2891, 160,"doorDown3", 203, collisions.getPortaBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/salaVitima1/SalaVitima1Objects.atlas", TextureAtlas.class);
@@ -107,15 +107,9 @@ public class SalaVitima1 extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
         game.getMinigameManager().minigameUpdate(delta, 0);
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 3){

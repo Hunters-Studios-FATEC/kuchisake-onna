@@ -35,7 +35,6 @@ public class Biblioteca extends StandardRoom implements Screen {
 
     SpriteItem livroFlutua;
 
-    boolean isSecondFloor = false;
     MinigameManager minigameManager;
     
     ObjectAnimation lustreAnimation;
@@ -48,6 +47,8 @@ public class Biblioteca extends StandardRoom implements Screen {
         collisions.CreateCollisions(971+230f, 160,"doorDown0", 230, collisions.getPortaBit());
         collisions.CreateCollisions(2487+230f, 160,"doorUp0", 203, collisions.getPortaBit());
         collisions.CreateCollisions(2487+230f, 160,"bookshelf", 203, collisions.getShelfBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/biblioteca/BibliotecaObjects.atlas", TextureAtlas.class);
 
@@ -145,16 +146,9 @@ public class Biblioteca extends StandardRoom implements Screen {
 
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
-        minigameManager.minigameUpdate(delta, 2);
         transitionScene.updateTransition();
-
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
+        minigameManager.minigameUpdate(delta, 2);
+        inventoryManager.inventoryUpdate(delta);
 
         game.getMinigameManager().minigameUpdate(delta, 0);
 

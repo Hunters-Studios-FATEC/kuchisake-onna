@@ -1,5 +1,7 @@
 package com.hunter.game.kuchisake.startMenu;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.TesteSQLite;
 import com.hunter.game.kuchisake.minigameGerador.Background;
 
 public class SceneMenu implements Screen {
@@ -31,8 +34,11 @@ public class SceneMenu implements Screen {
     
     Music menuTheme;
     
+    File file = new File("database/test.db");
+    
     public SceneMenu(TerrorGame terrorGame) {
         this.terrorGame = terrorGame;
+     
         orthographicCamera = new OrthographicCamera();
         viewport = new FitViewport(TerrorGame.WIDTH / TerrorGame.SCALE, TerrorGame.HEIGHT / TerrorGame.SCALE, orthographicCamera);
         viewport.apply();
@@ -51,15 +57,27 @@ public class SceneMenu implements Screen {
         menuTheme.play();
 
         this.start = new ButtonStartGame("ButtonAssets/botao_jogar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, terrorGame, menuTheme);
-        this.contin = new ButtonContinue("ButtonAssets/botao_carregar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame, menuTheme);
-        this.controls = new ButtonControles("ButtonAssets/botao_controles.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 5f, terrorGame);
+
+        if (file.exists()){
+        	this.contin = new ButtonContinue("ButtonAssets/botao_carregar.png", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame, menuTheme);
+            this.controls = new ButtonControles("ButtonAssets/botao_controles.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 5f, terrorGame);
+        } else {
+        	this.controls = new ButtonControles("ButtonAssets/botao_controles.png",viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 - 2.5f, terrorGame);
+        }
+        
         
         stage = new Stage(viewport, terrorGame.batch);
 
         Gdx.input.setInputProcessor(stage);
+        
         stage.addActor(start);
-        stage.addActor(contin);
-        stage.addActor(controls);
+        
+        if (file.exists()){
+             stage.addActor(contin);
+             stage.addActor(controls);
+        } else {
+            stage.addActor(controls);     
+        }
         
         stage.setKeyboardFocus(controls);
     }

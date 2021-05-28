@@ -25,18 +25,6 @@ public class Background extends Actor{
 		sprite.setAlpha(0.5f);
 		
 		setBounds(x, y, sprite.getWidth(), sprite.getHeight());
-		
-		//texture.dispose();
-		
-		addListener(new InputListener() {
-			@Override
-			public boolean mouseMoved(InputEvent event, float x, float y) {
-				//System.out.println(x);
-				//System.out.println(y);
-				
-				return true;
-			}
-		});
 	}
 
 	

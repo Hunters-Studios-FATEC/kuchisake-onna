@@ -46,10 +46,6 @@ public class MinigameBook {
 		viewport.apply();
 
 		this.textureAtlas = textureAtlas;
-
-		//camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-		//camera.update();
-		
 		stage = new Stage(viewport, spriteBatch);
 		
 		background = new Background(0, 0, textureAtlas);
@@ -76,18 +72,6 @@ public class MinigameBook {
 				descSprite.draw(batch);
 			}
 		};
-		
-		/*stage.addActor(background);
-		
-		stage.addActor(correctActor);
-		
-		stage.addActor(slotActor1);
-		stage.addActor(slotActor2);
-		stage.addActor(slotActor3);
-		
-		stage.addActor(bookActor1);
-		stage.addActor(bookActor2);
-		stage.addActor(bookActor3);*/
 		
 	}
 	
@@ -141,8 +125,6 @@ public class MinigameBook {
 			}
 		}
 		
-		//System.out.println(newPassword);
-		
 		return newPassword;
 	}
 	
@@ -194,12 +176,10 @@ public class MinigameBook {
 						
 						actor.setPos(sltActor.getX(), sltActor.getY());
 						password += actor.getValue() * (Math.pow(10, 2 + (2 - slotIndex)));
-						//System.out.println(password);
 					}
 					else {
 						if(slicePassword(slotIndex) / (Math.pow(10, 2 + (2 - slotIndex))) == actor.getValue()){				
 							password -= slicePassword(slotIndex);
-							//System.out.println(password);
 						}
 					}
 				}

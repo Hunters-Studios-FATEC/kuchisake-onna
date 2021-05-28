@@ -59,7 +59,6 @@ public class InventoryManager {
 
     public void openInventory(){
         Gdx.input.setInputProcessor(stage);
-//        System.out.println("Inventory is Open");
 
         stage.addActor(background);
         stage.addActor(selectionArrowLeft);
@@ -81,7 +80,6 @@ public class InventoryManager {
     }
 
     public void closeInventory(){
-//        System.out.println("Inventory closed");
         stage.clear();
     }
 

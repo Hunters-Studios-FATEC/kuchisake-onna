@@ -23,8 +23,6 @@ public class SlotWire extends Actor{
 
 		setBounds(sprite.getX() - sprite.getWidth() / 2, sprite.getY() - sprite.getHeight() / 2,
 				sprite.getWidth(), sprite.getHeight());
-
-		//texture.dispose();
 	}
 
 	@Override

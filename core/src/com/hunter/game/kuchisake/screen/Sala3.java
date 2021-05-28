@@ -28,7 +28,6 @@ public class Sala3 extends StandardRoom implements Screen {
     Sprite lustre;
 
     SpriteItem gazuaItem;
-    boolean isSecondFloor = false;
     
     ObjectAnimation lustreAnimation;
 
@@ -36,6 +35,8 @@ public class Sala3 extends StandardRoom implements Screen {
         super(game, "Tilesets/sala3.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(483, 160,"doorDown3", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/sala_3/Sala3Objects.atlas", TextureAtlas.class);
 
@@ -99,15 +100,9 @@ public class Sala3 extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
         	if (direction == "doorDown" && doorNum == 3){
                 doorAnimationTimer += delta;

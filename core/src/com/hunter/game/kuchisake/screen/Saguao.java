@@ -120,21 +120,14 @@ public class Saguao extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
         	if(!isSecondFloor) {
         		if (direction == "doorUp" && doorNum == 2){
                     isSecondFloor = true;
                     player.setSizeAndPosition(3.25f, 4.25f);
-//                    System.out.println("subir");
                     player.setCanChangeRoom(false);
                     
                     game.incrementPlayerLine(1);
@@ -145,7 +138,6 @@ public class Saguao extends StandardRoom implements Screen {
         		 if (direction == "doorDown" && doorNum == 1){
                      isSecondFloor = false;
                      player.setSizeAndPosition(5,-4.25f);
-//                     System.out.println("descer");
                      player.setCanChangeRoom(false);
                      
                      game.incrementPlayerLine(-1);

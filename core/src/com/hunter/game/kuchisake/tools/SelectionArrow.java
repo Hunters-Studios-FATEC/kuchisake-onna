@@ -49,7 +49,6 @@ public class SelectionArrow extends Actor {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (isRightArrow){
                     inventoryItem.incrementShowedItem();
-                    System.out.println("+1");
 
                     if (inventoryItem.getShowedItem() > inventoryItem.getMaxItem() - 1){
                         inventoryItem.setShowedItem(0);
@@ -61,7 +60,6 @@ public class SelectionArrow extends Actor {
 
                 if (!isRightArrow){
                     inventoryItem.deincrementShowedItem();
-                    System.out.println("-1");
 
                     if (inventoryItem.getShowedItem() < 0){
                         inventoryItem.setShowedItem(inventoryItem.getMaxItem() - 1);

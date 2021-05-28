@@ -36,12 +36,10 @@ public class WorldContactListener implements ContactListener{
 
 			if (object.getUserData().equals("esconde")) {
 				minigameManager.setCanStartMinigame(true);
-				System.out.println("ESCONDE");
 				player.setminigameID(0);
 			} else if (object.getUserData().equals("lockpick")) {
 				if (inventoryManager.getItemBackpack().contains("gazua", false)){
 					minigameManager.setCanStartMinigame(true);
-					System.out.println("LOCKPICK");
 					player.setminigameID(1);
 				} else {
 					minigameManager.wrongSound.play(0.5f);
@@ -53,7 +51,6 @@ public class WorldContactListener implements ContactListener{
 						minigameManager.getGeradorCompleted()
 				){
 					minigameManager.setCanStartMinigame(true);
-					System.out.println("BOOKSHELF");
 					player.setminigameID(2);
 				} else {
 					minigameManager.wrongSound.play(0.5f);
@@ -62,7 +59,6 @@ public class WorldContactListener implements ContactListener{
 			} else if (object.getUserData().equals("fios")) {
 				if (inventoryManager.getItemBackpack().contains("fiosItem", false)){
 					minigameManager.setCanStartMinigame(true);
-					System.out.println("FIOS");
 					player.setminigameID(3);
 				} else{
 					minigameManager.wrongSound.play(0.5f);
@@ -71,7 +67,6 @@ public class WorldContactListener implements ContactListener{
 			} else if (object.getUserData().equals("gerador")) {
 				if (minigameManager.getWireCompleted()){
 					minigameManager.setCanStartMinigame(true);
-					System.out.println("GERADOR");
 					player.setminigameID(4);
 				} else {
 					minigameManager.wrongSound.play(0.5f);

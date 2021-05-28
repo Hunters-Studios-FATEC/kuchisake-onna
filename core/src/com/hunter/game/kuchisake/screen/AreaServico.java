@@ -35,14 +35,14 @@ public class AreaServico extends StandardRoom implements Screen {
     
     ObjectAnimation lustreAnimation;
 
-    boolean isSecondFloor = false;
-
     public AreaServico(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/area_servico.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(1950, 160,"doorDown2", 203, collisions.getPortaBit());
         collisions.CreateCollisions(203, 160, "fios", 203, collisions.getWireBit());
         collisions.CreateCollisions(2962, 160, "gerador", 380, collisions.getGeradorBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/areaServico/AreaServicoObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -110,15 +110,12 @@ public class AreaServico extends StandardRoom implements Screen {
         player.draw(game.batch);
         
         game.batch.end();
-
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
         minigameManager.minigameUpdate(delta, 3);
         minigameManager.minigameUpdate(delta, 4);
 
-        //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 2){
                 doorAnimationTimer += delta;

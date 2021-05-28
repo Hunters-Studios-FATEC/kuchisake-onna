@@ -41,19 +41,15 @@ public class BookActor extends Actor{
 		initialYPos = y;
 		
 		value = v;
-		
-		//texture.dispose();
+
 		
 		addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				//System.out.println("down");
 				toFront();
-				//System.out.println(getZIndex());
 				return true;
 			}
 			
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				//System.out.println("up");
 				if(isDragging) {
 					stoppedDragging = true;
 					isDragging = false;
@@ -65,19 +61,8 @@ public class BookActor extends Actor{
 				isDragging = true;
 				
 				moveBy(x - getWidth() / 2, y - getHeight() / 2);
-				//setPosition(x - getWidth() / 2, y - getHeight() / 2);
 			}
 		});
-		
-		/*addListener(new DragListener() {
-			@Override
-			public void drag(InputEvent event, float x, float y, int pointer) {
-				// TODO Auto-generated method stub
-				System.out.println("TESTE");
-				moveBy(x + getWidth() / 2, y + getHeight() / 2);
-			}
-			
-		});*/
 		
 	}
 	

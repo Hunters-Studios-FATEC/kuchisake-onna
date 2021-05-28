@@ -51,13 +51,9 @@ public class ButtonControles extends Actor {
                 boolean checaLargura = (event.getStageX() >= botao.getX() && event.getStageX() <= botao.getX() + botao.getWidth());
                 boolean checaAltura = (event.getStageY() >= botao.getY() && event.getStageY() <= botao.getY() + botao.getHeight());
 
-                //boolean buttonPressed = Gdx.input.isTouched();
-
                 if (checaLargura && checaAltura){
                     loadControlesImage();
-                    System.out.println("INicia porra");
                 }
-                System.out.println(event.getStageX() + " , " + event.getStageY());
                 return true;
             }
 

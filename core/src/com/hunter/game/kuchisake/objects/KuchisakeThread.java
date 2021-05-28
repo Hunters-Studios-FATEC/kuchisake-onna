@@ -124,26 +124,12 @@ public class KuchisakeThread {
                         }
                     }
 
-					/*Object[][] previousRoomsArray = new Object[][] {};
-					Object[][] nextRoomsArray = new Object[][] {};
-
-					if(roomLine > 0) {
-						previousRoomsArray = doors[roomLine - 1];
-					}
-
-					if(roomLine < doors.length - 1) {
-						nextRoomsArray = doors[roomLine + 1];
-					}*/
-
                     ArrayList<Integer> addedSectors = new ArrayList<Integer>();
                     boolean previousRoomsHasDoors = false;
                     boolean nextRoomsHasDoors = false;
 
                     for(String targetDoor : targetSectorDoors) {
                         if(targetDoor.contains("doorDown")) {
-                            //int sectorIndex = targetDoor.indexOf("-");
-                            //int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
-                            //int roomID = Integer.parseInt(targetDoor.substring("doorDown".length(), sectorIndex));
 
                             for(int i = 0; i < roomsArray.length; i++) {
                                 if((int) roomsArray[i][roomsArray[i].length - 1] == sector) {
@@ -184,7 +170,6 @@ public class KuchisakeThread {
                                                 paths.add(oldPath);
                                             }
 
-                                            //addedSectors.add(roomSector);
                                             addedSectors.add(endSector);
                                             previousRoomsHasDoors = true;
                                         }
@@ -257,8 +242,6 @@ public class KuchisakeThread {
 
                     for(String targetDoor : targetSectorDoors) {
                         if(targetDoor.contains("doorUp")) {
-                            //int sectorIndex = targetDoor.indexOf("-");
-                            //int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
 
                             for(int i = 0; i < roomsArray.length; i++) {
                                 if((int) roomsArray[i][roomsArray[i].length - 1] == sector) {
@@ -298,7 +281,6 @@ public class KuchisakeThread {
                                                 paths.add(oldPath);
                                             }
 
-                                            //addedSectors.add(roomSector);
                                             addedSectors.add(endSector);
                                             nextRoomsHasDoors = true;
                                         }
@@ -308,7 +290,6 @@ public class KuchisakeThread {
                         }
                     }
 
-                    //addedSectors.clear();
 
                     if(!nextRoomsHasDoors) {
                         for(int i = 0; i < roomsArray.length; i++) {
@@ -392,26 +373,12 @@ public class KuchisakeThread {
                     }
                 }
 
-				/*Object[][] previousRoomsArray = new Object[][] {};
-				Object[][] nextRoomsArray = new Object[][] {};
-
-				if(roomLine > 0) {
-					previousRoomsArray = doors[roomLine - 1];
-				}
-
-				if(roomLine < doors.length - 1) {
-					nextRoomsArray = doors[roomLine + 1];
-				}*/
-
                 ArrayList<Integer> addedSectors = new ArrayList<Integer>();
                 boolean previousRoomsHasDoors = false;
                 boolean nextRoomsHasDoors = false;
 
                 for(String targetDoor : targetSectorDoors) {
                     if(targetDoor.contains("doorDown")) {
-                        //int sectorIndex = targetDoor.indexOf("-");
-                        //int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
-                        //int roomID = Integer.parseInt(targetDoor.substring("doorDown".length(), sectorIndex));
 
                         for(int i = 0; i < roomsArray.length; i++) {
                             if((int) roomsArray[i][roomsArray[i].length - 1] == sector) {
@@ -460,7 +427,6 @@ public class KuchisakeThread {
                     }
                 }
 
-                //addedSectors.clear();
 
                 if(!nextRoomsHasDoors) {
                     for(int i = 0; i < roomsArray.length; i++) {
@@ -523,8 +489,6 @@ public class KuchisakeThread {
 
                 for(String targetDoor : targetSectorDoors) {
                     if(targetDoor.contains("doorUp")) {
-                        //int sectorIndex = targetDoor.indexOf("-");
-                        //int roomSector = Integer.parseInt(targetDoor.substring(sectorIndex + 1));
 
                         for(int i = 0; i < roomsArray.length; i++) {
                             if((int) roomsArray[i][roomsArray[i].length - 1] == sector) {
@@ -573,7 +537,6 @@ public class KuchisakeThread {
                     }
                 }
 
-                //addedSectors.clear();
 
                 if(!previousRoomsHasDoors) {
                     for(int i = 0; i < roomsArray.length; i++) {
@@ -639,20 +602,7 @@ public class KuchisakeThread {
                 int sector = (int) roomsArray[roomColumn][roomsArray[roomColumn].length - 1];
                 int endSector = (int) targetLineRooms[endColumn][targetLineRooms[endColumn].length - 1];
 
-				/*Object[][] previousRoomsArray = new Object[][] {};
-				Object[][] nextRoomsArray = new Object[][] {};
-
-				if(roomLine > 0) {
-					previousRoomsArray = doors[roomLine - 1];
-				}
-
-				if(roomLine < doors.length - 1) {
-					nextRoomsArray = doors[roomLine + 1];
-				}*/
-
                 ArrayList<Integer> addedSectors = new ArrayList<Integer>();
-                //boolean previousRoomsHasDoors = false;
-                //boolean nextRoomsHasDoors = false;
 
                 for(int i = 0; i < roomsArray.length; i++) {
                     if((int) roomsArray[i][roomsArray[i].length - 1] == sector) {
@@ -786,42 +736,6 @@ public class KuchisakeThread {
                 }
             }
         }
-
-
-        /*System.out.println("Mostrando todos os caminhos da lista Paths: ");
-        for(ArrayList<Integer[]> teste : paths) {
-            String caminho = "";
-
-            for(Integer[] posicao : teste) {
-                String pos  = "(";
-                for(Integer num : posicao) {
-                    pos += num.toString();
-                    pos += " - ";
-                }
-                pos += ")";
-
-                caminho += pos;
-                caminho += " -> ";
-            }
-
-            System.out.println(caminho);
-        }
-        System.out.println("///////////////////////////////////////////////////////");*/
-
-		/*String caminho = "";
-		for(Integer[] posicao : path) {
-			String pos  = "(";
-			for(Integer num : posicao) {
-				pos += num.toString();
-				pos += " - ";
-			}
-			pos += ")";
-
-			caminho += pos;
-			caminho += " -> ";
-		}
-
-		System.out.println(caminho);*/
     }
 
     public ArrayList<Integer[]> getPath(){

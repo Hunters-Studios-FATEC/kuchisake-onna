@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hunter.game.kuchisake.TerrorGame;
+import com.hunter.game.kuchisake.TesteTXTProb;
 import com.hunter.game.kuchisake.startMenu.ButtonContinue;
 import com.hunter.game.kuchisake.startMenu.ButtonControles;
 import com.hunter.game.kuchisake.startMenu.ButtonStartGame;
@@ -29,6 +30,8 @@ public class GameOver implements Screen{
     boolean playOnce;
     
     float timeCount;
+    
+    TesteTXTProb txt;
     
     public GameOver(TerrorGame terrorGame) {
         this.terrorGame = terrorGame;
@@ -51,7 +54,16 @@ public class GameOver implements Screen{
         playOnce = true;
         timeCount = 0;
         
+        System.out.println("NÚMERO DE VEZES QUE SALVOU O JOGO: " + terrorGame.getSaveCount());
+        System.out.println("NÚMERO DE VEZES QUE TENTOU SE ESCONDER DA VILÃ: " + terrorGame.getHideCount());
+        
+        txt = new TesteTXTProb();
+        
+        txt.writeTXT(terrorGame.getSaveCount(), terrorGame.getHideCount());
+        
         terrorGame.resetVariables();
+        
+        
     }
 
     @Override

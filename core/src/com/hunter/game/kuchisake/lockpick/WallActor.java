@@ -12,7 +12,6 @@ import com.hunter.game.kuchisake.TerrorGame;
 public class WallActor extends Actor{
 	
 	Array<Sprite> spriteArray;
-	//Array<Array<Sprite>> adjWallsArray;
 
 	TextureRegion textureRegion;
 
@@ -20,8 +19,6 @@ public class WallActor extends Actor{
 		spriteArray = new Array<Sprite>();
 
 		textureRegion = textureAtlas.findRegion("dark_gray_square");
-
-		//adjWallsArray = new Array<Array<Sprite>>();
 		
 		createSprite(2.85f, 6.4f, 50, 50 * 3); // parede 0
 		createSprite(3.35f, 7.4f, 50 * 7, 50); // parede 1
@@ -44,12 +41,6 @@ public class WallActor extends Actor{
 		createSprite(13.35f, 7.4f, 50 * 5, 50); // parede 9
 		createSprite(15.85f, 7.4f, 50, 50 * 5); // parede 7
 		
-		/*addAdjacentWalls(getSprite(1), getSprite(2));
-		addAdjacentWalls(getSprite(0), getSprite(3));
-		addAdjacentWalls(getSprite(0), getSprite(4));
-		addAdjacentWalls(getSprite(1), getSprite(1));
-		addAdjacentWalls(getSprite(2), getSprite(5));
-		addAdjacentWalls(getSprite(4), getSprite(4));*/
 	}
 	
 	void createSprite(float x, float y, float width, float height) {
@@ -60,25 +51,11 @@ public class WallActor extends Actor{
 		spriteArray.add(sprite);
 	}
 	
-	/*void addAdjacentWalls(Sprite adjWall1, Sprite adjWall2){
-		Array<Sprite> adjacentWalls = new Array<Sprite>();
-		
-		adjacentWalls.add(adjWall1, adjWall2);
-		
-		adjWallsArray.add(adjacentWalls);
-	}*/
 	
 	public Array<Sprite> getSpriteArray() {
 		return spriteArray;
 	}
-	
-	/*public Array<Array<Sprite>> getAdjWallsArray() {
-		return adjWallsArray;
-	}*/
-	
-	/*Sprite getSprite(int index) {
-		return spriteArray.get(index);
-	}*/
+
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {

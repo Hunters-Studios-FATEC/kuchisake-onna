@@ -46,11 +46,6 @@ public class InventoryItem extends Actor{
         numberOfItens = new Array<Integer>();
         itemSprite = new Array<Sprite>();
         itemDescription = new Array<Sprite>();
-
-        //addInventoryItem("blue_square.png", "A blue square"); //teste
-        //changedSprite = new Sprite(itemSprite.get(0));
-        //changedDescription = new Sprite(itemDescription.get(0));
-        //addInventoryItem("green_square.png", "A green square");
     }
 
     public void addInventoryItem(String itemRegion){
@@ -66,7 +61,6 @@ public class InventoryItem extends Actor{
         itemDescription.get(maxItem).setPosition(positionX - DESCRIPTION_WIDTH / 2, (positionY - DESCRIPTION_HEIGHT / 2) - 1);
 
         incrementMaxItem();
-        System.out.println(maxItem);
 
         if (itemSprite.size == 1){
             changedSprite = itemSprite.get(0);

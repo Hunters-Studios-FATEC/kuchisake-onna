@@ -75,6 +75,7 @@ public class MinigameManager {
         playOnce = true;
         switch (id){
             case 0:
+            	game.setHideCount(game.getHideCount() + 1);
             	hideMinigame.setLevel(game.getLevel());
                 hideMinigame.startMinigame();
                 game.setIsHiding(true);
@@ -323,7 +324,6 @@ public class MinigameManager {
 
     public void setCanStartMinigame(boolean state) {
         canStartMinigame = state;
-        //System.out.println(canStartMinigame);
     }
 
     public boolean getIsMinigameActive() {

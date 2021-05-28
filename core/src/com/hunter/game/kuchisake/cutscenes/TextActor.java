@@ -140,8 +140,6 @@ public class TextActor extends Actor{
 			        cutsceneTheme.stop();
 					
 			        game.getAssetManager().unload("Cutscenes/Cutscene1Objects.atlas");
-//			        game.getAssetManager().unload("Cutscenes/fundo_cutscene.png");
-//			        game.getAssetManager().unload("Audio/Music/Scary Sorrow.wav");
 			        
 					game.setScreen(new Saguao(game, 1750, false));
 				}
@@ -152,18 +150,13 @@ public class TextActor extends Actor{
 					fadeInText();
 				}
 				else {
-					game.getAssetManager().clear();
 		        	
-					game.getAssetManager().load("ButtonAssets/botao_jogar.png", Texture.class);
-					game.getAssetManager().load("ButtonAssets/botao_carregar.png", Texture.class);
-					game.getAssetManager().load("ButtonAssets/botao_controles.png", Texture.class);
-					game.getAssetManager().load("ButtonAssets/fundo_menu.png", Texture.class);
-					game.getAssetManager().load("ButtonAssets/controls.png", Texture.class);
-		        	game.getAssetManager().load("Audio/Music/Night Wind.wav", Music.class);
-		        	
+					game.getAssetManager().load("Cutscenes/fundo_cutscene.png", Texture.class);
+		            game.getAssetManager().load("Cutscenes/creditos.png", Texture.class);
+		            
 		        	game.getAssetManager().finishLoading();
 			        
-			        game.setScreen(new SceneMenu(game));
+			        game.setScreen(new Creditos(game, cutsceneTheme));
 				}
 			}
 		}

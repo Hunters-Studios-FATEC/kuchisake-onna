@@ -36,9 +36,7 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
     Sprite porta3;
     Sprite lustreSprite1;
     Sprite lustreSprite2;
-
-    boolean isSecondFloor = false;
-
+    
     Sound portraTrancada;
     
     ObjectAnimation lustreAnimation;
@@ -55,6 +53,8 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
         collisions.CreateCollisions(2900, 160,"doorDown0", 203, collisions.getPortaBit());
         collisions.CreateCollisions(600, 160,"doorUp0", 203, collisions.getPortaBit());
         collisions.CreateCollisions(1750, 160,"doorUp-1", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -128,15 +128,9 @@ public class CorredorBiblioteca extends StandardRoom implements Screen {
 
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;

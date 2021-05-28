@@ -22,7 +22,6 @@ public class Background extends Actor{
 		
 		setBounds(x, y, sprite.getWidth(), sprite.getHeight());
 		
-		//texture.dispose();
 	}
 	
 	

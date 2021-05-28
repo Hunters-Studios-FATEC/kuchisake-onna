@@ -48,6 +48,7 @@ public class SalaEstar extends StandardRoom implements Screen {
         super(game, "Tilesets/salaEstar.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(483, 160,"doorUp0", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
 
         //colisao da lareira
         collisions.CreateCollisions(1750, 160, "objetoMundo", 203, collisions.getINTERACTIBLE_BIT());
@@ -140,15 +141,8 @@ public class SalaEstar extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
-
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
+        inventoryManager.inventoryUpdate(delta);
 
         if (player.getChangeObjectVisual() && inventoryManager.getItemBackpack().contains("extintor", false) && !game.getInventoryManager().getItemBackpack().contains("mask1", false)){
             isLareiraAcessa = false;

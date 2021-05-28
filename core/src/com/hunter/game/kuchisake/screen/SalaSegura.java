@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.TesteSQLite;
+import com.hunter.game.kuchisake.TesteTXTProb;
 import com.hunter.game.kuchisake.objects.ObjectAnimation;
 
 public class SalaSegura extends StandardRoom implements Screen {
@@ -24,16 +26,17 @@ public class SalaSegura extends StandardRoom implements Screen {
 
     Sprite porta;
     Sprite lustre;
-
-    boolean isSecondFloor = false;
     
     ObjectAnimation lustreAnimation;
     
     TesteSQLite testeBancoDeDados;
-
+    TesteTXTProb txt;
+    
     public SalaSegura(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/sala_descanso.tmx", playerDoorPosX);
-
+        
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         collisions.CreateCollisions(1900+230, 160,"doorDown0", 203, collisions.getPortaBit());
 
         textureAtlas = game.getAssetManager().get("ScenaryAssets/salaDescanso/SalaDescansoObjects.atlas", TextureAtlas.class);
@@ -56,6 +59,12 @@ public class SalaSegura extends StandardRoom implements Screen {
         
         lustreAnimation = new ObjectAnimation(0.2f, new TextureRegion[] {lustre1, lustre2, lustre3, lustre4});
         
+        game.setSaveCount(game.getSaveCount() + 1);
+        
+        txt = new TesteTXTProb();
+        
+        txt.writeTXT(game.getSaveCount(), game.getHideCount());
+        
         testeBancoDeDados = new TesteSQLite();
         
         testeBancoDeDados.connect(game.getInventoryManager().getItemBackpack(), 
@@ -65,8 +74,8 @@ public class SalaSegura extends StandardRoom implements Screen {
         		game.getMinigameManager().getBookCompleted(),
         		game.getMinigameManager().getWireCompleted(),
         		game.getMinigameManager().getGeradorCompleted(),
-        		1,
-        		1);
+        		game.getSaveCount(),
+        		game.getHideCount());
     }
 
 
@@ -93,15 +102,9 @@ public class SalaSegura extends StandardRoom implements Screen {
 
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
+        inventoryManager.inventoryUpdate(delta);
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
         if (player.getCanChangeRoom()){
             if (direction == "doorDown" && doorNum == 0){
                 doorAnimationTimer += delta;

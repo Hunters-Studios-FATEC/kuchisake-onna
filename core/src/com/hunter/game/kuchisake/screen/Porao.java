@@ -30,14 +30,14 @@ public class Porao extends StandardRoom implements Screen {
 
     SpriteItem dogeFlutuar;
     SpriteItem maskFlutuar;
-
-    boolean isSecondFloor = false;
     
     ObjectAnimation lampadaAnimation;
 
     public Porao(TerrorGame game, float playerDoorPosX) {
         super(game, "Tilesets/porao.tmx", playerDoorPosX);
         
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         collisions.CreateCollisions(550, 160,"doorDown5", 500, collisions.getPortaBit());
         textureAtlas = game.getAssetManager().get("ScenaryAssets/porao/PoraoObjects.atlas", TextureAtlas.class);
 
@@ -121,15 +121,8 @@ public class Porao extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
-
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
+        inventoryManager.inventoryUpdate(delta);
 
         game.getMinigameManager().minigameUpdate(delta, 0);
 

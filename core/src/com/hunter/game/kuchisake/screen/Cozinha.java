@@ -30,8 +30,6 @@ public class Cozinha extends StandardRoom implements Screen {
     Sprite porta2;
     Sprite lustre;
 
-    boolean isSecondFloor = false;
-
     Sound portraTrancada;
     
     ObjectAnimation lustreAnimation;
@@ -49,6 +47,7 @@ public class Cozinha extends StandardRoom implements Screen {
         collisions.CreateCollisions(600, 160,"doorUp4", 203, collisions.getPortaBit());
         collisions.CreateCollisions(3143, 160,"doorUp5", 203, collisions.getPortaBit());
         collisions.CreateCollisions(1750, 160, "doorDown-2", 203, collisions.getPortaBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/cozinha/CozinhaObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -108,15 +107,8 @@ public class Cozinha extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
-
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
+        inventoryManager.inventoryUpdate(delta);
 
         game.getMinigameManager().minigameUpdate(delta, 0);
 

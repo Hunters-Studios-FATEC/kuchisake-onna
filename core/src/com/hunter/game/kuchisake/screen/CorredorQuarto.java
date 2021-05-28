@@ -42,6 +42,7 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         
         collisions.CreateCollisions(1750, 160,"doorUp1", 230, collisions.getPortaBit());
         collisions.CreateCollisions(1750, 160, "lockpick", 230, collisions.getLockpickBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
         portaFechada = textureAtlas.findRegion("portaCorredor1");
@@ -110,32 +111,9 @@ public class CorredorQuarto extends StandardRoom implements Screen {
         player.draw(game.batch);
         
         game.batch.end();
-
-//        debugRenderer.render(world, camera.combined);
+        transitionScene.updateTransition();
         inventoryManager.inventoryUpdate(delta);
         minigameManager.minigameUpdate(delta, 1);
-        transitionScene.updateTransition();
-
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
-       /* if (player.getCanChangeRoom()){
-            if (direction == "doorUp" && doorNum == 1){
-                isSecondFloor = true;
-                player.setSizeAndPosition(3.25f, 4.25f);
-//                System.out.println("subir");
-                player.setCanChangeRoom(false);
-            }
-
-            if (direction == "doorDown" && doorNum == 1){
-                isSecondFloor = false;
-                player.setSizeAndPosition(5,-4.25f);
-//                System.out.println("descer");
-                player.setCanChangeRoom(false);
-            }
-        }*/
         
         if (player.getCanChangeRoom()){
         	if (direction == "doorUp" && doorNum == 1){

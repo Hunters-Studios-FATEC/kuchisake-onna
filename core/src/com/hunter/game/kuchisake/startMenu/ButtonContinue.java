@@ -59,14 +59,9 @@ public class ButtonContinue extends Actor {
                     boolean checaLargura = (event.getStageX() >= botao.getX() && event.getStageX() <= botao.getX() + botao.getWidth());
                     boolean checaAltura = (event.getStageY() >= botao.getY() && event.getStageY() <= botao.getY() + botao.getHeight());
 
-                    //boolean buttonPressed = Gdx.input.isTouched();
-
                     if (checaLargura && checaAltura){
                         loadGame();
-                        System.out.println("INicia porra");
                     }
-
-                    System.out.println(event.getStageX() + " , " + event.getStageY());
                     return true;
                 }
             });
@@ -90,9 +85,6 @@ public class ButtonContinue extends Actor {
         	int hideN = testeSqlite.getHideN();
         	
         	Array<String> moch = testeSqlite.getBackpack();
-        	for (String name : moch) {
-        		System.out.println(name);
-        	}
         	
         	game.getAssetManager().setLoader(TiledMap.class, new TmxMapLoader());
         	
@@ -158,6 +150,14 @@ public class ButtonContinue extends Actor {
 				game.getInventoryManager().addItem(name);
 			}
 
+            game.setPlayerColumn(-1);
+            game.incrementPlayerLine(2);
+            
+            
+            
+            game.setSaveCount(saveN - 1);
+            game.setHideCount(hideN);
+            
             game.createVillain(kline, kcol);
 
             game.addMusic();

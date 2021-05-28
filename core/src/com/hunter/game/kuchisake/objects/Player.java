@@ -149,10 +149,8 @@ public class Player {
 
     int checkState(float walkingVelocity){
         if (walkingVelocity != 0){
-            //System.out.println("andando");
             return 1;
         } else {
-            //System.out.println("parado");
             return 0;
         }
     }
@@ -243,12 +241,10 @@ public class Player {
     	isWalking = 0;
         if (!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen() && !standardRoom.getCanSwitchAssets()) {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                player.applyLinearImpulse(new Vector2(0.5f, 0), player.getWorldCenter(), true);
                 isWalking = 20f;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                player.applyLinearImpulse(new Vector2(-0.5f, 0), player.getWorldCenter(), true);
                 isWalking = -20f;
             }
         }
@@ -256,7 +252,6 @@ public class Player {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && isTouchingDoor && 
         		!minigameManager.getIsMinigameActive() && !inventoryManager.getInventoryOpen()){
         	setCanChangeRoom(true);
-            System.out.println("mudou");
         }
     }
 
@@ -305,7 +300,6 @@ public class Player {
         
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && getCanInteractWorld()){
             setChangeObjectVisual(true);
-            System.out.println("mudar Sprite Lareira");
         }
     }
 
@@ -362,9 +356,5 @@ public class Player {
     public Body getBody() {
         return player;
     }
-
-    /*public PolygonShape getPolygonShape() {
-        return polygonShape;
-    }*/
     
 }

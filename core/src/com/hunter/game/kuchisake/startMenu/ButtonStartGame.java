@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.hunter.game.kuchisake.TerrorGame;
 import com.hunter.game.kuchisake.cutscenes.Cutscene1;
+import com.hunter.game.kuchisake.cutscenes.Cutscene2;
 import com.hunter.game.kuchisake.screen.CorredorQuarto;
 import com.hunter.game.kuchisake.screen.CorredorSalas;
 import com.hunter.game.kuchisake.screen.Quarto;
@@ -55,13 +56,10 @@ public class ButtonStartGame extends Actor {
                 boolean checaLargura = (event.getStageX() >= botao.getX() && event.getStageX() <= botao.getX() + botao.getWidth());
                 boolean checaAltura = (event.getStageY() >= botao.getY() && event.getStageY() <= botao.getY() + botao.getHeight());
 
-                //boolean buttonPressed = Gdx.input.isTouched();
-
                 if (checaLargura && checaAltura){
                     loadScene();
                 }
 
-                System.out.println(event.getStageX() + " , " + event.getStageY());
                 return true;
             }
         });
@@ -112,43 +110,18 @@ public class ButtonStartGame extends Actor {
     	game.getAssetManager().load("Audio/Music/Run.ogg", Music.class);
     	game.getAssetManager().load("Audio/Music/Scary Sorrow.wav", Music.class);
 
-    	//game.getAssetManager().load("Tilesets/quarto.tmx", TiledMap.class);
-    	//game.getAssetManager().load("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
-    	
-    	//game.getAssetManager().load("Tilesets/sala1.tmx", TiledMap.class);
-    	//game.getAssetManager().load("ScenaryAssets/sala_1/Sala1Objects.atlas", TextureAtlas.class);
-    	
-    	//game.getAssetManager().load("Tilesets/sala2.tmx", TiledMap.class);
-    	//game.getAssetManager().load("ScenaryAssets/sala_2/Sala2Objects.atlas", TextureAtlas.class);
-    	
-    	//game.getAssetManager().load("Tilesets/corredor.tmx", TiledMap.class);
-    	//game.getAssetManager().load("ScenaryAssets/corredor/CorredorObjects.atlas", TextureAtlas.class);
-    	
-//    	game.getAssetManager().load("PortasEEscadas/porta1.png", Texture.class);
-//    	game.getAssetManager().load("PortasEEscadas/porta2.png", Texture.class);
-//    	game.getAssetManager().load("arrow.png", Texture.class);
-//    	game.getAssetManager().load("arrow.png", Texture.class);
-
         game.getAssetManager().finishLoading();
         
         menuTheme.stop();
     	
-    	/*game.getAssetManager().unload("ButtonAssets/fundo_menu.png");
+    	game.getAssetManager().unload("ButtonAssets/fundo_menu.png");
     	game.getAssetManager().unload("ButtonAssets/botao_jogar.png");
     	game.getAssetManager().unload("ButtonAssets/botao_carregar.png");
     	game.getAssetManager().unload("ButtonAssets/botao_controles.png");
     	game.getAssetManager().unload("Audio/Music/Night Wind.wav");
 
-        game.setScreen(new Cutscene1(game));*/
+        game.setScreen(new Cutscene1(game));
 
-        //Para testes sem a cutscene
-        game.createMinigameManager();
-        game.createInventoryManager();
-
-        game.createVillain(3, 0);
-
-        game.addMusic();
-        game.setScreen(new Saguao(game, 1750, false));
     }
 
     public Sprite getBotaoStart() {

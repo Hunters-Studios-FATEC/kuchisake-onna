@@ -38,8 +38,6 @@ public class Quarto extends StandardRoom implements Screen {
     SpriteItem chaveFlutuar;
     SpriteItem maskFlutuar;
 
-    boolean isSecondFloor = false;
-
     boolean isQuadroSemCachorro = true;
     
     ObjectAnimation abajurAnimation;
@@ -49,6 +47,8 @@ public class Quarto extends StandardRoom implements Screen {
         super(game, "Tilesets/quarto.tmx", playerDoorPosX);
         
         collisions.CreateCollisions(2810, 160,"doorDown1", 230, collisions.getPortaBit());
+        collisions.CreateCollisions(-128, 160, "zap zap", 128, collisions.getGroundBit());
+        collisions.CreateCollisions(3628, 160, "zap zap", 128, collisions.getGroundBit());
         
         textureAtlas = game.getAssetManager().get("ScenaryAssets/quarto/QuartoObjects.atlas", TextureAtlas.class);
 
@@ -153,15 +153,8 @@ public class Quarto extends StandardRoom implements Screen {
         
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
-        inventoryManager.inventoryUpdate(delta);
         transitionScene.updateTransition();
-
-		/*for (int i = 0; i < maxMinigameID; i++) {
-				minigameManager.minigameUpdate(delta, i);
-		}*/
-
-        //inventoryManager.inventoryUpdate(delta);
+        inventoryManager.inventoryUpdate(delta);
         
         game.getMinigameManager().minigameUpdate(delta, 0);
         

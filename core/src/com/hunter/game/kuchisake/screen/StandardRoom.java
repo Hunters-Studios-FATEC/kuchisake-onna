@@ -25,14 +25,10 @@ import com.hunter.game.kuchisake.tools.InventoryManager;
 import com.hunter.game.kuchisake.tools.MinigameManager;
 import com.hunter.game.kuchisake.tools.WorldContactListener;
 
-//import com.hunter.game.kuchisake.teste.WireMinigame;
 
 public class StandardRoom implements com.badlogic.gdx.Screen {
 	
 	TerrorGame game;
-	
-	//float w = Gdx.graphics.getWidth();
-	//float h = Gdx.graphics.getHeight();
 	
 	OrthographicCamera camera;
 	FitViewport viewport;
@@ -40,8 +36,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	World world;
 	
 	float accumulator = 0;
-	
-//	Box2DDebugRenderer debugRenderer;
 
 	Player player;
 	Collisions collisions;
@@ -87,7 +81,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 		camera.update();
 		
-		//world = new World(new Vector2(0, 0), true);
 		world = game.getWorld();
 
 		inventoryManager = game.getInventoryManager();
@@ -96,8 +89,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		player = new Player(world, game.getMinigameManager(), inventoryManager, collisions, this, playerDoorPosX, game);
 		
 		world.setContactListener(new WorldContactListener(game.getMinigameManager(), player, this, inventoryManager));
-
-//		debugRenderer = new Box2DDebugRenderer();
 
 		mapRenderer = collisions.getMapRenderer();
 		
@@ -110,11 +101,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		portaSound = game.getAssetManager().get("Audio/Sfx/porta fechando 3.ogg");
 
 		transitionScene = new TransitionScene(game);
-
-//		portaFechada = game.getAssetManager().get("PortasEEscadas/porta1.png", Texture.class);
-//		portaAberta = game.getAssetManager().get("PortasEEscadas/porta2.png", Texture.class);
-		
-		//game.getKuchisakeOnna().setStandardRoom(this);
 		
 		mansionTheme = game.getMansionTheme();
 		runTheme = game.getRunTheme();
@@ -143,11 +129,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 			player.walkInput();
 			
 			game.setPlayerXPos(player.getBody().getPosition().x);
-			
-			/*synchronized (this) {
-				world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-				notify();
-			}*/
+
 			game.worldStep();
 			
 			accumulator -= game.getTimeStep();
@@ -189,13 +171,11 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		if(game.getCanPlayMusic()) {
 			switch(id) {
 				case 0:
-					System.out.println("ENTROU NO CASE DO TEMA DA MANSAO");
 					if(runTheme.isPlaying()) {
 						runTheme.stop();
 					}
 					
 					if(!mansionTheme.isPlaying()) {
-						System.out.println("TOCANDO TEMA DA MANSAO...");
 						mansionTheme.play();	
 					}
 					
@@ -290,17 +270,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 
 			game.setScreen(new GameOver(game));
 		}
-
-//		game.batch.setProjectionMatrix(camera.combined);
-//		game.batch.begin();
-//		game.batch.end();
-//
-//		debugRenderer.render(world, camera.combined);
-//
-//		for (int i = 0; i < maxMinigameID; i++) {
-//				minigameManager.minigameUpdate(delta, i);
-//		}
-//
 	}
 
 	@Override
@@ -309,11 +278,6 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		viewport.update(width, height);
 		game.batch.setProjectionMatrix(camera.combined);
 
-		/*for (int i = 0; i < maxMinigameID; i++) {
-			minigameManager.minigameResize(width, height, i);
-		}*/
-
-		//inventoryManager.inventoryResize(width, height);
 	}
 	
 	@Override
@@ -337,9 +301,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		//game.batch.dispose();
-		//world.dispose();
-		
+
 		Array<Body> bodies = new Array<Body>(world.getBodyCount());
 		world.getBodies(bodies);
 		
@@ -351,11 +313,7 @@ public class StandardRoom implements com.badlogic.gdx.Screen {
 		
 		transitionScene.dispose();
 		
-		//player.getPolygonShape().dispose();
-		//collisions.getPolygonShape().dispose();
 		mapRenderer.dispose();
-//		debugRenderer.dispose();
-		//minigameManager.minigameDispose();
 		inventoryManager.inventoryDispose();
 	}
 }

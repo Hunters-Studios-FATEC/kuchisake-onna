@@ -14,9 +14,6 @@ import com.hunter.game.kuchisake.TerrorGame;
 
 public class WireMinigame {
 	
-	//float w = Gdx.graphics.getWidth();
-	//float h = Gdx.graphics.getHeight();
-	
 	FitViewport viewport;
 	
 	public Stage stage;
